@@ -50,6 +50,77 @@ public class MatchesData implements Parcelable {
     @Expose
     private String team2Name;
 
+    public String getMatchId() {
+        return matchId;
+    }
+
+    public void setMatchId(String matchId) {
+        this.matchId = matchId;
+    }
+
+    public String getMatchName() {
+        return matchName;
+    }
+
+    public void setMatchName(String matchName) {
+        this.matchName = matchName;
+    }
+
+    public String getMatchKey() {
+        return matchKey;
+    }
+
+    public void setMatchKey(String matchKey) {
+        this.matchKey = matchKey;
+    }
+
+    public String getMatchSeriesId() {
+        return matchSeriesId;
+    }
+
+    public void setMatchSeriesId(String matchSeriesId) {
+        this.matchSeriesId = matchSeriesId;
+    }
+
+    public String getMatchStartDate() {
+        return matchStartDate;
+    }
+
+    public void setMatchStartDate(String matchStartDate) {
+        this.matchStartDate = matchStartDate;
+    }
+
+    public String getMatchVanue() {
+        return matchVanue;
+    }
+
+    public void setMatchVanue(String matchVanue) {
+        this.matchVanue = matchVanue;
+    }
+
+    public String getMatchCreateAt() {
+        return matchCreateAt;
+    }
+
+    public void setMatchCreateAt(String matchCreateAt) {
+        this.matchCreateAt = matchCreateAt;
+    }
+
+    public String getTeam1Name() {
+        return team1Name;
+    }
+
+    public void setTeam1Name(String team1Name) {
+        this.team1Name = team1Name;
+    }
+
+    public String getTeam2Name() {
+        return team2Name;
+    }
+
+    public void setTeam2Name(String team2Name) {
+        this.team2Name = team2Name;
+    }
 
     @Override
     public int describeContents() {

@@ -17,6 +17,7 @@ public class MatchesResponse implements Parcelable{
     @SerializedName("status")
     @Expose
     private String status;
+
     @SerializedName("message")
     @Expose
     private String message;
@@ -24,6 +25,33 @@ public class MatchesResponse implements Parcelable{
     @SerializedName("response")
     @Expose
     private MatchesData matchModel;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public MatchesData getMatchModel() {
+        return matchModel;
+    }
+
+    public void setMatchModel(MatchesData matchModel) {
+        this.matchModel = matchModel;
+    }
+
+    public MatchesResponse() {
+    }
 
     @Override
     public int describeContents() {
@@ -35,9 +63,6 @@ public class MatchesResponse implements Parcelable{
         dest.writeString(this.status);
         dest.writeString(this.message);
         dest.writeParcelable(this.matchModel, flags);
-    }
-
-    public MatchesResponse() {
     }
 
     protected MatchesResponse(Parcel in) {

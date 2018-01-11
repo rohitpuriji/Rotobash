@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.tech.rotobash.activites.AuthenticationActivity;
 import com.tech.rotobash.interfaces.ApiInterface;
+import com.tech.rotobash.model.MatchesResponse;
 import com.tech.rotobash.model.UserResponse;
 import com.tech.rotobash.utils.AppPreferences;
 
@@ -236,6 +237,46 @@ public class CommonService {
                 });
 
         return liveUserResponse;
+    }
+
+    /**
+     @Module class/module		:	getMatches
+     @Author Name			    :	Rohit Puri
+     @Date					    :	Jan 11 , 2018
+     @Purpose				    :	This method return the MutableLiveData for get Matches api
+     */
+    public LiveData<MatchesResponse> getMatches(ProgressDialog progressDoalog,UserResponse aUserResponse,String aType,int aOffset) {
+
+        if (!progressDoalog.isShowing()) {
+            progressDoalog.show();
+        }
+        final MutableLiveData<MatchesResponse> liveMatchResponse = new MutableLiveData<>();
+
+        getRetrofitClient()
+                .create(ApiInterface.class)
+                .getMatches(aUserResponse.getResponse().getAccessToken(),aUserResponse.getResponse().getUserId(),aType,aOffset )
+                .enqueue(new Callback<MatchesResponse>(){
+
+                    @Override
+                    public void onResponse(Call<MatchesResponse> call, Response<MatchesResponse> aMatchesResponse) {
+                        Log.e("on response :",aMatchesResponse.body().getMessage());
+                        if (progressDoalog.isShowing()) {
+                            progressDoalog.dismiss();
+                        }
+                        MatchesResponse matchesResponse = aMatchesResponse.body();
+                        liveMatchResponse.setValue(matchesResponse);
+                    }
+
+                    @Override
+                    public void onFailure(Call<MatchesResponse> call, Throwable t) {
+                        Log.e("on Failure :","retrofit error"+t.getLocalizedMessage());
+                        if (progressDoalog.isShowing()) {
+                            progressDoalog.dismiss();
+                        }
+                    }
+                });
+
+        return liveMatchResponse;
     }
 
 }

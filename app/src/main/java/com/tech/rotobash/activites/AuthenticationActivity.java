@@ -30,6 +30,7 @@ import com.jakewharton.rxbinding.widget.RxTextView;
 import com.tech.rotobash.R;
 import com.tech.rotobash.Validations.ErrorHandling;
 import com.tech.rotobash.Validations.FieldValidations;
+import com.tech.rotobash.Validations.ViewsVisibilites;
 import com.tech.rotobash.ViewModel.UserViewModel;
 import com.tech.rotobash.databinding.ActivityLoginBinding;
 import com.tech.rotobash.databinding.LayoutForgetPasswordBinding;
@@ -57,9 +58,9 @@ import static com.tech.rotobash.utils.AppConstant.sRegisterWith;
 
 /**
  * @Module Name/Class		:	AuthenticationActivity
- * @Author Name            :	Rohit Puri
- * @Date :	Jan 3rd , 2018
- * @Purpose :	This class contains both login and registration functionality
+ * @Author Name             :	Rohit Puri
+ * @Date                    :	Jan 3rd , 2018
+ * @Purpose                 :	This class contains both login and registration functionality
  */
 
 public class AuthenticationActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
@@ -225,9 +226,9 @@ public class AuthenticationActivity extends AppCompatActivity implements GoogleA
 
     /**
      * @Module Name/Class		:	googleConnect
-     * @Author Name            :	Rohit Puri
-     * @Date :	Jan 5rd , 2018
-     * @Purpose :	This method used to start google activity
+     * @Author Name             :	Rohit Puri
+     * @Date                    :	Jan 5rd , 2018
+     * @Purpose                 :	This method used to start google activity
      */
     private void googleConnect() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
@@ -247,9 +248,9 @@ public class AuthenticationActivity extends AppCompatActivity implements GoogleA
 
     /**
      * @Module Name/Class		:	handleSignInResult
-     * @Author Name            :	Rohit Puri
-     * @Date :	Jan 5rd , 2018
-     * @Purpose :	This method used to get google account details
+     * @Author Name             :	Rohit Puri
+     * @Date                    :	Jan 5rd , 2018
+     * @Purpose                 :	This method used to get google account details
      */
     private void handleSignInResult(GoogleSignInResult result) {
         if (result.isSuccess()) {
@@ -264,49 +265,20 @@ public class AuthenticationActivity extends AppCompatActivity implements GoogleA
 
     /**
      * @Module Name/Class		:	showLogin
-     * @Author Name            :	Rohit Puri
-     * @Date :	Jan 8rd , 2018
-     * @Purpose :	This method used to show login screen fields only
+     * @Author Name             :	Rohit Puri
+     * @Date                    :	Jan 8rd , 2018
+     * @Purpose                 :	This method used to show login screen fields only
      */
     private void showLogin() {
         mUiFor = 1;
         ErrorHandling.checkPasswordEditText(this, mBinding, mUiFor);
-        mBinding.viewLogin.setVisibility(View.VISIBLE);
-        mBinding.viewRegister.setVisibility(View.INVISIBLE);
-        mBinding.imgLogin.setVisibility(View.VISIBLE);
-        mBinding.imgRegister.setVisibility(View.GONE);
-        mBinding.etName.setVisibility(View.GONE);
-        mBinding.etRegEmail.setVisibility(View.VISIBLE);
-        mBinding.etConfirmPass.setVisibility(View.GONE);
-        mBinding.etRegPassword.setVisibility(View.VISIBLE);
-        mBinding.etRegEmail.setHint(R.string.txt_email);
-        mBinding.etRegPassword.setHint(R.string.txt_pass);
-        mBinding.btnRegsiter.setText(R.string.txt_login);
-        mBinding.rlLoginChk.setVisibility(View.VISIBLE);
-        mBinding.chkRemember.setVisibility(View.INVISIBLE);
-        mBinding.rlRegChk.setVisibility(View.GONE);
-        mBinding.tvLogin.setTypeface(mBoldTypeface);
-        mBinding.tvRegister.setTypeface(mNormalTypeFace);
-        mBinding.tvWith.setText(sLoginWith);
-        mBinding.imgRefer.setVisibility(View.GONE);
-        clearFocus();
-        cleanRegFields();
-        removeError();
+        ViewsVisibilites.handleLoginViews(mBinding,mBoldTypeface,mNormalTypeFace);
+        ViewsVisibilites.clearFocusView(mBinding);
+        ViewsVisibilites.cleanRegFields(mBinding);
+        ViewsVisibilites.removeError(mBinding);
     }
 
-    private void clearFocus() {
-        mBinding.etName.clearFocus();
-        mBinding.etRegEmail.clearFocus();
-        mBinding.etConfirmPass.clearFocus();
-        mBinding.etRegPassword.clearFocus();
-    }
 
-    private void removeError() {
-        mBinding.tvErrorName.setVisibility(View.GONE);
-        mBinding.tvErrorConPassword.setVisibility(View.GONE);
-        mBinding.tvErrorConPassword.setVisibility(View.GONE);
-        mBinding.tvErrorEmail.setVisibility(View.GONE);
-    }
 
     /**
      * @Module Name/Class		:	showRegistration
@@ -317,36 +289,13 @@ public class AuthenticationActivity extends AppCompatActivity implements GoogleA
     private void showRegistration() {
         mUiFor = 2;
         ErrorHandling.checkPasswordEditText(this, mBinding, mUiFor);
-        mBinding.viewLogin.setVisibility(View.INVISIBLE);
-        mBinding.viewRegister.setVisibility(View.VISIBLE);
-        mBinding.etName.setVisibility(View.VISIBLE);
-        mBinding.etRegEmail.setVisibility(View.VISIBLE);
-        mBinding.etConfirmPass.setVisibility(View.VISIBLE);
-        mBinding.etRegPassword.setVisibility(View.VISIBLE);
-        mBinding.etRegEmail.setHint(R.string.txt_id);
-        mBinding.etRegPassword.setHint(R.string.txt_password);
-        mBinding.etConfirmPass.setHint(R.string.txt_con_password);
-        mBinding.etName.setHint(R.string.txt_name);
-        mBinding.btnRegsiter.setText(R.string.txt_startPlaying);
-        mBinding.rlLoginChk.setVisibility(View.GONE);
-        mBinding.rlRegChk.setVisibility(View.VISIBLE);
-        mBinding.tvLogin.setTypeface(mNormalTypeFace);
-        mBinding.tvRegister.setTypeface(mBoldTypeface);
-        mBinding.imgLogin.setVisibility(View.GONE);
-        mBinding.imgRegister.setVisibility(View.VISIBLE);
-        mBinding.tvWith.setText(sRegisterWith);
-        mBinding.imgRefer.setVisibility(View.VISIBLE);
-        removeError();
-        clearFocus();
-        cleanRegFields();
+        ViewsVisibilites.handleRegViews(mBinding,mBoldTypeface,mNormalTypeFace);
+        ViewsVisibilites.removeError(mBinding);
+        ViewsVisibilites.clearFocusView(mBinding);
+        ViewsVisibilites.cleanRegFields(mBinding);
     }
 
-    private void cleanRegFields() {
-        mBinding.etName.setText("");
-        mBinding.etRegEmail.setText("");
-        mBinding.etRegPassword.setText("");
-        mBinding.etConfirmPass.setText("");
-    }
+
 
     /**
      * @Module Name/Class		:	doFbConnect
@@ -461,7 +410,7 @@ public class AuthenticationActivity extends AppCompatActivity implements GoogleA
                     Toast.makeText(AuthenticationActivity.this, userResponse.getMessage(), Toast.LENGTH_LONG).show();
                     if (userResponse.getStatus().equalsIgnoreCase("success")) {
                         showLogin();
-                        cleanRegFields();
+                        ViewsVisibilites.cleanRegFields(mBinding);
                         AppUtils.hideSoftKeyboard(AuthenticationActivity.this);
                     }
                 });
