@@ -36,6 +36,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.jakewharton.rxbinding.widget.TextViewAfterTextChangeEvent;
 import com.tech.rotobash.R;
+import com.tech.rotobash.Validations.ErrorHandling;
 import com.tech.rotobash.Validations.FieldValidations;
 import com.tech.rotobash.ViewModel.UserViewModel;
 import com.tech.rotobash.databinding.ActivityLoginBinding;
@@ -126,49 +127,11 @@ public class AuthenticationActivity extends AppCompatActivity implements GoogleA
             }
         });
 
+        ErrorHandling.checkEmailEditText(this,mBinding);
 
-        RxTextView.textChanges(mBinding.etRegEmail)
-                .debounce(mDelay, TimeUnit.MILLISECONDS)
-                .subscribe(textChanged -> runOnUiThread(() -> {
-                    if (mBinding.etRegEmail.getText().toString().length() > 0) {
-                        if (!AppUtils.isValidEmail(mBinding.etRegEmail.getText().toString())) {
-                            mBinding.etRegEmail.requestFocus();
-                            mBinding.etRegEmail.setError(sEnterValidEmail);
-                        }
-                    }
-                }));
+        ErrorHandling.checkNameEdittext(mBinding);
 
-
-        RxTextView.textChanges(mBinding.etRegPassword)
-                .debounce(mDelay, TimeUnit.MILLISECONDS)
-                .subscribe(textChanged -> runOnUiThread(() -> {
-                    if (mBinding.etRegPassword.getText().toString().length() > 0  && mBinding.etRegPassword.getText().toString().length()<8) {
-                        mBinding.etRegPassword.requestFocus();
-                        mBinding.etRegPassword.setError(sEnterValidPassword);
-                    }
-                    if (mUiFor == 2){
-                        if (mBinding.etRegPassword.getText().toString().length() >= 8) {
-                            if (!AppUtils.validate(mBinding.etRegPassword.getText().toString())) {
-                                mBinding.etRegPassword.requestFocus();
-                                mBinding.etRegPassword.setError(ePasswordReq);
-                            }
-                        }
-                    }
-                }));
-
-        RxTextView.textChanges(mBinding.etConfirmPass)
-                .debounce(mDelay, TimeUnit.MILLISECONDS)
-                .subscribe(textChanged -> runOnUiThread(() -> {
-                    if (mUiFor == 2) {
-                        if (mBinding.etConfirmPass.getText().toString().length() > 0) {
-                            if (!mBinding.etConfirmPass.getText().toString().equals(mBinding.etRegPassword.getText().toString())) {
-                                Toast.makeText(AuthenticationActivity.this, sPasswordMismatch, Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    }
-                }));
-
-
+        ErrorHandling.checkConPasswordEditText(this,mBinding,mUiFor);
 
         mBinding.btnFb.setOnClickListener(view -> doFbConnect());
 
@@ -219,6 +182,7 @@ public class AuthenticationActivity extends AppCompatActivity implements GoogleA
         openDialog.setContentView(mBinding.getRoot());
         openDialog.setCancelable(true);
 
+        mBinding.tvErrorEmail.setVisibility(View.GONE);
         AppUtils.showSoftKeyboard(openDialog);
 
         mBinding.btnCancel.setOnClickListener(v -> openDialog.dismiss());
@@ -229,18 +193,25 @@ public class AuthenticationActivity extends AppCompatActivity implements GoogleA
                     if (mBinding.etSubmitId.getText().toString().length() > 0) {
                         if (!AppUtils.isValidEmail(mBinding.etSubmitId.getText().toString())) {
                             mBinding.etSubmitId.requestFocus();
-                            mBinding.etSubmitId.setError(sEnterValidEmail);
+                            mBinding.tvErrorEmail.setVisibility(View.VISIBLE);
+                            mBinding.tvErrorEmail.setText(sEnterValidEmail);
                         }
                     }
                 }));
 
+        RxTextView.textChanges(mBinding.etSubmitId)
+                .subscribe(charSequence ->
+                        mBinding.tvErrorEmail.setVisibility(View.GONE));
+
         mBinding.btnSubmit.setOnClickListener(view -> {
             if (TextUtils.isEmpty(mBinding.etSubmitId.getText().toString())){
                 mBinding.etSubmitId.requestFocus();
-                mBinding.etSubmitId.setError(sEnterEmail);
+                mBinding.tvErrorEmail.setVisibility(View.VISIBLE);
+                mBinding.tvErrorEmail.setText(sEnterEmail);
             }else if (!AppUtils.isValidEmail(mBinding.etSubmitId.getText().toString())){
                 mBinding.etSubmitId.requestFocus();
-                mBinding.etSubmitId.setError(sEnterValidEmail);
+                mBinding.tvErrorEmail.setVisibility(View.VISIBLE);
+                mBinding.tvErrorEmail.setText(sEnterValidEmail);
             }else{
                 doForgetPassword(openDialog,mBinding.etSubmitId.getText().toString());
             }
@@ -313,6 +284,7 @@ public class AuthenticationActivity extends AppCompatActivity implements GoogleA
      */
     private void showLogin(){
         mUiFor  = 1;
+        ErrorHandling.checkPasswordEditText(this,mBinding,mUiFor);
         mBinding.viewLogin.setVisibility(View.VISIBLE);
         mBinding.viewRegister.setVisibility(View.INVISIBLE);
         mBinding.imgLogin.setVisibility(View.VISIBLE);
@@ -344,10 +316,10 @@ public class AuthenticationActivity extends AppCompatActivity implements GoogleA
     }
 
     private void removeError(){
-        mBinding.etName.setError(null);
-        mBinding.etRegEmail.setError(null);
-        mBinding.etConfirmPass.setError(null);
-        mBinding.etRegPassword.setError(null);
+        mBinding.tvErrorName.setVisibility(View.GONE);
+        mBinding.tvErrorConPassword.setVisibility(View.GONE);
+        mBinding.tvErrorConPassword.setVisibility(View.GONE);
+        mBinding.tvErrorEmail.setVisibility(View.GONE);
     }
 
     /**
@@ -358,6 +330,7 @@ public class AuthenticationActivity extends AppCompatActivity implements GoogleA
      */
     private void showRegistration(){
         mUiFor  = 2;
+        ErrorHandling.checkPasswordEditText(this,mBinding,mUiFor);
         mBinding.viewLogin.setVisibility(View.INVISIBLE);
         mBinding.viewRegister.setVisibility(View.VISIBLE);
         mBinding.etName.setVisibility(View.VISIBLE);

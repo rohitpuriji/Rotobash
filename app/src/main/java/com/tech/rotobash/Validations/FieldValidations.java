@@ -2,6 +2,7 @@ package com.tech.rotobash.Validations;
 
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.Toast;
 
 import com.tech.rotobash.activites.AuthenticationActivity;
@@ -32,19 +33,23 @@ public class FieldValidations {
     public static boolean doLoginValidation(ActivityLoginBinding mBinding){
         if (TextUtils.isEmpty(mBinding.etRegEmail.getText().toString())){
             mBinding.etRegEmail.requestFocus();
-            mBinding.etRegEmail.setError(sEnterEmail);
+            mBinding.tvErrorEmail.setVisibility(View.VISIBLE);
+            mBinding.tvErrorEmail.setText(sEnterEmail);
             return false;
         }else if (!AppUtils.isValidEmail(mBinding.etRegEmail.getText().toString())){
             mBinding.etRegEmail.requestFocus();
-            mBinding.etRegEmail.setError(sEnterValidEmail);
+            mBinding.tvErrorEmail.setVisibility(View.VISIBLE);
+            mBinding.tvErrorEmail.setText(sEnterValidEmail);
             return false;
         }else if (TextUtils.isEmpty(mBinding.etRegPassword.getText().toString())){
             mBinding.etRegPassword.requestFocus();
-            mBinding.etRegPassword.setError(sEnterPassword);
+            mBinding.tvErrorPassword.setVisibility(View.VISIBLE);
+            mBinding.tvErrorPassword.setText(sEnterPassword);
             return false;
         }else if (mBinding.etRegPassword.getText().toString().length() < 8){
             mBinding.etRegPassword.requestFocus();
-            mBinding.etRegPassword.setError(sEnterValidPassword);
+            mBinding.tvErrorPassword.setVisibility(View.VISIBLE);
+            mBinding.tvErrorPassword.setText(sEnterValidPassword);
             return false;
         }
         else {
@@ -55,31 +60,38 @@ public class FieldValidations {
     public static boolean doRegValidation(AppCompatActivity appCompatActivity,ActivityLoginBinding mBinding){
         if (TextUtils.isEmpty(mBinding.etName.getText().toString())){
             mBinding.etName.requestFocus();
-            mBinding.etName.setError(sEnterName);
+            mBinding.tvErrorName.setVisibility(View.VISIBLE);
+            mBinding.tvErrorName.setText(sEnterName);
             return false;
         }else if (TextUtils.isEmpty(mBinding.etRegEmail.getText().toString())){
             mBinding.etRegEmail.requestFocus();
-            mBinding.etRegEmail.setError(sEnterEmail);
+            mBinding.tvErrorEmail.setVisibility(View.VISIBLE);
+            mBinding.tvErrorEmail.setText(sEnterEmail);
             return false;
         }else if (!AppUtils.isValidEmail(mBinding.etRegEmail.getText().toString())){
             mBinding.etRegEmail.requestFocus();
-            mBinding.etRegEmail.setError(sEnterValidEmail);
+            mBinding.tvErrorEmail.setVisibility(View.VISIBLE);
+            mBinding.tvErrorEmail.setText(sEnterValidEmail);
             return false;
         }else if (TextUtils.isEmpty(mBinding.etRegPassword.getText().toString())){
             mBinding.etRegPassword.requestFocus();
-            mBinding.etRegPassword.setError(sEnterPassword);
+            mBinding.tvErrorPassword.setVisibility(View.VISIBLE);
+            mBinding.tvErrorPassword.setText(sEnterPassword);
             return false;
         }else if (mBinding.etRegPassword.getText().toString().length() < 8){
             mBinding.etRegPassword.requestFocus();
-            mBinding.etRegPassword.setError(sEnterValidPassword);
+            mBinding.tvErrorPassword.setVisibility(View.VISIBLE);
+            mBinding.tvErrorPassword.setText(sEnterValidPassword);
             return false;
         }else if(!AppUtils.validate(mBinding.etRegPassword.getText().toString())){
             mBinding.etRegPassword.requestFocus();
-            mBinding.etRegPassword.setError(ePasswordReq);
+            mBinding.tvErrorPassword.setVisibility(View.VISIBLE);
+            mBinding.tvErrorPassword.setText(ePasswordReq);
             return false;
         }else if (TextUtils.isEmpty(mBinding.etConfirmPass.getText().toString())){
             mBinding.etConfirmPass.requestFocus();
-            mBinding.etConfirmPass.setError(sReEnterPassword);
+            mBinding.tvErrorConPassword.setVisibility(View.VISIBLE);
+            mBinding.tvErrorConPassword.setText(sReEnterPassword);
             return false;
         }else if (!mBinding.etConfirmPass.getText().toString().equals(mBinding.etRegPassword.getText().toString())){
             Toast.makeText(appCompatActivity,sPasswordMismatch,Toast.LENGTH_LONG).show();
