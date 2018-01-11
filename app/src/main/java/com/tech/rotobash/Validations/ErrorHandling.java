@@ -1,6 +1,7 @@
 package com.tech.rotobash.Validations;
 
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -21,9 +22,9 @@ import static com.tech.rotobash.utils.AppConstant.sPasswordMismatch;
 
 public class ErrorHandling {
 
-    private  static  long mDelay = 1500;
+    private static long mDelay = 1500;
 
-    public static void checkEmailEditText(AppCompatActivity aAppCompatActivity, ActivityLoginBinding mBinding){
+    public static void checkEmailEditText(AppCompatActivity aAppCompatActivity, ActivityLoginBinding mBinding) {
 
         RxTextView.textChanges(mBinding.etRegEmail)
                 .debounce(mDelay, TimeUnit.MILLISECONDS)
@@ -42,8 +43,9 @@ public class ErrorHandling {
                         mBinding.tvErrorEmail.setVisibility(View.GONE));
     }
 
-    public static void checkPasswordEditText(AppCompatActivity aAppCompatActivity, ActivityLoginBinding mBinding,int mUiFor){
+    public static void checkPasswordEditText(AppCompatActivity aAppCompatActivity, ActivityLoginBinding mBinding, int mUiFor) {
 
+        Log.e("mFor", mUiFor + "");
         RxTextView.textChanges(mBinding.etRegPassword)
                 .debounce(mDelay, TimeUnit.MILLISECONDS)
                 .subscribe(textChanged -> aAppCompatActivity.runOnUiThread(() -> {
@@ -60,7 +62,8 @@ public class ErrorHandling {
                                 mBinding.tvErrorPassword.setText(ePasswordReq);
                             }
                         }
-                    }
+                    } else
+                        mBinding.tvErrorPassword.setVisibility(View.GONE);
                 }));
 
         RxTextView.textChanges(mBinding.etRegPassword)
@@ -68,14 +71,14 @@ public class ErrorHandling {
                         mBinding.tvErrorPassword.setVisibility(View.GONE));
     }
 
-    public static void checkNameEdittext(ActivityLoginBinding mBinding){
+    public static void checkNameEdittext(ActivityLoginBinding mBinding) {
 
         RxTextView.textChanges(mBinding.etName)
                 .subscribe(charSequence ->
                         mBinding.tvErrorName.setVisibility(View.GONE));
     }
 
-    public static void checkConPasswordEditText(AppCompatActivity aAppCompatActivity, ActivityLoginBinding mBinding,int mUiFor){
+    public static void checkConPasswordEditText(AppCompatActivity aAppCompatActivity, ActivityLoginBinding mBinding, int mUiFor) {
         RxTextView.textChanges(mBinding.tvErrorConPassword)
                 .subscribe(charSequence ->
                         mBinding.tvErrorConPassword.setVisibility(View.GONE));
@@ -91,7 +94,6 @@ public class ErrorHandling {
                         }
                     }
                 }));
-
     }
 
 }

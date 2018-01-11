@@ -8,19 +8,12 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewTreeObserver;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.facebook.CallbackManager;
@@ -34,7 +27,6 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.jakewharton.rxbinding.widget.RxTextView;
-import com.jakewharton.rxbinding.widget.TextViewAfterTextChangeEvent;
 import com.tech.rotobash.R;
 import com.tech.rotobash.Validations.ErrorHandling;
 import com.tech.rotobash.Validations.FieldValidations;
@@ -55,33 +47,28 @@ import org.json.JSONObject;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
-import rx.functions.Action1;
-
-import static com.tech.rotobash.utils.AppConstant.ePasswordReq;
 import static com.tech.rotobash.utils.AppConstant.sDeviceType;
 import static com.tech.rotobash.utils.AppConstant.sEnterEmail;
 import static com.tech.rotobash.utils.AppConstant.sEnterValidEmail;
-import static com.tech.rotobash.utils.AppConstant.sEnterValidPassword;
 import static com.tech.rotobash.utils.AppConstant.sFacebook;
 import static com.tech.rotobash.utils.AppConstant.sGoogle;
 import static com.tech.rotobash.utils.AppConstant.sLoginWith;
-import static com.tech.rotobash.utils.AppConstant.sPasswordMismatch;
 import static com.tech.rotobash.utils.AppConstant.sRegisterWith;
 
 /**
- @Module Name/Class		:	AuthenticationActivity
- @Author Name			:	Rohit Puri
- @Date					:	Jan 3rd , 2018
- @Purpose				:	This class contains both login and registration functionality
+ * @Module Name/Class		:	AuthenticationActivity
+ * @Author Name            :	Rohit Puri
+ * @Date :	Jan 3rd , 2018
+ * @Purpose :	This class contains both login and registration functionality
  */
 
-public class AuthenticationActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
+public class AuthenticationActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     private ActivityLoginBinding mBinding;
     private GoogleApiClient mGoogleApiClient;
     private static final int RC_SIGN_IN = 9001;
     private ProgressDialog progressDoalog;
-    private Typeface mBoldTypeface,mNormalTypeFace;
+    private Typeface mBoldTypeface, mNormalTypeFace;
     private CallbackManager mCallbackManager;
     private int mUiFor = 1;
     private AppPreferences mAppPreferences;
@@ -99,39 +86,38 @@ public class AuthenticationActivity extends AppCompatActivity implements GoogleA
 
         mBinding.rlRegBtn.setOnClickListener(view -> {
 
-            if (mUiFor == 1){
+            if (mUiFor == 1) {
                 if (FieldValidations.doLoginValidation(mBinding)) {
                     if (Network.isAvailable(AuthenticationActivity.this)) {
                         doLogin();
-                    }else {
-                        Toast.makeText(AuthenticationActivity.this, AppConstant.sNoInternet,Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(AuthenticationActivity.this, AppConstant.sNoInternet, Toast.LENGTH_LONG).show();
                     }
                 }
-            }else{
-                if (FieldValidations.doRegValidation(this,mBinding)) {
+            } else {
+                if (FieldValidations.doRegValidation(this, mBinding)) {
                     if (Network.isAvailable(AuthenticationActivity.this)) {
                         doRegistration();
-                    }else {
-                        Toast.makeText(AuthenticationActivity.this, AppConstant.sNoInternet,Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(AuthenticationActivity.this, AppConstant.sNoInternet, Toast.LENGTH_LONG).show();
                     }
                 }
             }
-
         });
 
         mBinding.btnGoogle.setOnClickListener(view -> {
             if (Network.isAvailable(AuthenticationActivity.this)) {
                 googleConnect();
-            }else {
-                Toast.makeText(AuthenticationActivity.this, AppConstant.sNoInternet,Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(AuthenticationActivity.this, AppConstant.sNoInternet, Toast.LENGTH_LONG).show();
             }
         });
 
-        ErrorHandling.checkEmailEditText(this,mBinding);
+        ErrorHandling.checkEmailEditText(this, mBinding);
 
         ErrorHandling.checkNameEdittext(mBinding);
 
-        ErrorHandling.checkConPasswordEditText(this,mBinding,mUiFor);
+        ErrorHandling.checkConPasswordEditText(this, mBinding, mUiFor);
 
         mBinding.btnFb.setOnClickListener(view -> doFbConnect());
 
@@ -140,17 +126,17 @@ public class AuthenticationActivity extends AppCompatActivity implements GoogleA
     }
 
     /**
-     @Module Name/Class		:	initData
-     @Author Name			:	Rohit Puri
-     @Date					:	Jan 3rd , 2018
-     @Purpose				:	This method initialize the basic parameters
+     * @Module Name/Class		:	initData
+     * @Author Name            :	Rohit Puri
+     * @Date :	Jan 3rd , 2018
+     * @Purpose :	This method initialize the basic parameters
      */
     private void initData() {
 
         getWindow().setBackgroundDrawableResource(R.drawable.login_bg);
 
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_login);
-        mAppPreferences  = new AppPreferences(AuthenticationActivity.this);
+        mAppPreferences = new AppPreferences(AuthenticationActivity.this);
 
         FacebookSdk.sdkInitialize(this.getApplicationContext());
         mCallbackManager = CallbackManager.Factory.create();
@@ -169,13 +155,13 @@ public class AuthenticationActivity extends AppCompatActivity implements GoogleA
     }
 
     /**
-     @Module Name/Class		:	showForgetDialog
-     @Author Name			:	Rohit Puri
-     @Date					:	Jan 4rd , 2018
-     @Purpose				:	This method used to show the forget password dialog
+     * @Module Name/Class		:	showForgetDialog
+     * @Author Name            :	Rohit Puri
+     * @Date :	Jan 4rd , 2018
+     * @Purpose :	This method used to show the forget password dialog
      */
-    private void showForgetDialog(){
-        LayoutForgetPasswordBinding mBinding  = DataBindingUtil
+    private void showForgetDialog() {
+        LayoutForgetPasswordBinding mBinding = DataBindingUtil
                 .inflate(LayoutInflater.from(AuthenticationActivity.this), R.layout.layout_forget_password, null, false);
 
         final Dialog openDialog = new Dialog(AuthenticationActivity.this);
@@ -204,16 +190,16 @@ public class AuthenticationActivity extends AppCompatActivity implements GoogleA
                         mBinding.tvErrorEmail.setVisibility(View.GONE));
 
         mBinding.btnSubmit.setOnClickListener(view -> {
-            if (TextUtils.isEmpty(mBinding.etSubmitId.getText().toString())){
+            if (TextUtils.isEmpty(mBinding.etSubmitId.getText().toString())) {
                 mBinding.etSubmitId.requestFocus();
                 mBinding.tvErrorEmail.setVisibility(View.VISIBLE);
                 mBinding.tvErrorEmail.setText(sEnterEmail);
-            }else if (!AppUtils.isValidEmail(mBinding.etSubmitId.getText().toString())){
+            } else if (!AppUtils.isValidEmail(mBinding.etSubmitId.getText().toString())) {
                 mBinding.etSubmitId.requestFocus();
                 mBinding.tvErrorEmail.setVisibility(View.VISIBLE);
                 mBinding.tvErrorEmail.setText(sEnterValidEmail);
-            }else{
-                doForgetPassword(openDialog,mBinding.etSubmitId.getText().toString());
+            } else {
+                doForgetPassword(openDialog, mBinding.etSubmitId.getText().toString());
             }
         });
 
@@ -221,10 +207,10 @@ public class AuthenticationActivity extends AppCompatActivity implements GoogleA
     }
 
     /**
-     @Module Name/Class		:	configGoogle
-     @Author Name			:	Rohit Puri
-     @Date					:	Jan 4rd , 2018
-     @Purpose				:	This method used for google configuration on start
+     * @Module Name/Class		:	configGoogle
+     * @Author Name            :	Rohit Puri
+     * @Date :	Jan 4rd , 2018
+     * @Purpose :	This method used for google configuration on start
      */
     private void configGoogle() {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -232,16 +218,16 @@ public class AuthenticationActivity extends AppCompatActivity implements GoogleA
                 .build();
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(AuthenticationActivity.this,this)
+                .enableAutoManage(AuthenticationActivity.this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
     }
 
     /**
-     @Module Name/Class		:	googleConnect
-     @Author Name			:	Rohit Puri
-     @Date					:	Jan 5rd , 2018
-     @Purpose				:	This method used to start google activity
+     * @Module Name/Class		:	googleConnect
+     * @Author Name            :	Rohit Puri
+     * @Date :	Jan 5rd , 2018
+     * @Purpose :	This method used to start google activity
      */
     private void googleConnect() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
@@ -260,15 +246,15 @@ public class AuthenticationActivity extends AppCompatActivity implements GoogleA
     }
 
     /**
-     @Module Name/Class		:	handleSignInResult
-     @Author Name			:	Rohit Puri
-     @Date					:	Jan 5rd , 2018
-     @Purpose				:	This method used to get google account details
+     * @Module Name/Class		:	handleSignInResult
+     * @Author Name            :	Rohit Puri
+     * @Date :	Jan 5rd , 2018
+     * @Purpose :	This method used to get google account details
      */
     private void handleSignInResult(GoogleSignInResult result) {
         if (result.isSuccess()) {
             GoogleSignInAccount acct = result.getSignInAccount();
-            if(acct != null) {
+            if (acct != null) {
                 Log.e("user name :", acct.getDisplayName());
                 Log.e("user email :", acct.getEmail());
                 doSocialConnect(acct);
@@ -277,14 +263,14 @@ public class AuthenticationActivity extends AppCompatActivity implements GoogleA
     }
 
     /**
-     @Module Name/Class		:	showLogin
-     @Author Name			:	Rohit Puri
-     @Date					:	Jan 8rd , 2018
-     @Purpose				:	This method used to show login screen fields only
+     * @Module Name/Class		:	showLogin
+     * @Author Name            :	Rohit Puri
+     * @Date :	Jan 8rd , 2018
+     * @Purpose :	This method used to show login screen fields only
      */
-    private void showLogin(){
-        mUiFor  = 1;
-        ErrorHandling.checkPasswordEditText(this,mBinding,mUiFor);
+    private void showLogin() {
+        mUiFor = 1;
+        ErrorHandling.checkPasswordEditText(this, mBinding, mUiFor);
         mBinding.viewLogin.setVisibility(View.VISIBLE);
         mBinding.viewRegister.setVisibility(View.INVISIBLE);
         mBinding.imgLogin.setVisibility(View.VISIBLE);
@@ -308,14 +294,14 @@ public class AuthenticationActivity extends AppCompatActivity implements GoogleA
         removeError();
     }
 
-    private void clearFocus(){
+    private void clearFocus() {
         mBinding.etName.clearFocus();
         mBinding.etRegEmail.clearFocus();
         mBinding.etConfirmPass.clearFocus();
         mBinding.etRegPassword.clearFocus();
     }
 
-    private void removeError(){
+    private void removeError() {
         mBinding.tvErrorName.setVisibility(View.GONE);
         mBinding.tvErrorConPassword.setVisibility(View.GONE);
         mBinding.tvErrorConPassword.setVisibility(View.GONE);
@@ -323,14 +309,14 @@ public class AuthenticationActivity extends AppCompatActivity implements GoogleA
     }
 
     /**
-     @Module Name/Class		:	showRegistration
-     @Author Name			:	Rohit Puri
-     @Date					:	Jan 8rd , 2018
-     @Purpose				:	This method used to show registration screen fields only
+     * @Module Name/Class		:	showRegistration
+     * @Author Name            :	Rohit Puri
+     * @Date :	Jan 8rd , 2018
+     * @Purpose :	This method used to show registration screen fields only
      */
-    private void showRegistration(){
-        mUiFor  = 2;
-        ErrorHandling.checkPasswordEditText(this,mBinding,mUiFor);
+    private void showRegistration() {
+        mUiFor = 2;
+        ErrorHandling.checkPasswordEditText(this, mBinding, mUiFor);
         mBinding.viewLogin.setVisibility(View.INVISIBLE);
         mBinding.viewRegister.setVisibility(View.VISIBLE);
         mBinding.etName.setVisibility(View.VISIBLE);
@@ -355,7 +341,7 @@ public class AuthenticationActivity extends AppCompatActivity implements GoogleA
         cleanRegFields();
     }
 
-    private void cleanRegFields(){
+    private void cleanRegFields() {
         mBinding.etName.setText("");
         mBinding.etRegEmail.setText("");
         mBinding.etRegPassword.setText("");
@@ -363,13 +349,13 @@ public class AuthenticationActivity extends AppCompatActivity implements GoogleA
     }
 
     /**
-     @Module Name/Class		:	doFbConnect
-     @Author Name			:	Rohit Puri
-     @Date					:	Jan 8rd , 2018
-     @Purpose				:	This method used to perform facebook button functionality where a Social
-     media manager class is using to handle facebook requests
+     * @Module Name/Class		:	doFbConnect
+     * @Author Name            :	Rohit Puri
+     * @Date :	Jan 8rd , 2018
+     * @Purpose :	This method used to perform facebook button functionality where a Social
+     * media manager class is using to handle facebook requests
      */
-    private void doFbConnect(){
+    private void doFbConnect() {
         if (Network.isAvailable(AuthenticationActivity.this)) {
             if (AppUtils.checkIsAppLicationInstalled(AuthenticationActivity.this, AppConstant.sFacebooks)) {
                 LoginManager.getInstance().logInWithReadPermissions(AuthenticationActivity.this, Arrays.asList("public_profile", "email"));
@@ -397,57 +383,57 @@ public class AuthenticationActivity extends AppCompatActivity implements GoogleA
     }
 
     /**
-     @Module Name/Class		:	doForgetPassword
-     @Author Name			:	Rohit Puri
-     @Date					:	Jan 9rd , 2018
-     @Purpose				:	This method used to perform forget password functionality
+     * @Module Name/Class		:	doForgetPassword
+     * @Author Name            :	Rohit Puri
+     * @Date :	Jan 9rd , 2018
+     * @Purpose :	This method used to perform forget password functionality
      */
-    private void doForgetPassword(Dialog aDialog,String aEmailId){
+    private void doForgetPassword(Dialog aDialog, String aEmailId) {
 
         UserViewModel mSignupViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
 
         mSignupViewModel.getForgetPassword(aEmailId)
-                .observe(this,userResponse ->{
-                    Toast.makeText(AuthenticationActivity.this,userResponse.getMessage(),Toast.LENGTH_LONG).show();
+                .observe(this, userResponse -> {
+                    Toast.makeText(AuthenticationActivity.this, userResponse.getMessage(), Toast.LENGTH_LONG).show();
                     AppUtils.hideSoftKeyboard(AuthenticationActivity.this);
-                    if (userResponse.getStatus().equalsIgnoreCase("success")){
+                    if (userResponse.getStatus().equalsIgnoreCase("success")) {
                         aDialog.dismiss();
                     }
                 });
     }
 
     /**
-     @Module Name/Class		:	doSocialConnect
-     @Author Name			:	Rohit Puri
-     @Date					:	Jan 9rd , 2018
-     @Purpose				:	This method used to access details from facebook or google login
+     * @Module Name/Class		:	doSocialConnect
+     * @Author Name            :	Rohit Puri
+     * @Date :	Jan 9rd , 2018
+     * @Purpose :	This method used to access details from facebook or google login
      */
-    private void doSocialConnect(Object any){
+    private void doSocialConnect(Object any) {
 
         UserViewModel mSignupViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
 
-        if (any instanceof GoogleSignInAccount){
-            GoogleSignInAccount acct = (GoogleSignInAccount)any;
-            mSignupViewModel.getSocialConnect(progressDoalog,acct.getDisplayName(),acct.getEmail(),sGoogle,
-                    acct.getId(), FirebaseInstanceId.getInstance().getToken(),sDeviceType)
-                    .observe(this,userResponse ->{
+        if (any instanceof GoogleSignInAccount) {
+            GoogleSignInAccount acct = (GoogleSignInAccount) any;
+            mSignupViewModel.getSocialConnect(progressDoalog, acct.getDisplayName(), acct.getEmail(), sGoogle,
+                    acct.getId(), FirebaseInstanceId.getInstance().getToken(), sDeviceType)
+                    .observe(this, userResponse -> {
 
-                        Toast.makeText(AuthenticationActivity.this,userResponse.getMessage(),Toast.LENGTH_LONG).show();
-                        if (userResponse.getStatus().equalsIgnoreCase("success")){
+                        Toast.makeText(AuthenticationActivity.this, userResponse.getMessage(), Toast.LENGTH_LONG).show();
+                        if (userResponse.getStatus().equalsIgnoreCase("success")) {
                             rememberMe(userResponse);
                             mAppPreferences.setPreferenceSocial(true);
                         }
                     });
-        }else{
-            JSONObject acct = (JSONObject)any;
+        } else {
+            JSONObject acct = (JSONObject) any;
 
             try {
-                mSignupViewModel.getSocialConnect(progressDoalog,acct.getString("name"),acct.getString("email"),
-                        sFacebook,acct.getString("id"),FirebaseInstanceId.getInstance().getToken(),sDeviceType)
-                        .observe(this,userResponse ->{
+                mSignupViewModel.getSocialConnect(progressDoalog, acct.getString("name"), acct.getString("email"),
+                        sFacebook, acct.getString("id"), FirebaseInstanceId.getInstance().getToken(), sDeviceType)
+                        .observe(this, userResponse -> {
 
-                            Toast.makeText(AuthenticationActivity.this,userResponse.getMessage(),Toast.LENGTH_LONG).show();
-                            if (userResponse.getStatus().equalsIgnoreCase("success")){
+                            Toast.makeText(AuthenticationActivity.this, userResponse.getMessage(), Toast.LENGTH_LONG).show();
+                            if (userResponse.getStatus().equalsIgnoreCase("success")) {
                                 rememberMe(userResponse);
                                 mAppPreferences.setPreferenceSocial(true);
                             }
@@ -461,19 +447,19 @@ public class AuthenticationActivity extends AppCompatActivity implements GoogleA
     }
 
     /**
-     @Module Name/Class		:	doRegistration
-     @Author Name			:	Rohit Puri
-     @Date					:	Jan 9rd , 2018
-     @Purpose				:	This method used to perform registration functionality
+     * @Module Name/Class		:	doRegistration
+     * @Author Name            :	Rohit Puri
+     * @Date :	Jan 9rd , 2018
+     * @Purpose :	This method used to perform registration functionality
      */
-    private void doRegistration(){
+    private void doRegistration() {
         UserViewModel mSignupViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
 
-        mSignupViewModel.getLiveSignupData(progressDoalog,mBinding.etName.getText().toString(),mBinding.etRegEmail.getText().toString(),
-                mBinding.etRegPassword.getText().toString(), FirebaseInstanceId.getInstance().getToken(),"Android")
-                .observe(this,userResponse ->{
-                    Toast.makeText(AuthenticationActivity.this,userResponse.getMessage(),Toast.LENGTH_LONG).show();
-                    if (userResponse.getStatus().equalsIgnoreCase("success")){
+        mSignupViewModel.getLiveSignupData(progressDoalog, mBinding.etName.getText().toString(), mBinding.etRegEmail.getText().toString(),
+                mBinding.etRegPassword.getText().toString(), FirebaseInstanceId.getInstance().getToken(), "Android")
+                .observe(this, userResponse -> {
+                    Toast.makeText(AuthenticationActivity.this, userResponse.getMessage(), Toast.LENGTH_LONG).show();
+                    if (userResponse.getStatus().equalsIgnoreCase("success")) {
                         showLogin();
                         cleanRegFields();
                         AppUtils.hideSoftKeyboard(AuthenticationActivity.this);
@@ -483,18 +469,18 @@ public class AuthenticationActivity extends AppCompatActivity implements GoogleA
     }
 
     /**
-     @Module Name/Class		:	doRegistration
-     @Author Name			:	Rohit Puri
-     @Date					:	Jan 9rd , 2018
-     @Purpose				:	This method used to perform login functionality
+     * @Module Name/Class		:	doRegistration
+     * @Author Name            :	Rohit Puri
+     * @Date :	Jan 9rd , 2018
+     * @Purpose :	This method used to perform login functionality
      */
-    private void doLogin(){
+    private void doLogin() {
         UserViewModel mSigninViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
 
-        mSigninViewModel.getLiveSigninData(progressDoalog,mBinding.etRegEmail.getText().toString(),mBinding.etRegPassword.getText().toString(), FirebaseInstanceId.getInstance().getToken(),"Android")
-                .observe(this,userResponse ->{
-                    Toast.makeText(AuthenticationActivity.this,userResponse.getMessage(),Toast.LENGTH_LONG).show();
-                    if (userResponse.getStatus().equalsIgnoreCase("success")){
+        mSigninViewModel.getLiveSigninData(progressDoalog, mBinding.etRegEmail.getText().toString(), mBinding.etRegPassword.getText().toString(), FirebaseInstanceId.getInstance().getToken(), "Android")
+                .observe(this, userResponse -> {
+                    Toast.makeText(AuthenticationActivity.this, userResponse.getMessage(), Toast.LENGTH_LONG).show();
+                    if (userResponse.getStatus().equalsIgnoreCase("success")) {
                         rememberMe(userResponse);
                         mAppPreferences.setPreferenceSocial(false);
                     }
@@ -504,10 +490,10 @@ public class AuthenticationActivity extends AppCompatActivity implements GoogleA
     }
 
     /**
-     @Module Name/Class		:	doRegistration
-     @Author Name			:	Rohit Puri
-     @Date					:	Jan 9rd , 2018
-     @Purpose				:	This method used to check wheather user enable remember me option or not
+     * @Module Name/Class		:	doRegistration
+     * @Author Name            :	Rohit Puri
+     * @Date :	Jan 9rd , 2018
+     * @Purpose :	This method used to check wheather user enable remember me option or not
      */
     private void rememberMe(UserResponse aUserResponse) {
         mAppPreferences.setUserData(aUserResponse);
@@ -515,15 +501,15 @@ public class AuthenticationActivity extends AppCompatActivity implements GoogleA
         moveScreen(aUserResponse);
     }
 
-    private void moveScreen(UserResponse aUserResponse){
+    private void moveScreen(UserResponse aUserResponse) {
         Intent i = new Intent(AuthenticationActivity.this, SidemenuActivity.class);
-        i.putExtra("UserResponse",aUserResponse);
+        i.putExtra("UserResponse", aUserResponse);
         startActivity(i);
         finish();
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Toast.makeText(AuthenticationActivity.this,connectionResult.getErrorMessage(),Toast.LENGTH_LONG).show();
+        Toast.makeText(AuthenticationActivity.this, connectionResult.getErrorMessage(), Toast.LENGTH_LONG).show();
     }
 }
