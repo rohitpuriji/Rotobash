@@ -245,7 +245,7 @@ public class CommonService {
      @Date					    :	Jan 11 , 2018
      @Purpose				    :	This method return the MutableLiveData for get Matches api
      */
-    public LiveData<MatchesResponse> getMatches(ProgressDialog progressDoalog,UserResponse aUserResponse,String aType,int aOffset) {
+    public LiveData<MatchesResponse> getMatches(ProgressDialog progressDoalog,UserResponse aUserResponse,String aType,String aOffset) {
 
         if (!progressDoalog.isShowing()) {
             progressDoalog.show();
@@ -259,7 +259,10 @@ public class CommonService {
 
                     @Override
                     public void onResponse(Call<MatchesResponse> call, Response<MatchesResponse> aMatchesResponse) {
-                        Log.e("on response :",aMatchesResponse.body().getMessage());
+                        Log.e("on getAccessToken :",aUserResponse.getResponse().getAccessToken());
+                        Log.e("on getUserId :",aUserResponse.getResponse().getUserId());
+
+                        Log.e("on response :",aMatchesResponse.body().getStatus());
                         if (progressDoalog.isShowing()) {
                             progressDoalog.dismiss();
                         }

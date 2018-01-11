@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -17,6 +18,8 @@ import android.widget.Toast;
 
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.tech.rotobash.R;
+import com.tech.rotobash.Validations.ViewsVisibilites;
+import com.tech.rotobash.ViewModel.MatchesViewModel;
 import com.tech.rotobash.ViewModel.UserViewModel;
 import com.tech.rotobash.databinding.ActivitySidemenuBinding;
 import com.tech.rotobash.databinding.LayoutResetPasswordBinding;
@@ -45,6 +48,7 @@ public class SidemenuActivity extends AppCompatActivity
     private ActivitySidemenuBinding mBinding;
     private UserResponse mUserResponse;
     private ProgressDialog progressDoalog;
+    private int mMatchType = 2,mOffset=1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,22 +65,22 @@ public class SidemenuActivity extends AppCompatActivity
         });
 
         mBinding.included.includedContent.btnCurrent.setOnClickListener(view -> {
-            mBinding.included.includedContent.swipeContainerCurrent.setVisibility(View.VISIBLE);
-            mBinding.included.includedContent.swipeContainerUpcoming.setVisibility(View.GONE);
+            ViewsVisibilites.showCurrentMatchesView(SidemenuActivity.this,mBinding);
+            mMatchType = 2;
         });
 
 
         mBinding.included.includedContent.btnComing.setOnClickListener(view -> {
-            mBinding.included.includedContent.swipeContainerCurrent.setVisibility(View.GONE);
-            mBinding.included.includedContent.swipeContainerUpcoming.setVisibility(View.VISIBLE);
+            ViewsVisibilites.showComingMatchesView(SidemenuActivity.this,mBinding);
+            mMatchType = 1;
         });
     }
 
     /**
      * @Module Name/Class		:	initData
-     * @Author Name            :	Rohit Puri
-     * @Date :	Jan 8rd , 2018
-     * @Purpose :	This method initialize the basic functionality
+     * @Author Name             :	Rohit Puri
+     * @Date                    :	Jan 8rd , 2018
+     * @Purpose                 :	This method initialize the basic functionality
      */
     private void initData() {
 
@@ -97,7 +101,7 @@ public class SidemenuActivity extends AppCompatActivity
         setSupportActionBar(mBinding.included.toolbar);
 
         if (Network.isAvailable(SidemenuActivity.this)) {
-            loadCurrentMatches();
+            loadCurrentMatches(mMatchType+"",mOffset+"");
         } else {
             Toast.makeText(SidemenuActivity.this, AppConstant.sNoInternet, Toast.LENGTH_LONG).show();
         }
@@ -109,8 +113,15 @@ public class SidemenuActivity extends AppCompatActivity
      * @Date :	Jan 11th , 2018
      * @Purpose :	This method loads the current matches from api
      */
-    private void loadCurrentMatches() {
+    private void loadCurrentMatches(String aMatchType,String aOffset) {
 
+        MatchesViewModel mMatchesViewModel = ViewModelProviders.of(this).get(MatchesViewModel.class);
+
+        mMatchesViewModel.getMatches(progressDoalog, mUserResponse, aMatchType, aOffset)
+                .observe(this, userResponse -> {
+                    Toast.makeText(SidemenuActivity.this, userResponse.getMessage(), Toast.LENGTH_LONG).show();
+
+                });
     }
 
     @Override

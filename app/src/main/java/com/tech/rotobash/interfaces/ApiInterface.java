@@ -58,5 +58,5 @@ public interface ApiInterface {
     Call<MatchesResponse> getMatches(@Header("Authorization") String token,
                                      @Field("user_id") String userId,
                                      @Field("type") String matchType,
-                                     @Field("offset") int offset );
+                                     @Field("offset") String offset );
 }

@@ -1,10 +1,13 @@
 package com.tech.rotobash.Validations;
 
 import android.graphics.Typeface;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.tech.rotobash.R;
 import com.tech.rotobash.databinding.ActivityLoginBinding;
+import com.tech.rotobash.databinding.ActivitySidemenuBinding;
 import com.tech.rotobash.utils.TextFontsBold;
 import com.tech.rotobash.utils.TextFontsRegular;
 
@@ -80,5 +83,24 @@ public class ViewsVisibilites {
         mBinding.etRegEmail.setText("");
         mBinding.etRegPassword.setText("");
         mBinding.etConfirmPass.setText("");
+    }
+
+    public static void showCurrentMatchesView(AppCompatActivity aAppCompatActivity,ActivitySidemenuBinding mBinding){
+        mBinding.included.includedContent.swipeContainerCurrent.setVisibility(View.VISIBLE);
+        mBinding.included.includedContent.swipeContainerUpcoming.setVisibility(View.GONE);
+        mBinding.included.includedContent.btnCurrent.setBackgroundColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_current_gray));
+        mBinding.included.includedContent.btnComing.setBackgroundColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_white));
+        mBinding.included.includedContent.btnCurrent.setTextColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_red));
+        mBinding.included.includedContent.btnComing.setTextColor(ContextCompat.getColor(aAppCompatActivity, R.color.light_grey));
+
+    }
+
+    public static void showComingMatchesView(AppCompatActivity aAppCompatActivity,ActivitySidemenuBinding mBinding){
+        mBinding.included.includedContent.swipeContainerCurrent.setVisibility(View.GONE);
+        mBinding.included.includedContent.swipeContainerUpcoming.setVisibility(View.VISIBLE);
+        mBinding.included.includedContent.btnCurrent.setBackgroundColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_white));
+        mBinding.included.includedContent.btnComing.setBackgroundColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_current_gray));
+        mBinding.included.includedContent.btnCurrent.setTextColor(ContextCompat.getColor(aAppCompatActivity, R.color.light_grey));
+        mBinding.included.includedContent.btnComing.setTextColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_red));
     }
 }

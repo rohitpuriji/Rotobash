@@ -6,6 +6,8 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 /**
  @Module class/module		:	MatchesResponse
  @Author Name			    :	Rohit Puri
@@ -24,7 +26,7 @@ public class MatchesResponse implements Parcelable{
 
     @SerializedName("response")
     @Expose
-    private MatchesData matchModel;
+    private ArrayList<MatchesData> matchModel;
 
     public String getStatus() {
         return status;
@@ -42,13 +44,15 @@ public class MatchesResponse implements Parcelable{
         this.message = message;
     }
 
-    public MatchesData getMatchModel() {
+    public ArrayList<MatchesData> getMatchModel() {
         return matchModel;
     }
 
-    public void setMatchModel(MatchesData matchModel) {
+    public void setMatchModel(ArrayList<MatchesData> matchModel) {
         this.matchModel = matchModel;
     }
+
+
 
     public MatchesResponse() {
     }
@@ -62,13 +66,13 @@ public class MatchesResponse implements Parcelable{
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.status);
         dest.writeString(this.message);
-        dest.writeParcelable(this.matchModel, flags);
+        dest.writeTypedList(this.matchModel);
     }
 
     protected MatchesResponse(Parcel in) {
         this.status = in.readString();
         this.message = in.readString();
-        this.matchModel = in.readParcelable(MatchesData.class.getClassLoader());
+        this.matchModel = in.createTypedArrayList(MatchesData.CREATOR);
     }
 
     public static final Creator<MatchesResponse> CREATOR = new Creator<MatchesResponse>() {
