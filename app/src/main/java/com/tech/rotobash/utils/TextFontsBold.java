@@ -5,6 +5,12 @@ import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
+/**
+ @Module class/module		:	TextFontsBold
+ @Author Name			    :	Rohit Puri
+ @Date					    :	Jan 5 , 2018
+ @Purpose				    :	It supports font bold for textview
+ */
 public class TextFontsBold extends android.support.v7.widget.AppCompatTextView {
     public TextFontsBold(Context context) {
         super(context);

@@ -46,6 +46,11 @@
             app:layout_constraintTop_toBottomOf="@+id/btnCurrent"
             app:layout_constraintVertical_bias="0.0">
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="15dp"
+                android:background="@drawable/gradient_view_grey"/>
+
             <android.support.v4.widget.SwipeRefreshLayout
                 android:id="@+id/swipeContainerCurrent"
                 android:layout_width="match_parent"
@@ -54,20 +59,25 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerViewCurrent"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:scrollbars="vertical"/>
+
             </android.support.v4.widget.SwipeRefreshLayout>
 
             <android.support.v4.widget.SwipeRefreshLayout
                 android:id="@+id/swipeContainerUpcoming"
                 android:layout_width="match_parent"
                 android:visibility="gone"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                >
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerViewUpcoming"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    android:scrollbars="vertical"/>
+
             </android.support.v4.widget.SwipeRefreshLayout>
 
         </RelativeLayout>

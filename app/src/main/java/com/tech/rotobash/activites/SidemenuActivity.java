@@ -10,6 +10,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +22,8 @@ import com.jakewharton.rxbinding.widget.RxTextView;
 import com.tech.rotobash.R;
 import com.tech.rotobash.ViewModel.UserViewModel;
 import com.tech.rotobash.databinding.ActivitySidemenuBinding;
+import com.tech.rotobash.databinding.LayoutForgetPasswordBinding;
+import com.tech.rotobash.databinding.LayoutResetPasswordBinding;
 import com.tech.rotobash.model.UserResponse;
 import com.tech.rotobash.utils.AppConstant;
 import com.tech.rotobash.utils.AppPreferences;
@@ -29,12 +32,19 @@ import com.tech.rotobash.utils.Network;
 
 import java.util.concurrent.TimeUnit;
 
+import static com.tech.rotobash.Validations.FieldValidations.doResetValidation;
 import static com.tech.rotobash.utils.AppConstant.ePasswordReq;
 import static com.tech.rotobash.utils.AppConstant.sEnterNewPassword;
 import static com.tech.rotobash.utils.AppConstant.sEnterOldPassword;
 import static com.tech.rotobash.utils.AppConstant.sEnterValidPassword;
 import static com.tech.rotobash.utils.AppConstant.sPleaseWait;
 
+/**
+ @Module Name/Class		:	SidemenuActivity
+ @Author Name			:	Rohit Puri
+ @Date					:	Jan 8rd , 2018
+ @Purpose				:	This class contains both sidemenu screen and main matches contents
+ */
 public class SidemenuActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -68,6 +78,12 @@ public class SidemenuActivity extends AppCompatActivity
         });
     }
 
+    /**
+     @Module Name/Class		:	initData
+     @Author Name			:	Rohit Puri
+     @Date					:	Jan 8rd , 2018
+     @Purpose				:	This method initialize the basic functionality
+     */
     private void initData(){
 
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_sidemenu);
@@ -86,8 +102,22 @@ public class SidemenuActivity extends AppCompatActivity
 
         setSupportActionBar(mBinding.included.toolbar);
 
+        if (Network.isAvailable(SidemenuActivity.this)) {
+            loadCurrentMatches();
+        }else {
+            Toast.makeText(SidemenuActivity.this, AppConstant.sNoInternet,Toast.LENGTH_LONG).show();
+        }
     }
 
+    /**
+     @Module Name/Class		:	loadCurrentMatches
+     @Author Name			:	Rohit Puri
+     @Date					:	Jan 11th , 2018
+     @Purpose				:	This method loads the current matches from api
+     */
+    private void loadCurrentMatches(){
+
+    }
 
     @Override
     public void onBackPressed() {
@@ -150,44 +180,54 @@ public class SidemenuActivity extends AppCompatActivity
         finish();
     }
 
+    /**
+     @Module Name/Class		:	showResetDialog
+     @Author Name			:	Rohit Puri
+     @Date					:	Jan 11th , 2018
+     @Purpose				:	This method shows the reset dialog
+     */
     private void showResetDialog(){
-        final Dialog openDialog = new Dialog(SidemenuActivity.this);
-        openDialog.setContentView(R.layout.layout_reset_password);
-        openDialog.setCancelable(true);
+        LayoutResetPasswordBinding mBinding  = DataBindingUtil
+                .inflate(LayoutInflater.from(SidemenuActivity.this), R.layout.layout_reset_password, null, false);
 
-        EditText etOldPass = openDialog.findViewById(R.id.etOldPass);
-        EditText etNewPass = openDialog.findViewById(R.id.etNewPass);
-        Button btnSubmit = openDialog.findViewById(R.id.btnSubmit);
-        Button btnCancel = openDialog.findViewById(R.id.btnCancel);
+        final Dialog openDialog = new Dialog(SidemenuActivity.this);
+        openDialog.setContentView(mBinding.getRoot());
+        openDialog.setCancelable(true);
 
         AppUtils.showSoftKeyboard(openDialog);
 
-        btnCancel.setOnClickListener(v -> openDialog.dismiss());
+        mBinding.btnCancel.setOnClickListener(v -> openDialog.dismiss());
 
         long delay = 1500;
-        RxTextView.textChanges(etNewPass)
+        RxTextView.textChanges(mBinding.etNewPass)
                 .debounce(delay, TimeUnit.MILLISECONDS)
                 .subscribe(textChanged -> runOnUiThread(() -> {
-                    if(etNewPass.getText().toString().length() > 0) {
-                        if (etNewPass.getText().toString().length() < 8) {
-                            etNewPass.requestFocus();
-                            etNewPass.setError(sEnterValidPassword);
-                        } else if (!AppUtils.validate(etNewPass.getText().toString())) {
-                            etNewPass.requestFocus();
-                            etNewPass.setError(ePasswordReq);
+                    if(mBinding.etNewPass.getText().toString().length() > 0) {
+                        if (mBinding.etNewPass.getText().toString().length() < 8) {
+                            mBinding.etNewPass.requestFocus();
+                            mBinding.etNewPass.setError(sEnterValidPassword);
+                        } else if (!AppUtils.validate(mBinding.etNewPass.getText().toString())) {
+                            mBinding.etNewPass.requestFocus();
+                            mBinding.etNewPass.setError(ePasswordReq);
                         }
                     }
                 }));
 
-        btnSubmit.setOnClickListener(view -> {
-            if (doResetValidation(etOldPass,etNewPass)){
-                doResetPassword(openDialog,etOldPass.getText().toString(),etNewPass.getText().toString());
+        mBinding.btnSubmit.setOnClickListener(view -> {
+            if (doResetValidation(mBinding)){
+                doResetPassword(openDialog,mBinding.etOldPass.getText().toString(),mBinding.etNewPass.getText().toString());
             }
         });
 
         openDialog.show();
     }
 
+    /**
+     @Module Name/Class		:	doResetPassword
+     @Author Name			:	Rohit Puri
+     @Date					:	Jan 11th , 2018
+     @Purpose				:	This method observe the response coming from ViewModel class in form of LiveData
+     */
     private void doResetPassword(Dialog aDialog,String aOldPass, String aNewPass){
 
         UserViewModel mSignupViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
@@ -202,27 +242,5 @@ public class SidemenuActivity extends AppCompatActivity
                 });
     }
 
-
-    public boolean doResetValidation(EditText etOldPass,EditText etNewPass) {
-        if (TextUtils.isEmpty(etOldPass.getText().toString())){
-            etOldPass.requestFocus();
-            etOldPass.setError(sEnterOldPassword);
-            return false;
-        }else if (TextUtils.isEmpty(etNewPass.getText().toString())){
-            etNewPass.requestFocus();
-            etNewPass.setError(sEnterNewPassword);
-            return false;
-        }else if (etNewPass.getText().toString().length() < 8){
-            etNewPass.requestFocus();
-            etNewPass.setError(sEnterValidPassword);
-            return false;
-        }else if(!AppUtils.validate(etNewPass.getText().toString())){
-            etNewPass.requestFocus();
-            etNewPass.setError(ePasswordReq);
-            return false;
-        }else{
-            return true;
-        }
-    }
 
 }

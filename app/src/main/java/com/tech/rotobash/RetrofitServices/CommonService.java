@@ -21,9 +21,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import static com.tech.rotobash.utils.AppConstant.sMainUrl;
 
 /**
- * Created by rohitpuri on 3/1/18.
+ @Module class/module		:	CommonService
+ @Author Name			    :	Rohit Puri
+ @Date					    :	Jan 3 , 2018
+ @Purpose				    :	This class defines Retrofit service to support MVVM arch
  */
-
 public class CommonService {
 
     private static Retrofit retrofit = null;
@@ -39,6 +41,12 @@ public class CommonService {
         return retrofit;
     }
 
+    /**
+     @Module class/module		:	doUserSignin
+     @Author Name			    :	Rohit Puri
+     @Date					    :	Jan 3 , 2018
+     @Purpose				    :	This method return the MutableLiveData for login
+     */
     public LiveData<UserResponse> doUserSignin(ProgressDialog progressDoalog,String aEmail, String aPassword,String aDeviceToken, String aDeviceType) {
 
         if (!progressDoalog.isShowing()) {
@@ -74,6 +82,12 @@ public class CommonService {
         return liveUserResponse;
     }
 
+    /**
+     @Module class/module		:	doUserSignup
+     @Author Name			    :	Rohit Puri
+     @Date					    :	Jan 5 , 2018
+     @Purpose				    :	This method return the MutableLiveData for sign up
+     */
     public LiveData<UserResponse> doUserSignup(ProgressDialog progressDoalog,String aName,String aEmail, String aPassword,String aDeviceToken, String aDeviceType) {
 
         if (!progressDoalog.isShowing()) {
@@ -109,6 +123,13 @@ public class CommonService {
         return liveUserResponse;
     }
 
+
+    /**
+     @Module class/module		:	doSocialConnect
+     @Author Name			    :	Rohit Puri
+     @Date					    :	Jan 9 , 2018
+     @Purpose				    :	This method return the MutableLiveData for social connect api
+     */
     public LiveData<UserResponse> doSocialConnect(ProgressDialog progressDoalog,String aName, String aEmail, String socialType, String socialId, String aDeviceToken, String aDeviceType) {
 
         if (!progressDoalog.isShowing()) {
@@ -145,6 +166,12 @@ public class CommonService {
         return liveUserResponse;
     }
 
+    /**
+     @Module class/module		:	doForgetPassword
+     @Author Name			    :	Rohit Puri
+     @Date					    :	Jan 9 , 2018
+     @Purpose				    :	This method return the MutableLiveData for forget password api
+     */
     public LiveData<UserResponse> doForgetPassword(String aEmail) {
 
 
@@ -171,6 +198,12 @@ public class CommonService {
         return liveUserResponse;
     }
 
+    /**
+     @Module class/module		:	doResetPassword
+     @Author Name			    :	Rohit Puri
+     @Date					    :	Jan 11 , 2018
+     @Purpose				    :	This method return the MutableLiveData for reset password api
+     */
     public LiveData<UserResponse> doResetPassword(ProgressDialog progressDoalog,UserResponse aUserResponse,String oldass, String newPass) {
 
         if (!progressDoalog.isShowing()) {

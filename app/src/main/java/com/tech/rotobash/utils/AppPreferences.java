@@ -7,9 +7,11 @@ import com.google.gson.Gson;
 import com.tech.rotobash.model.UserResponse;
 
 /**
- * Created by rohitpuri on 5/1/18.
+ @Module class/module		:	AppPreferences
+ @Author Name			    :	Rohit Puri
+ @Date					    :	Jan 11 , 2018
+ @Purpose				    :	This class contains app shared preferences only
  */
-
 public class AppPreferences {
 
     private static final String NAME_KEY = "used_data";

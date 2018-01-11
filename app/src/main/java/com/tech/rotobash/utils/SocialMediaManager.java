@@ -13,7 +13,12 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.tech.rotobash.interfaces.SocialMediaListners;
 
-
+/**
+ @Module class/module		:	SocialMediaManager
+ @Author Name			    :	Rohit Puri
+ @Date					    :	Jan 8 , 2018
+ @Purpose				    :	It supports Callback method of Facebook login and call methods for Social media listener
+ */
 public class SocialMediaManager {
 
     private Activity activity;

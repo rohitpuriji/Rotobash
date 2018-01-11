@@ -12,6 +12,12 @@ import com.tech.rotobash.utils.AppPreferences;
 import static com.tech.rotobash.utils.AppConstant.sPreferencePrivateKey;
 import static com.tech.rotobash.utils.AppConstant.sRememberKey;
 
+/**
+ @Module Name/Class		:	SplashActivity
+ @Author Name			:	Rohit Puri
+ @Date					:	Jan 1st , 2018
+ @Purpose				:	This class contains the splash screen
+ */
 public class SplashActivity extends AppCompatActivity {
 
     private static int SPLASH_TIME_OUT = 2000;

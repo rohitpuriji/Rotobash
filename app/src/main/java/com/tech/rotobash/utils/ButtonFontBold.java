@@ -5,9 +5,11 @@ import android.graphics.Typeface;
 import android.util.AttributeSet;
 
 /**
- * Created by rohitpuri on 4/1/18.
+ @Module class/module		:	ButtonFontBold
+ @Author Name			    :	Rohit Puri
+ @Date					    :	Jan 5 , 2018
+ @Purpose				    :	It supports font bold for button view
  */
-
 public class ButtonFontBold extends android.support.v7.widget.AppCompatButton {
     public ButtonFontBold(Context context) {
         super(context);

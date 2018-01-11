@@ -7,9 +7,11 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by rohitpuri on 2/1/18.
+ @Module class/module		:	UserResponse
+ @Author Name			    :	Rohit Puri
+ @Date					    :	Jan 11 , 2018
+ @Purpose				    :	This class defines the pojo for user related data coming in login, registration api
  */
-
 public class UserResponse implements Parcelable{
 
     @SerializedName("status")

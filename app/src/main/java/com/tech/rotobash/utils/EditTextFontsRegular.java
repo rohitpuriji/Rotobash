@@ -5,6 +5,12 @@ import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.widget.EditText;
 
+/**
+ @Module class/module		:	EditTextFontsRegular
+ @Author Name			    :	Rohit Puri
+ @Date					    :	Jan 6 , 2018
+ @Purpose				    :	It supports font regular for edittext view
+ */
 public class EditTextFontsRegular extends android.support.v7.widget.AppCompatEditText {
     public EditTextFontsRegular(Context context) {
         super(context);

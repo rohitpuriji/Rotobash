@@ -13,6 +13,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -33,10 +34,12 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.jakewharton.rxbinding.widget.RxTextView;
+import com.jakewharton.rxbinding.widget.TextViewAfterTextChangeEvent;
 import com.tech.rotobash.R;
 import com.tech.rotobash.Validations.FieldValidations;
 import com.tech.rotobash.ViewModel.UserViewModel;
 import com.tech.rotobash.databinding.ActivityLoginBinding;
+import com.tech.rotobash.databinding.LayoutForgetPasswordBinding;
 import com.tech.rotobash.interfaces.SocialMediaListners;
 import com.tech.rotobash.model.UserResponse;
 import com.tech.rotobash.utils.AppConstant;
@@ -50,6 +53,8 @@ import org.json.JSONObject;
 
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
+
+import rx.functions.Action1;
 
 import static com.tech.rotobash.utils.AppConstant.ePasswordReq;
 import static com.tech.rotobash.utils.AppConstant.sDeviceType;
@@ -133,6 +138,7 @@ public class AuthenticationActivity extends AppCompatActivity implements GoogleA
                     }
                 }));
 
+
         RxTextView.textChanges(mBinding.etRegPassword)
                 .debounce(mDelay, TimeUnit.MILLISECONDS)
                 .subscribe(textChanged -> runOnUiThread(() -> {
@@ -206,38 +212,37 @@ public class AuthenticationActivity extends AppCompatActivity implements GoogleA
      @Purpose				:	This method used to show the forget password dialog
      */
     private void showForgetDialog(){
-        final Dialog openDialog = new Dialog(AuthenticationActivity.this);
-        openDialog.setContentView(R.layout.layout_forget_password);
-        openDialog.setCancelable(true);
+        LayoutForgetPasswordBinding mBinding  = DataBindingUtil
+                .inflate(LayoutInflater.from(AuthenticationActivity.this), R.layout.layout_forget_password, null, false);
 
-        EditText etSubmitId = openDialog.findViewById(R.id.etSubmitId);
-        Button btnSubmit = openDialog.findViewById(R.id.btnSubmit);
-        Button btnCancel = openDialog.findViewById(R.id.btnCancel);
+        final Dialog openDialog = new Dialog(AuthenticationActivity.this);
+        openDialog.setContentView(mBinding.getRoot());
+        openDialog.setCancelable(true);
 
         AppUtils.showSoftKeyboard(openDialog);
 
-        btnCancel.setOnClickListener(v -> openDialog.dismiss());
+        mBinding.btnCancel.setOnClickListener(v -> openDialog.dismiss());
 
-        RxTextView.textChanges(etSubmitId)
+        RxTextView.textChanges(mBinding.etSubmitId)
                 .debounce(mDelay, TimeUnit.MILLISECONDS)
                 .subscribe(textChanged -> runOnUiThread(() -> {
-                    if (etSubmitId.getText().toString().length() > 0) {
-                        if (!AppUtils.isValidEmail(etSubmitId.getText().toString())) {
-                            etSubmitId.requestFocus();
-                            etSubmitId.setError(sEnterValidEmail);
+                    if (mBinding.etSubmitId.getText().toString().length() > 0) {
+                        if (!AppUtils.isValidEmail(mBinding.etSubmitId.getText().toString())) {
+                            mBinding.etSubmitId.requestFocus();
+                            mBinding.etSubmitId.setError(sEnterValidEmail);
                         }
                     }
                 }));
 
-        btnSubmit.setOnClickListener(view -> {
-            if (TextUtils.isEmpty(etSubmitId.getText().toString())){
-                etSubmitId.requestFocus();
-                etSubmitId.setError(sEnterEmail);
-            }else if (!AppUtils.isValidEmail(etSubmitId.getText().toString())){
-                etSubmitId.requestFocus();
-                etSubmitId.setError(sEnterValidEmail);
+        mBinding.btnSubmit.setOnClickListener(view -> {
+            if (TextUtils.isEmpty(mBinding.etSubmitId.getText().toString())){
+                mBinding.etSubmitId.requestFocus();
+                mBinding.etSubmitId.setError(sEnterEmail);
+            }else if (!AppUtils.isValidEmail(mBinding.etSubmitId.getText().toString())){
+                mBinding.etSubmitId.requestFocus();
+                mBinding.etSubmitId.setError(sEnterValidEmail);
             }else{
-                doForgetPassword(openDialog,etSubmitId.getText().toString());
+                doForgetPassword(openDialog,mBinding.etSubmitId.getText().toString());
             }
         });
 

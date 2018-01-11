@@ -1,12 +1,15 @@
 package com.tech.rotobash.utils;
 
 /**
- * This is app constant class use to hold all constant variable for this app
+ @Module class/module		:	AppConstant
+ @Author Name			    :	Rohit Puri
+ @Date					    :	Jan 11 , 2018
+ @Purpose				    :	This class contains app constants only
  */
 public class AppConstant {
 
 	private static String sDomain = "http://54.210.15.234/";
-	public static String sMainUrl = sDomain+"rotobash/apis/";
+	public static String sMainUrl = sDomain+"rotobashadmin/apis/";
 	public static final String sConnectionErr = "Please try again.";
 
 	public static final String sNoInternet = "Please check your internet connection.";

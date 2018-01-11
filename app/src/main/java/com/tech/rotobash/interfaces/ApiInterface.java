@@ -9,7 +9,10 @@ import retrofit2.http.Header;
 import retrofit2.http.POST;
 
 /**
- * Created by rohitpuri on 2/1/18.
+ @Module Interface		:	ApiInterface
+ @Author Name			:	Rohit Puri
+ @Date					:	Jan 4st , 2018
+ @Purpose				:	This interface defines the basic retrofit calls
  */
 
 public interface ApiInterface {

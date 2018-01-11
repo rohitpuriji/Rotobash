@@ -8,9 +8,11 @@ import com.tech.rotobash.RetrofitServices.CommonService;
 import com.tech.rotobash.model.UserResponse;
 
 /**
- * Created by rohitpuri on 3/1/18.
+ @Module class/module		:	FieldValidations
+ @Author Name			    :	Rohit Puri
+ @Date					    :	Jan 8 , 2018
+ @Purpose				    :	It contains methods to provide service for respective view
  */
-
 public class UserViewModel extends ViewModel {
 
     private LiveData<UserResponse> mLiveData;

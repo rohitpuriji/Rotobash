@@ -6,9 +6,11 @@ import android.util.AttributeSet;
 import android.widget.CheckBox;
 
 /**
- * Created by rohitpuri on 4/1/18.
+ @Module class/module		:	CheckboxRegular
+ @Author Name			    :	Rohit Puri
+ @Date					    :	Jan 5 , 2018
+ @Purpose				    :	It supports font regular for checkbox view
  */
-
 public class CheckboxRegular extends android.support.v7.widget.AppCompatCheckBox {
     public CheckboxRegular(Context context) {
         super(context);

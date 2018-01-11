@@ -6,12 +6,15 @@ import android.widget.Toast;
 
 import com.tech.rotobash.activites.AuthenticationActivity;
 import com.tech.rotobash.databinding.ActivityLoginBinding;
+import com.tech.rotobash.databinding.LayoutResetPasswordBinding;
 import com.tech.rotobash.utils.AppUtils;
 
 import static com.tech.rotobash.utils.AppConstant.ePasswordReq;
 import static com.tech.rotobash.utils.AppConstant.sAgreeTnc;
 import static com.tech.rotobash.utils.AppConstant.sEnterEmail;
 import static com.tech.rotobash.utils.AppConstant.sEnterName;
+import static com.tech.rotobash.utils.AppConstant.sEnterNewPassword;
+import static com.tech.rotobash.utils.AppConstant.sEnterOldPassword;
 import static com.tech.rotobash.utils.AppConstant.sEnterPassword;
 import static com.tech.rotobash.utils.AppConstant.sEnterValidEmail;
 import static com.tech.rotobash.utils.AppConstant.sEnterValidPassword;
@@ -19,9 +22,11 @@ import static com.tech.rotobash.utils.AppConstant.sPasswordMismatch;
 import static com.tech.rotobash.utils.AppConstant.sReEnterPassword;
 
 /**
- * Created by rohitpuri on 5/1/18.
+ @Module class/module		:	FieldValidations
+ @Author Name			    :	Rohit Puri
+ @Date					    :	Jan 8 , 2018
+ @Purpose				    :	It contains all validation methods using Binding
  */
-
 public class FieldValidations {
 
     public static boolean doLoginValidation(ActivityLoginBinding mBinding){
@@ -83,6 +88,28 @@ public class FieldValidations {
             Toast.makeText(appCompatActivity,sAgreeTnc,Toast.LENGTH_LONG).show();
             return false;
         }else {
+            return true;
+        }
+    }
+
+    public static boolean doResetValidation(LayoutResetPasswordBinding mBinding) {
+        if (TextUtils.isEmpty(mBinding.etOldPass.getText().toString())){
+            mBinding.etOldPass.requestFocus();
+            mBinding.etOldPass.setError(sEnterOldPassword);
+            return false;
+        }else if (TextUtils.isEmpty(mBinding.etNewPass.getText().toString())){
+            mBinding.etNewPass.requestFocus();
+            mBinding.etNewPass.setError(sEnterNewPassword);
+            return false;
+        }else if (mBinding.etNewPass.getText().toString().length() < 8){
+            mBinding.etNewPass.requestFocus();
+            mBinding.etNewPass.setError(sEnterValidPassword);
+            return false;
+        }else if(!AppUtils.validate(mBinding.etNewPass.getText().toString())){
+            mBinding.etNewPass.requestFocus();
+            mBinding.etNewPass.setError(ePasswordReq);
+            return false;
+        }else{
             return true;
         }
     }

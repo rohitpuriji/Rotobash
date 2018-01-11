@@ -20,9 +20,12 @@ import java.util.regex.Pattern;
 import static android.content.Context.INPUT_METHOD_SERVICE;
 
 /**
- * this is util function class . it contains handles all utilities method for
- * this application
+ @Module class/module		:	AppUtils
+ @Author Name			    :	Rohit Puri
+ @Date					    :	Jan 3 , 2018
+ @Purpose				    :	it contains handles all utilities method for this application
  */
+
 public class AppUtils {
 
 
