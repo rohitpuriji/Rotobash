@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">Rotobash</string>
     <string name="txt_login">LOGIN</string>
-    <string name="txt_register">START PLAYING</string>
+    <string name="txt_register">REGISTER</string>
+    <string name="txt_startPlaying">START PLAYING</string>
     <string name="txt_email">Email Id</string>
     <string name="txt_pass">Password</string>
     <string name="txt_remember_me">Remember me?</string>

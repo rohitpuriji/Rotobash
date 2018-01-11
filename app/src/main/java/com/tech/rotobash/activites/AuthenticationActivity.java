@@ -327,7 +327,7 @@ public class AuthenticationActivity extends AppCompatActivity implements GoogleA
         mBinding.etRegPassword.setHint(R.string.txt_password);
         mBinding.etConfirmPass.setHint(R.string.txt_con_password);
         mBinding.etName.setHint(R.string.txt_name);
-        mBinding.btnRegsiter.setText(R.string.txt_register);
+        mBinding.btnRegsiter.setText(R.string.txt_startPlaying);
         mBinding.rlLoginChk.setVisibility(View.GONE);
         mBinding.rlRegChk.setVisibility(View.VISIBLE);
         mBinding.tvLogin.setTypeface(mNormalTypeFace);
