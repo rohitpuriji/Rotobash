@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "784104617",
+    "firebase_url": "https://rotobash-9d9d9.firebaseio.com",
+    "project_id": "rotobash-9d9d9",
+    "storage_bucket": "rotobash-9d9d9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:784104617:android:061915165e071579",
+        "android_client_info": {
+          "package_name": "com.tech.rotobash"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "784104617-hhou0e6db0gjr0rc9r0j91v02ogoktii.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tech.rotobash",
+            "certificate_hash": "a9c1df0ed83465246eb6c205592db9135ac458b5"
+          }
+        },
+        {
+          "client_id": "784104617-3fq9mhg2e3md71lob9l8ksvvct7osvv8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBv3_E6bg1cpQHl_r6t44RO-Ik-x_kzRw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "784104617-3fq9mhg2e3md71lob9l8ksvvct7osvv8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

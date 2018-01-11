@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="180dp"
+            android:layout_marginLeft="@dimen/margin_login"
+            android:layout_marginRight="@dimen/margin_login"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/imgLogin"
+                    android:layout_width="wrap_content"
+                    android:background="@drawable/down_arrow"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content" />
+
+                <com.tech.rotobash.utils.TextFontsBold
+                    android:id="@+id/tvLogin"
+                    android:layout_width="120dp"
+                    android:textAllCaps="true"
+                    android:text="@string/txt_login"
+                    android:gravity="center"
+                    android:textColor="@color/color_white"
+                    android:textSize="@dimen/very_large_text"
+                    android:layout_height="wrap_content" />
+
+                <View
+                    android:id="@+id/viewLogin"
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:layout_marginRight="@dimen/margin_twenty"
+                    android:layout_marginTop="@dimen/margin_five"
+                    android:layout_marginBottom="@dimen/margin_five"
+                    android:layout_marginLeft="@dimen/margin_login"
+                    android:background="@android:color/white"
+                    android:layout_height="3dp"/>
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="1dp"
+                android:gravity="center"
+                android:layout_marginRight="@dimen/margin_login"
+                android:layout_marginTop="@dimen/margin_ten"
+                android:layout_marginBottom="@dimen/margin_ten"
+                android:layout_marginLeft="@dimen/padding_fifteen"
+                android:background="@android:color/white"
+                android:layout_height="match_parent"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/imgRegister"
+                    android:layout_width="wrap_content"
+                    android:visibility="gone"
+                    android:background="@drawable/down_arrow"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content" />
+
+                <com.tech.rotobash.utils.TextFontsRegular
+                    android:id="@+id/tvRegister"
+                    android:textAllCaps="true"
+                    android:layout_width="150dp"
+                    android:gravity="center"
+                    android:textColor="@color/color_white"
+                    android:text="@string/txt_register"
+                    android:textSize="@dimen/very_large_text"
+                    android:layout_height="wrap_content" />
+
+                <View
+                    android:id="@+id/viewRegister"
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    android:layout_marginRight="@dimen/margin_five"
+                    android:layout_marginTop="@dimen/margin_five"
+                    android:layout_marginBottom="@dimen/margin_five"
+                    android:layout_marginLeft="@dimen/margin_five"
+                    android:background="@android:color/white"
+                    android:layout_height="3dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <ScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:fillViewport="true"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:id="@+id/llRegister"
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:visibility="visible"
+                    android:layout_marginTop="@dimen/margin_login"
+                    android:layout_marginRight="@dimen/margin_login"
+                    android:layout_marginLeft="@dimen/margin_login"
+                    android:layout_height="wrap_content">
+
+                    <com.tech.rotobash.utils.EditTextFontsRegular
+                        android:id="@+id/etName"
+                        android:layout_marginRight="@dimen/margin_login"
+                        android:layout_marginLeft="@dimen/margin_login"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/txt_name"
+                        android:maxLength="30"
+                        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
+                        android:textColorHint="@color/color_white"
+                        android:textCursorDrawable="@null"
+                        android:paddingTop="@dimen/margin_line"
+                        android:paddingLeft="@dimen/padding_fifteen"
+                        android:paddingRight="@dimen/margin_line"
+                        android:paddingBottom="@dimen/margin_line"
+                        android:inputType="text"
+                        android:background="@drawable/edittext_bg_whiteline"
+                        android:gravity="left|center"
+                        android:singleLine="true"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/large_text" />
+
+                    <com.tech.rotobash.utils.EditTextFontsRegular
+                        android:id="@+id/etRegEmail"
+                        android:layout_marginTop="@dimen/margin_ten"
+                        android:layout_marginRight="@dimen/margin_login"
+                        android:layout_marginLeft="@dimen/margin_login"
+                        android:layout_width="match_parent"
+                        android:hint="@string/txt_id"
+                        android:textColorHint="@color/color_white"
+                        android:textCursorDrawable="@null"
+                        android:paddingTop="@dimen/margin_line"
+                        android:paddingLeft="@dimen/padding_fifteen"
+                        android:paddingRight="@dimen/margin_line"
+                        android:paddingBottom="@dimen/margin_line"
+                        android:layout_height="wrap_content"
+                        android:inputType="textEmailAddress"
+                        android:background="@drawable/edittext_bg_whiteline"
+                        android:gravity="left|center"
+                        android:singleLine="true"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/large_text" />
+
+                    <com.tech.rotobash.utils.EditTextFontsRegular
+                        android:id="@+id/etRegPassword"
+                        android:layout_marginRight="@dimen/margin_login"
+                        android:layout_marginLeft="@dimen/margin_login"
+                        android:layout_marginTop="@dimen/margin_ten"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/txt_password"
+                        android:textColorHint="@color/color_white"
+                        android:paddingTop="@dimen/margin_line"
+                        android:paddingLeft="@dimen/padding_fifteen"
+                        android:paddingRight="@dimen/margin_line"
+                        android:paddingBottom="@dimen/margin_line"
+                        android:textCursorDrawable="@null"
+                        android:inputType="textPassword"
+                        android:background="@drawable/edittext_bg_whiteline"
+                        android:gravity="left|center"
+                        android:singleLine="true"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/large_text" />
+
+                    <com.tech.rotobash.utils.EditTextFontsRegular
+                        android:id="@+id/etConfirmPass"
+                        android:layout_marginTop="@dimen/margin_ten"
+                        android:layout_marginRight="@dimen/margin_login"
+                        android:layout_marginLeft="@dimen/margin_login"
+                        android:layout_width="match_parent"
+                        android:hint="@string/txt_con_password"
+                        android:textColorHint="@color/color_white"
+                        android:textCursorDrawable="@null"
+                        android:paddingTop="@dimen/margin_line"
+                        android:paddingLeft="@dimen/padding_fifteen"
+                        android:paddingRight="@dimen/margin_line"
+                        android:paddingBottom="@dimen/margin_line"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:background="@drawable/edittext_bg_whiteline"
+                        android:gravity="left|center"
+                        android:singleLine="true"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/large_text" />
+
+                    <RelativeLayout
+                        android:id="@+id/rlRegBtn"
+                        android:layout_width="match_parent"
+                        android:layout_marginRight="@dimen/margin_login"
+                        android:layout_marginLeft="@dimen/margin_login"
+                        android:layout_marginTop="@dimen/margin_ten"
+                        android:background="@drawable/button_bg_whiteline"
+                        android:layout_height="wrap_content">
+
+                        <com.tech.rotobash.utils.TextFontsBold
+                            android:id="@+id/btnRegsiter"
+                            android:layout_width="wrap_content"
+                            android:text="@string/txt_register"
+                            android:textColor="@color/color_red"
+                            android:textSize="@dimen/large_text"
+                            android:paddingLeft="@dimen/padding_fifteen"
+                            android:textAllCaps="true"
+                            android:paddingRight="@dimen/margin_five"
+                            android:paddingBottom="@dimen/margin_ten"
+                            android:paddingTop="@dimen/margin_ten"
+                            android:layout_height="wrap_content" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:background="@drawable/arrow"
+                            android:layout_centerVertical="true"
+                            android:layout_toRightOf="@id/btnRegsiter"
+                            android:layout_height="wrap_content" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/rlLoginChk"
+                        android:visibility="gone"
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="@dimen/margin_login"
+                        android:layout_marginRight="@dimen/margin_ten"
+                        android:layout_marginLeft="@dimen/margin_five"
+                        android:layout_height="wrap_content">
+
+                        <com.tech.rotobash.utils.CheckboxRegular
+                            android:id="@+id/chkRemember"
+                            android:layout_width="wrap_content"
+                            android:textSize="@dimen/mid_text"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:text="@string/txt_remember_me"
+                            android:layout_marginRight="5dp"
+                            android:textColor="@color/color_white"
+                            app:buttonTint="@color/color_white"
+                            android:layout_height="wrap_content" />
+
+                        <com.tech.rotobash.utils.TextFontsRegular
+                            android:id="@+id/tvForget"
+                            android:layout_width="wrap_content"
+                            android:text="@string/txt_forget_pass"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:padding="@dimen/margin_five"
+                            android:textColor="@color/color_white"
+                            android:textSize="@dimen/mid_text"
+                            android:layout_height="wrap_content" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/rlRegChk"
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="@dimen/margin_login"
+                        android:layout_marginRight="@dimen/margin_login"
+                        android:layout_marginLeft="@dimen/margin_five"
+                        android:layout_height="wrap_content">
+
+                        <com.tech.rotobash.utils.CheckboxRegular
+                            android:id="@+id/chkTnC"
+                            android:layout_width="wrap_content"
+                            android:textSize="@dimen/mid_text"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/margin_five"
+                            android:text="@string/txt_agree"
+                            android:textColor="@color/color_white"
+                            app:buttonTint="@color/color_white"
+                            android:layout_height="wrap_content" />
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginTop="@dimen/margin_ten"
+                    android:layout_marginLeft="@dimen/margin_top_login"
+                    android:layout_marginRight="@dimen/margin_top_login"
+                    android:layout_height="wrap_content">
+
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_weight="0.6"
+                        android:gravity="center"
+                        android:layout_marginRight="@dimen/margin_five"
+                        android:layout_marginTop="@dimen/margin_five"
+                        android:layout_marginBottom="@dimen/margin_five"
+                        android:layout_marginLeft="@dimen/margin_login"
+                        android:background="@android:color/white"
+                        android:layout_height="2dp"/>
+
+                    <com.tech.rotobash.utils.TextFontsRegular
+                        android:id="@+id/tvWith"
+                        android:layout_width="0dp"
+                        android:layout_weight="1.4"
+                        android:text="@string/txt_or_login"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:textColor="@color/color_white"
+                        android:textSize="@dimen/large_mid_text"
+                        android:layout_height="wrap_content" />
+
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_weight="0.6"
+                        android:gravity="center"
+                        android:layout_marginRight="@dimen/margin_login"
+                        android:layout_marginTop="@dimen/margin_five"
+                        android:layout_marginBottom="@dimen/margin_five"
+                        android:layout_marginLeft="@dimen/margin_five"
+                        android:background="@android:color/white"
+                        android:layout_height="2dp"/>
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_margin="@dimen/margin_line"
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content">
+
+                    <Button
+                        android:id="@+id/btnGoogle"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_google"
+                        android:layout_marginLeft="@dimen/margin_five"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content" />
+
+                    <Button
+                        android:id="@+id/btnFb"
+                        android:background="@drawable/button_fb"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_marginRight="@dimen/margin_five"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                <TextView
+
+                    android:text="@string/txt_invite"
+                    android:textColor="@color/color_white"
+                    android:layout_width="match_parent"
+                    android:id="@+id/imgRefer"
+                    android:textSize="@dimen/mid_text"
+                    android:layout_marginLeft="@dimen/padding_twentyfive"
+                    android:layout_marginRight="@dimen/padding_twentyfive"
+                    android:gravity="center"
+                    android:layout_alignParentBottom="true"
+                    android:background="@drawable/footer"
+                    android:layout_height="@dimen/invite_box_size" />
+
+                </RelativeLayout>
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+</layout>

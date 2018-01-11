@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="margin_login">10dp</dimen>
+    <dimen name="large_text">16sp</dimen>
+    <dimen name="mid_text">14sp</dimen>
+    <dimen name="large_mid_text">17sp</dimen>
+
+    <dimen name="very_large_text">18sp</dimen>
+    <dimen name="small_text">12sp</dimen>
+    <dimen name="margin_line">8dp</dimen>
+    <dimen name="margin_five">5dp</dimen>
+    <dimen name="box_height">30dp</dimen>
+    <dimen name="margin_login_more">30dp</dimen>
+    <dimen name="margin_top_login">20dp</dimen>
+    <dimen name="margin_two">2dp</dimen>
+
+    <dimen name="padding_fifteen">15dp</dimen>
+    <dimen name="margin_twenty">20dp</dimen>
+    <dimen name="margin_ten">10dp</dimen>
+    <dimen name="padding_twentyfive">25dp</dimen>
+    <dimen name="invite_box_size">40dp</dimen>
+
+
+</resources>

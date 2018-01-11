@@ -1,0 +1,208 @@
+package com.tech.rotobash.RetrofitServices;
+
+import android.app.ProgressDialog;
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
+import android.util.Log;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.tech.rotobash.activites.AuthenticationActivity;
+import com.tech.rotobash.interfaces.ApiInterface;
+import com.tech.rotobash.model.UserResponse;
+import com.tech.rotobash.utils.AppPreferences;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.tech.rotobash.utils.AppConstant.sMainUrl;
+
+/**
+ * Created by rohitpuri on 3/1/18.
+ */
+
+public class CommonService {
+
+    private static Retrofit retrofit = null;
+
+    public static Retrofit getRetrofitClient() {
+        Gson gson = new GsonBuilder() .setLenient() .create();
+        if (retrofit == null) {
+            retrofit = new Retrofit.Builder()
+                    .baseUrl(sMainUrl)
+                    .addConverterFactory(GsonConverterFactory.create(gson))
+                    .build();
+        }
+        return retrofit;
+    }
+
+    public LiveData<UserResponse> doUserSignin(ProgressDialog progressDoalog,String aEmail, String aPassword,String aDeviceToken, String aDeviceType) {
+
+        if (!progressDoalog.isShowing()) {
+            progressDoalog.show();
+        }
+
+        final MutableLiveData<UserResponse> liveUserResponse = new MutableLiveData<>();
+
+        getRetrofitClient()
+                .create(ApiInterface.class)
+                .signin(aEmail,aPassword,aDeviceToken,aDeviceType)
+                .enqueue(new Callback<UserResponse>(){
+
+            @Override
+            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                Log.e("on response :",response.body().getMessage());
+                if (progressDoalog.isShowing()) {
+                    progressDoalog.dismiss();
+                }
+                UserResponse userResponse = response.body();
+                liveUserResponse.setValue(userResponse);
+            }
+
+            @Override
+            public void onFailure(Call<UserResponse> call, Throwable t) {
+                Log.e("on Failure :","retrofit error");
+                if (progressDoalog.isShowing()) {
+                    progressDoalog.dismiss();
+                }
+            }
+        });
+
+        return liveUserResponse;
+    }
+
+    public LiveData<UserResponse> doUserSignup(ProgressDialog progressDoalog,String aName,String aEmail, String aPassword,String aDeviceToken, String aDeviceType) {
+
+        if (!progressDoalog.isShowing()) {
+            progressDoalog.show();
+        }
+
+        final MutableLiveData<UserResponse> liveUserResponse = new MutableLiveData<>();
+
+        getRetrofitClient()
+                .create(ApiInterface.class)
+                .signup(aName,aEmail,aPassword,aDeviceToken,aDeviceType)
+                .enqueue(new Callback<UserResponse>(){
+
+                    @Override
+                    public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                        Log.e("on response :",response.body().getMessage());
+                        if (progressDoalog.isShowing()) {
+                            progressDoalog.dismiss();
+                        }
+                        UserResponse userResponse = response.body();
+                        liveUserResponse.setValue(userResponse);
+                    }
+
+                    @Override
+                    public void onFailure(Call<UserResponse> call, Throwable t) {
+                        Log.e("on Failure :","retrofit error");
+                        if (progressDoalog.isShowing()) {
+                            progressDoalog.dismiss();
+                        }
+                    }
+                });
+
+        return liveUserResponse;
+    }
+
+    public LiveData<UserResponse> doSocialConnect(ProgressDialog progressDoalog,String aName, String aEmail, String socialType, String socialId, String aDeviceToken, String aDeviceType) {
+
+        if (!progressDoalog.isShowing()) {
+            progressDoalog.show();
+        }
+
+        final MutableLiveData<UserResponse> liveUserResponse = new MutableLiveData<>();
+
+        getRetrofitClient()
+                .create(ApiInterface.class)
+                .socialConnect(aName,aEmail,socialId,socialType,aDeviceToken,aDeviceType)
+                .enqueue(new Callback<UserResponse>(){
+
+                    @Override
+                    public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                        Log.e("on response :",response.body().getMessage());
+                        if (progressDoalog.isShowing()) {
+                            progressDoalog.dismiss();
+                        }
+                        UserResponse userResponse = response.body();
+                        liveUserResponse.setValue(userResponse);
+                    }
+
+                    @Override
+                    public void onFailure(Call<UserResponse> call, Throwable t) {
+                        Log.e("on Failure :","retrofit error"+t.getLocalizedMessage());
+                        Log.e("on Failure :","retrofit error"+t.getMessage());
+                        if (progressDoalog.isShowing()) {
+                            progressDoalog.dismiss();
+                        }
+                    }
+                });
+
+        return liveUserResponse;
+    }
+
+    public LiveData<UserResponse> doForgetPassword(String aEmail) {
+
+
+        final MutableLiveData<UserResponse> liveUserResponse = new MutableLiveData<>();
+
+        getRetrofitClient()
+                .create(ApiInterface.class)
+                .forgetPassword(aEmail)
+                .enqueue(new Callback<UserResponse>(){
+
+                    @Override
+                    public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                        Log.e("on response :",response.body().getMessage());
+                        UserResponse userResponse = response.body();
+                        liveUserResponse.setValue(userResponse);
+                    }
+
+                    @Override
+                    public void onFailure(Call<UserResponse> call, Throwable t) {
+                        Log.e("on Failure :","retrofit error"+t.getLocalizedMessage());
+                    }
+                });
+
+        return liveUserResponse;
+    }
+
+    public LiveData<UserResponse> doResetPassword(ProgressDialog progressDoalog,UserResponse aUserResponse,String oldass, String newPass) {
+
+        if (!progressDoalog.isShowing()) {
+            progressDoalog.show();
+        }
+        final MutableLiveData<UserResponse> liveUserResponse = new MutableLiveData<>();
+
+        getRetrofitClient()
+                .create(ApiInterface.class)
+                .resetPassword(aUserResponse.getResponse().getAccessToken(),aUserResponse.getResponse().getUserId(),oldass,newPass )
+                .enqueue(new Callback<UserResponse>(){
+
+                    @Override
+                    public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                        Log.e("on response :",response.body().getMessage());
+                        if (progressDoalog.isShowing()) {
+                            progressDoalog.dismiss();
+                        }
+                        UserResponse userResponse = response.body();
+                        liveUserResponse.setValue(userResponse);
+                    }
+
+                    @Override
+                    public void onFailure(Call<UserResponse> call, Throwable t) {
+                        Log.e("on Failure :","retrofit error"+t.getLocalizedMessage());
+                        if (progressDoalog.isShowing()) {
+                            progressDoalog.dismiss();
+                        }
+                    }
+                });
+
+        return liveUserResponse;
+    }
+
+}
