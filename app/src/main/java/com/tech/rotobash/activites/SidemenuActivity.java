@@ -42,9 +42,9 @@ import static com.tech.rotobash.utils.AppConstant.sPleaseWait;
 public class SidemenuActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private ActivitySidemenuBinding mBinding;
-    private UserResponse mUserResponse;
+    public ActivitySidemenuBinding mBinding;
     private ProgressDialog progressDoalog;
+    private UserResponse mUserResponse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,25 +52,23 @@ public class SidemenuActivity extends AppCompatActivity
 
         initData();
 
-        mBinding.included.imgMenu.setOnClickListener(view -> {
-            if (mBinding.drawerLayout.isDrawerOpen(Gravity.RIGHT)) {
-                mBinding.drawerLayout.closeDrawer(Gravity.RIGHT);
-            } else {
-                mBinding.drawerLayout.openDrawer(Gravity.RIGHT);
-            }
-        });
-
-        mBinding.included.includedContent.btnCurrent.setOnClickListener(view -> {
-            mBinding.included.includedContent.swipeContainerCurrent.setVisibility(View.VISIBLE);
-            mBinding.included.includedContent.swipeContainerUpcoming.setVisibility(View.GONE);
-        });
-
-
-        mBinding.included.includedContent.btnComing.setOnClickListener(view -> {
-            mBinding.included.includedContent.swipeContainerCurrent.setVisibility(View.GONE);
-            mBinding.included.includedContent.swipeContainerUpcoming.setVisibility(View.VISIBLE);
-        });
     }
+
+    /**
+     * @Module Name/Class		:	openCloseDrawer
+     * @Author Name            :	Sachin Arora
+     * @Date :	Jan 8rd , 2018
+     * @Purpose :	This method will open close drawer
+     */
+    public void openCloseDrawer() {
+
+        if (mBinding.drawerLayout.isDrawerOpen(Gravity.RIGHT)) {
+            mBinding.drawerLayout.closeDrawer(Gravity.RIGHT);
+        } else {
+            mBinding.drawerLayout.openDrawer(Gravity.RIGHT);
+        }
+    }
+
 
     /**
      * @Module Name/Class		:	initData
@@ -81,7 +79,6 @@ public class SidemenuActivity extends AppCompatActivity
     private void initData() {
 
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_sidemenu);
-        mUserResponse = getIntent().getExtras().getParcelable("UserResponse");
         AppPreferences mPref = new AppPreferences(SidemenuActivity.this);
 
         mBinding.navigationView.setNavigationItemSelectedListener(this);
@@ -94,22 +91,11 @@ public class SidemenuActivity extends AppCompatActivity
         progressDoalog.setMessage(sPleaseWait);
         progressDoalog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 
-        setSupportActionBar(mBinding.included.toolbar);
-
-        if (Network.isAvailable(SidemenuActivity.this)) {
-            loadCurrentMatches();
-        } else {
-            Toast.makeText(SidemenuActivity.this, AppConstant.sNoInternet, Toast.LENGTH_LONG).show();
-        }
+        // setSupportActionBar(mBinding.included.toolbar);
     }
 
-    /**
-     * @Module Name/Class		:	loadCurrentMatches
-     * @Author Name            :	Rohit Puri
-     * @Date :	Jan 11th , 2018
-     * @Purpose :	This method loads the current matches from api
-     */
-    private void loadCurrentMatches() {
+    public void setDataToParentClass(UserResponse mUserResponse) {
+        this.mUserResponse = mUserResponse;
 
     }
 

@@ -35,5 +35,6 @@
     <string name="txt_current">CURRENT</string>
     <string name="txt_coming">UPCOMING</string>
     <string name="txt_all">All Matches</string>
+    <string name="title_activity_matchList">MatchListActivity</string>
 
 </resources>

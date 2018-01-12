@@ -10,9 +10,14 @@
         android:fitsSystemWindows="true"
         tools:openDrawer="right">
 
-        <include
-            android:id="@+id/included"
-            layout="@layout/app_bar_sidemenu"
+        <!--<include-->
+        <!--android:id="@+id/included"-->
+        <!--layout="@layout/activity_match_list"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent" />-->
+
+        <FrameLayout
+            android:id="@+id/content_frame"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
