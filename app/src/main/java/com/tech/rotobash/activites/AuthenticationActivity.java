@@ -451,7 +451,7 @@ public class AuthenticationActivity extends AppCompatActivity implements GoogleA
     }
 
     private void moveScreen(UserResponse aUserResponse) {
-        Intent i = new Intent(AuthenticationActivity.this, SidemenuActivity.class);
+        Intent i = new Intent(AuthenticationActivity.this, MatchListActivity.class);
         i.putExtra("UserResponse", aUserResponse);
         startActivity(i);
         finish();

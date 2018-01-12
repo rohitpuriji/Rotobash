@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -18,8 +17,6 @@ import android.widget.Toast;
 
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.tech.rotobash.R;
-import com.tech.rotobash.Validations.ViewsVisibilites;
-import com.tech.rotobash.ViewModel.MatchesViewModel;
 import com.tech.rotobash.ViewModel.UserViewModel;
 import com.tech.rotobash.databinding.ActivitySidemenuBinding;
 import com.tech.rotobash.databinding.LayoutResetPasswordBinding;
@@ -38,17 +35,16 @@ import static com.tech.rotobash.utils.AppConstant.sPleaseWait;
 
 /**
  * @Module Name/Class		:	SidemenuActivity
- * @Author Name            :	Rohit Puri
- * @Date :	Jan 8rd , 2018
- * @Purpose :	This class contains both sidemenu screen and main matches contents
+ * @Author Name             :	Rohit Puri
+ * @Date                    :	Jan 8rd , 2018
+ * @Purpose                 :	This class contains both sidemenu screen and main matches contents
  */
 public class SidemenuActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private ActivitySidemenuBinding mBinding;
+    public ActivitySidemenuBinding mBinding;
     private UserResponse mUserResponse;
     private ProgressDialog progressDoalog;
-    private int mMatchType = 2,mOffset=1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,24 +52,11 @@ public class SidemenuActivity extends AppCompatActivity
 
         initData();
 
-        mBinding.included.imgMenu.setOnClickListener(view -> {
-            if (mBinding.drawerLayout.isDrawerOpen(Gravity.RIGHT)) {
-                mBinding.drawerLayout.closeDrawer(Gravity.RIGHT);
-            } else {
-                mBinding.drawerLayout.openDrawer(Gravity.RIGHT);
-            }
-        });
+    }
 
-        mBinding.included.includedContent.btnCurrent.setOnClickListener(view -> {
-            ViewsVisibilites.showCurrentMatchesView(SidemenuActivity.this,mBinding);
-            mMatchType = 2;
-        });
+    public void setDataToParentClass(UserResponse mUserResponse) {
+        this.mUserResponse = mUserResponse;
 
-
-        mBinding.included.includedContent.btnComing.setOnClickListener(view -> {
-            ViewsVisibilites.showComingMatchesView(SidemenuActivity.this,mBinding);
-            mMatchType = 1;
-        });
     }
 
     /**
@@ -85,44 +68,17 @@ public class SidemenuActivity extends AppCompatActivity
     private void initData() {
 
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_sidemenu);
-        mUserResponse = getIntent().getExtras().getParcelable("UserResponse");
         AppPreferences mPref = new AppPreferences(SidemenuActivity.this);
-
         mBinding.navigationView.setNavigationItemSelectedListener(this);
         if (mPref.getPreferenceSocial()) {
             mBinding.navigationView.getMenu().findItem(R.id.nav_reset).setVisible(false);
         }
-
         progressDoalog = new ProgressDialog(SidemenuActivity.this);
         progressDoalog.setMax(100);
         progressDoalog.setMessage(sPleaseWait);
         progressDoalog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-
-        setSupportActionBar(mBinding.included.toolbar);
-
-        if (Network.isAvailable(SidemenuActivity.this)) {
-            loadCurrentMatches(mMatchType+"",mOffset+"");
-        } else {
-            Toast.makeText(SidemenuActivity.this, AppConstant.sNoInternet, Toast.LENGTH_LONG).show();
-        }
     }
 
-    /**
-     * @Module Name/Class		:	loadCurrentMatches
-     * @Author Name            :	Rohit Puri
-     * @Date :	Jan 11th , 2018
-     * @Purpose :	This method loads the current matches from api
-     */
-    private void loadCurrentMatches(String aMatchType,String aOffset) {
-
-        MatchesViewModel mMatchesViewModel = ViewModelProviders.of(this).get(MatchesViewModel.class);
-
-        mMatchesViewModel.getMatches(progressDoalog, mUserResponse, aMatchType, aOffset)
-                .observe(this, userResponse -> {
-                    Toast.makeText(SidemenuActivity.this, userResponse.getMessage(), Toast.LENGTH_LONG).show();
-
-                });
-    }
 
     @Override
     public void onBackPressed() {

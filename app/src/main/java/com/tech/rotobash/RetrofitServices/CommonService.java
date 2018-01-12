@@ -261,8 +261,10 @@ public class CommonService {
                     public void onResponse(Call<MatchesResponse> call, Response<MatchesResponse> aMatchesResponse) {
                         Log.e("on getAccessToken :",aUserResponse.getResponse().getAccessToken());
                         Log.e("on getUserId :",aUserResponse.getResponse().getUserId());
-
+                        Log.e("on type :",aType);
+                        Log.e("on offset :",aOffset);
                         Log.e("on response :",aMatchesResponse.body().getStatus());
+                        Log.e("on response :",aMatchesResponse.body().getMessage());
                         if (progressDoalog.isShowing()) {
                             progressDoalog.dismiss();
                         }

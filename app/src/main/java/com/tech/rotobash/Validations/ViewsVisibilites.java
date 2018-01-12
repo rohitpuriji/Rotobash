@@ -7,9 +7,7 @@ import android.view.View;
 
 import com.tech.rotobash.R;
 import com.tech.rotobash.databinding.ActivityLoginBinding;
-import com.tech.rotobash.databinding.ActivitySidemenuBinding;
-import com.tech.rotobash.utils.TextFontsBold;
-import com.tech.rotobash.utils.TextFontsRegular;
+import com.tech.rotobash.databinding.ActivityMatchListBinding;
 
 import static com.tech.rotobash.utils.AppConstant.sLoginWith;
 import static com.tech.rotobash.utils.AppConstant.sRegisterWith;
@@ -85,22 +83,22 @@ public class ViewsVisibilites {
         mBinding.etConfirmPass.setText("");
     }
 
-    public static void showCurrentMatchesView(AppCompatActivity aAppCompatActivity,ActivitySidemenuBinding mBinding){
-        mBinding.included.includedContent.swipeContainerCurrent.setVisibility(View.VISIBLE);
-        mBinding.included.includedContent.swipeContainerUpcoming.setVisibility(View.GONE);
-        mBinding.included.includedContent.btnCurrent.setBackgroundColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_current_gray));
-        mBinding.included.includedContent.btnComing.setBackgroundColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_white));
-        mBinding.included.includedContent.btnCurrent.setTextColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_red));
-        mBinding.included.includedContent.btnComing.setTextColor(ContextCompat.getColor(aAppCompatActivity, R.color.light_grey));
+    public static void showCurrentMatchesView(AppCompatActivity aAppCompatActivity,ActivityMatchListBinding mBinding){
+        mBinding.includedContent.swipeContainerCurrent.setVisibility(View.VISIBLE);
+        mBinding.includedContent.swipeContainerUpcoming.setVisibility(View.GONE);
+        mBinding.includedContent.btnCurrent.setBackgroundColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_current_gray));
+        mBinding.includedContent.btnComing.setBackgroundColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_white));
+        mBinding.includedContent.btnCurrent.setTextColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_red));
+        mBinding.includedContent.btnComing.setTextColor(ContextCompat.getColor(aAppCompatActivity, R.color.light_grey));
 
     }
 
-    public static void showComingMatchesView(AppCompatActivity aAppCompatActivity,ActivitySidemenuBinding mBinding){
-        mBinding.included.includedContent.swipeContainerCurrent.setVisibility(View.GONE);
-        mBinding.included.includedContent.swipeContainerUpcoming.setVisibility(View.VISIBLE);
-        mBinding.included.includedContent.btnCurrent.setBackgroundColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_white));
-        mBinding.included.includedContent.btnComing.setBackgroundColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_current_gray));
-        mBinding.included.includedContent.btnCurrent.setTextColor(ContextCompat.getColor(aAppCompatActivity, R.color.light_grey));
-        mBinding.included.includedContent.btnComing.setTextColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_red));
+    public static void showComingMatchesView(AppCompatActivity aAppCompatActivity,ActivityMatchListBinding mBinding){
+        mBinding.includedContent.swipeContainerCurrent.setVisibility(View.GONE);
+        mBinding.includedContent.swipeContainerUpcoming.setVisibility(View.VISIBLE);
+        mBinding.includedContent.btnCurrent.setBackgroundColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_white));
+        mBinding.includedContent.btnComing.setBackgroundColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_current_gray));
+        mBinding.includedContent.btnCurrent.setTextColor(ContextCompat.getColor(aAppCompatActivity, R.color.light_grey));
+        mBinding.includedContent.btnComing.setTextColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_red));
     }
 }

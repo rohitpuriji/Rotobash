@@ -61,7 +61,7 @@
         <activity android:name=".activites.WelcomeActivity" />
 
         <activity
-            android:name=".activites.SidemenuActivity"
+            android:name=".activites.MatchListActivity"
             android:label="@string/title_activity_sidemenu"
             android:theme="@style/AppTheme"></activity>
     </application>

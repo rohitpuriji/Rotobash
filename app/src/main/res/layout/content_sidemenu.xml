@@ -7,7 +7,7 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context="com.tech.rotobash.activites.SidemenuActivity"
-        tools:showIn="@layout/app_bar_sidemenu">
+        tools:showIn="@layout/activity_match_list">
 
 
         <com.tech.rotobash.utils.ButtonFontBold

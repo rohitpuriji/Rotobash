@@ -3,124 +3,118 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <android.support.constraint.ConstraintLayout
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view"
+        android:layout_gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        card_view:cardCornerRadius="4dp">
 
-        <ImageView
-            android:id="@+id/imgTeam1"
-            android:layout_width="95dp"
-            android:layout_height="100dp"
-            android:layout_marginBottom="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/team1"
-            android:layout_marginLeft="16dp" />
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/imgTeam2"
-            android:layout_width="95dp"
-            android:layout_height="100dp"
-            android:layout_marginBottom="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/team2"
-            android:layout_marginRight="16dp" />
+            <ImageView
+                android:id="@+id/imgTeam1"
+                android:layout_width="95dp"
+                android:layout_height="100dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/team1"
+                android:layout_marginLeft="16dp" />
 
-        <com.tech.rotobash.utils.TextFontsRegular
-            android:id="@+id/tvMatchName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="22dp"
-            android:layout_marginEnd="45dp"
-            android:layout_marginStart="45dp"
-            android:layout_marginTop="16dp"
-            android:text="IPL T20"
-            android:textColor="@color/light_grey"
-            android:textSize="@dimen/mid_text"
-            app:layout_constraintBottom_toTopOf="@+id/tvTeam1Name"
-            app:layout_constraintEnd_toStartOf="@+id/imgTeam2"
-            app:layout_constraintStart_toEndOf="@+id/imgTeam1"
-            app:layout_constraintTop_toTopOf="parent" />
+            <ImageView
+                android:id="@+id/imgTeam2"
+                android:layout_width="95dp"
+                android:layout_height="99dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/team2"
+                android:layout_marginRight="16dp" />
 
-        <com.tech.rotobash.utils.TextFontsRegular
-            android:id="@+id/tvTeam1Name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="27dp"
-            android:layout_marginEnd="12dp"
-            android:layout_marginStart="23dp"
-            android:layout_marginTop="22dp"
-            android:text="KKR"
-            android:textColor="@color/dark_grey"
-            android:textSize="@dimen/mid_text"
-            app:layout_constraintBottom_toTopOf="@+id/tvTimeLeft"
-            app:layout_constraintEnd_toStartOf="@+id/tvTeamVs"
-            app:layout_constraintStart_toEndOf="@+id/imgTeam1"
-            app:layout_constraintTop_toBottomOf="@+id/tvMatchName"
-            android:layout_marginRight="12dp"
-            android:layout_marginLeft="23dp" />
+            <com.tech.rotobash.utils.TextFontsRegular
+                android:id="@+id/tvMatchName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="IPL T20"
+                android:textColor="@color/light_grey"
+                android:maxLength="20"
+                android:textSize="@dimen/mid_text"
+                app:layout_constraintBottom_toTopOf="@+id/tvTeam1Name"
+                app:layout_constraintEnd_toStartOf="@+id/imgTeam2"
+                app:layout_constraintStart_toEndOf="@+id/imgTeam1"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteX="157dp"
+                tools:layout_editor_absoluteY="25dp" />
 
-        <com.tech.rotobash.utils.TextFontsRegular
-            android:id="@+id/tvTeamVs"
-            android:layout_width="17dp"
-            android:layout_height="19dp"
-            android:layout_marginBottom="11dp"
-            android:layout_marginEnd="13dp"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="22dp"
-            android:text="VS"
-            android:textSize="@dimen/mid_text"
-            app:layout_constraintBottom_toTopOf="@+id/tvTimeLeft"
-            app:layout_constraintEnd_toStartOf="@+id/tvTeam2Name"
-            app:layout_constraintStart_toEndOf="@+id/tvTeam1Name"
-            app:layout_constraintTop_toBottomOf="@+id/tvMatchName"
-            android:layout_marginRight="13dp"
-            android:layout_marginLeft="12dp" />
+            <com.tech.rotobash.utils.TextFontsRegular
+                android:id="@+id/tvTeam1Name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="KKR"
+                android:textColor="@color/dark_grey"
+                android:textSize="@dimen/mid_text"
+                app:layout_constraintBottom_toTopOf="@+id/tvTimeLeft"
+                app:layout_constraintEnd_toStartOf="@+id/tvTeamVs"
+                app:layout_constraintStart_toEndOf="@+id/imgTeam1"
+                app:layout_constraintTop_toBottomOf="@+id/tvMatchName"
+                tools:layout_editor_absoluteX="134dp"
+                tools:layout_editor_absoluteY="69dp" />
 
-        <com.tech.rotobash.utils.TextFontsRegular
-            android:id="@+id/tvTeam2Name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="11dp"
-            android:layout_marginEnd="22dp"
-            android:layout_marginStart="13dp"
-            android:layout_marginTop="22dp"
-            android:text="CSK"
-            android:textColor="@color/dark_grey"
-            android:textSize="@dimen/mid_text"
-            app:layout_constraintBottom_toTopOf="@+id/tvTimeLeft"
-            app:layout_constraintEnd_toStartOf="@+id/imgTeam2"
-            app:layout_constraintStart_toEndOf="@+id/tvTeamVs"
-            app:layout_constraintTop_toBottomOf="@+id/tvMatchName"
-            android:layout_marginRight="22dp"
-            android:layout_marginLeft="13dp" />
+            <com.tech.rotobash.utils.TextFontsRegular
+                android:id="@+id/tvTeamVs"
+                android:layout_width="17dp"
+                android:layout_height="19dp"
+                android:text="VS"
+                android:textSize="@dimen/mid_text"
+                app:layout_constraintBottom_toTopOf="@+id/tvTimeLeft"
+                app:layout_constraintEnd_toStartOf="@+id/tvTeam2Name"
+                app:layout_constraintStart_toEndOf="@+id/tvTeam1Name"
+                app:layout_constraintTop_toBottomOf="@+id/tvMatchName"
+                tools:layout_editor_absoluteX="167dp"
+                tools:layout_editor_absoluteY="76dp" />
 
-        <com.tech.rotobash.utils.TextFontsRegular
-            android:id="@+id/tvTimeLeft"
-            android:layout_width="wrap_content"
-            android:layout_height="28dp"
-            android:layout_marginBottom="41dp"
-            android:layout_marginEnd="22dp"
-            android:layout_marginStart="23dp"
-            android:layout_marginTop="11dp"
-            android:background="@drawable/timer_bg_greyline"
-            android:drawableLeft="@drawable/timer_red"
-            android:drawablePadding="@dimen/margin_five"
-            android:gravity="center_vertical"
-            android:paddingHorizontal="@dimen/margin_five"
-            android:text="135:23:00"
-            android:textColor="@color/color_red"
-            android:textSize="@dimen/mid_text"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/imgTeam2"
-            app:layout_constraintStart_toEndOf="@+id/imgTeam1"
-            app:layout_constraintTop_toBottomOf="@+id/tvTeam1Name" />
-    </android.support.constraint.ConstraintLayout>
+            <com.tech.rotobash.utils.TextFontsRegular
+                android:id="@+id/tvTeam2Name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CSK"
+                android:textColor="@color/dark_grey"
+                android:textSize="@dimen/mid_text"
+                app:layout_constraintBottom_toTopOf="@+id/tvTimeLeft"
+                app:layout_constraintEnd_toStartOf="@+id/imgTeam2"
+                app:layout_constraintStart_toEndOf="@+id/tvTeamVs"
+                app:layout_constraintTop_toBottomOf="@+id/tvMatchName"
+                tools:layout_editor_absoluteX="200dp"
+                tools:layout_editor_absoluteY="76dp" />
+
+            <com.tech.rotobash.utils.TextFontsRegular
+                android:id="@+id/tvTimeLeft"
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:background="@drawable/timer_bg_greyline"
+                android:drawableLeft="@drawable/timer_red"
+                android:drawablePadding="@dimen/margin_five"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="@dimen/margin_five"
+                android:text="135:23:00"
+                android:textColor="@color/color_red"
+                android:textSize="@dimen/mid_text"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/imgTeam2"
+                app:layout_constraintStart_toEndOf="@+id/imgTeam1"
+                app:layout_constraintTop_toBottomOf="@+id/tvTeam1Name"
+                tools:layout_editor_absoluteX="134dp"
+                tools:layout_editor_absoluteY="153dp" />
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v7.widget.CardView>
 </layout>

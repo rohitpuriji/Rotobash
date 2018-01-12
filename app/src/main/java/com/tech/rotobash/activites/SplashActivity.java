@@ -33,7 +33,7 @@ public class SplashActivity extends AppCompatActivity {
         mUserResponse = mAppPreferences.getUserData();
         new Handler().postDelayed(() -> {
             if (mAppPreferences.getPreferenceBoolean()){
-                i = new Intent(SplashActivity.this, SidemenuActivity.class);
+                i = new Intent(SplashActivity.this, MatchListActivity.class);
                 i.putExtra("UserResponse",mUserResponse);
 
             }else{
