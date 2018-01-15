@@ -10,20 +10,25 @@ import com.tech.rotobash.R;
 import com.tech.rotobash.databinding.ListItemsFilterBinding;
 import com.tech.rotobash.interfaces.MatchItemInterface;
 import com.tech.rotobash.model.LeagueContestData;
+import com.tech.rotobash.model.MatchesData;
 
 import java.util.ArrayList;
 
 public class ContestsFilterAdapter extends RecyclerView.Adapter<ContestsFilterAdapter.MyViewHolder> {
 
     private ArrayList<LeagueContestData> leaguesArrayList;
+    private ArrayList<String> payArrayList;
     private String mContests;
     private MatchItemInterface mMatchInterface;
+    private ArrayList<MatchesData> matchDataList;
 
-    public ContestsFilterAdapter(String mWhichFilter, ArrayList<LeagueContestData> leaguesList, MatchItemInterface matchItemInterface) {
+    public ContestsFilterAdapter(String mWhichFilter, ArrayList<LeagueContestData> leaguesList, ArrayList<String> payList, ArrayList<MatchesData> matchesDataArrayList, MatchItemInterface matchItemInterface) {
 
         mContests = mWhichFilter;
         leaguesArrayList = leaguesList;
         mMatchInterface = matchItemInterface;
+        payArrayList = payList;
+        matchDataList = matchesDataArrayList;
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
@@ -62,6 +67,20 @@ public class ContestsFilterAdapter extends RecyclerView.Adapter<ContestsFilterAd
                 mMatchInterface.onItemClick(position);
 
             });
+
+        } else if (mContests.equalsIgnoreCase("Select Pay")) {
+            viewDataBinding.tvItemName.setText(payArrayList.get(position));
+            viewDataBinding.tvItemName.setOnClickListener(v -> {
+                mMatchInterface.onItemClick(position);
+
+            });
+
+        } else {
+            viewDataBinding.tvItemName.setText(new StringBuilder().append(matchDataList.get(position).getTeam1Name()).append(" VS ").append(matchDataList.get(position).getTeam2Name()).toString());
+            viewDataBinding.tvItemName.setOnClickListener(v -> {
+                mMatchInterface.onItemClick(position);
+
+            });
         }
     }
 
@@ -70,8 +89,10 @@ public class ContestsFilterAdapter extends RecyclerView.Adapter<ContestsFilterAd
 
         if (mContests.equalsIgnoreCase("Select League"))
             return leaguesArrayList.size();
+        else if (mContests.equalsIgnoreCase("Select Pay"))
+            return payArrayList.size();
 
-        return leaguesArrayList.size();
+        return matchDataList.size();
 
     }
 }

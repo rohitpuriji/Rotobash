@@ -40,7 +40,7 @@
     <string name="txt_kkr_vs_rcb">KKR VS RCB</string>
     <string name="txt_time">2:34:56</string>
     <string name="txt_select_league">Select League</string>
-    <string name="txt_select_play">Select Pay</string>
+    <string name="txt_select_pay">Select Pay</string>
     <string name="active">ACTIVE</string>
     <string name="inActive">INACTIVE</string>
     <string name="txt_total_prize">Total Prize</string>
@@ -51,5 +51,6 @@
     <string name="txt_winners">3000 Winners</string>
     <string name="txt_join">Join</string>
     <string name="Rs">\u20B9</string>
+    <string name="txt_match_name">Match Name</string>
 
 </resources>
