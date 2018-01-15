@@ -34,7 +34,6 @@ import static com.tech.rotobash.utils.AppConstant.sMainUrl;
 public class CommonService {
 
     private static Retrofit retrofit = null;
-    private OkHttpClient okHttpClient;
 
     public static Retrofit getRetrofitClient() {
         Gson gson = new GsonBuilder().setLenient().create();

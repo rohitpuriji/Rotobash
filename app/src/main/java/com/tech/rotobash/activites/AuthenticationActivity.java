@@ -367,6 +367,8 @@ public class AuthenticationActivity extends AppCompatActivity implements GoogleA
             mSignupViewModel.getSocialConnect(progressDoalog, acct.getDisplayName(), acct.getEmail(), sGoogle,
                     acct.getId(), FirebaseInstanceId.getInstance().getToken(), sDeviceType)
                     .observe(this, userResponse -> {
+                        Log.e("accessToken",userResponse.getResponse().getAccessToken());
+
                         Toast.makeText(AuthenticationActivity.this, userResponse.getMessage(), Toast.LENGTH_LONG).show();
                         if (userResponse.getStatus().equalsIgnoreCase("success")) {
                             rememberMe(userResponse);
@@ -433,6 +435,9 @@ public class AuthenticationActivity extends AppCompatActivity implements GoogleA
                     if (userResponse.getStatus().equalsIgnoreCase("success")) {
                         rememberMe(userResponse);
                         mAppPreferences.setPreferenceSocial(false);
+                        Log.e("accessToken",userResponse.getResponse().getAccessToken());
+                        Log.e("accessToken",userResponse.getResponse().getUserId());
+
                     }
                     AppUtils.hideSoftKeyboard(AuthenticationActivity.this);
 

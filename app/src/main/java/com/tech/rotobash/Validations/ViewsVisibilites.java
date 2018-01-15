@@ -100,18 +100,18 @@ public class ViewsVisibilites {
     }
 
     public static void showActiveMatchView(AppCompatActivity aAppCompatActivity, ActivityMatchContestBinding mBinding) {
-        mBinding.includedContent.btnCurrent.setText(aAppCompatActivity.getString(R.string.active));
-        mBinding.includedContent.btnComing.setText(aAppCompatActivity.getString(R.string.inActive));
-        mBinding.includedContent.btnCurrent.setBackgroundColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_light_blue));
-        mBinding.includedContent.btnComing.setBackgroundColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_white));
+        mBinding.btnCurrent.setText(aAppCompatActivity.getString(R.string.active));
+        mBinding.btnComing.setText(aAppCompatActivity.getString(R.string.inActive));
+        mBinding.btnCurrent.setBackgroundColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_light_blue));
+        mBinding.btnComing.setBackgroundColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_white));
 
     }
 
     public static void showInActiveMatchView(AppCompatActivity aAppCompatActivity, ActivityMatchContestBinding mBinding) {
-        mBinding.includedContent.btnCurrent.setText(aAppCompatActivity.getString(R.string.active));
-        mBinding.includedContent.btnComing.setText(aAppCompatActivity.getString(R.string.inActive));
-        mBinding.includedContent.btnComing.setBackgroundColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_light_blue));
-        mBinding.includedContent.btnCurrent.setBackgroundColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_white));
+        mBinding.btnCurrent.setText(aAppCompatActivity.getString(R.string.active));
+        mBinding.btnComing.setText(aAppCompatActivity.getString(R.string.inActive));
+        mBinding.btnComing.setBackgroundColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_light_blue));
+        mBinding.btnCurrent.setBackgroundColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_white));
 
     }
 }

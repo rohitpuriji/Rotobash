@@ -4,16 +4,16 @@
 
     <android.support.v7.widget.CardView
         android:id="@+id/card_view"
+        android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_five"
-        android:layout_marginBottom="@dimen/margin_ten"
+        android:layout_margin="@dimen/margin_ten"
         card_view:cardCornerRadius="4dp">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_five">
+            android:layout_margin="@dimen/margin_ten">
 
             <LinearLayout
                 android:id="@+id/llTextMatch"
@@ -29,6 +29,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.25"
                     android:text="@string/txt_total_prize"
+                    android:textColor="@color/light_grey"
+                    android:textSize="@dimen/small_text"
                     android:textAllCaps="true" />
 
                 <com.tech.rotobash.utils.TextFontsBold
@@ -36,13 +38,17 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.25"
                     android:text="@string/txt_max_prize"
+                    android:textColor="@color/light_grey"
+                    android:textSize="@dimen/small_text"
                     android:textAllCaps="true" />
 
                 <com.tech.rotobash.utils.TextFontsBold
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.15"
+                    android:textSize="@dimen/small_text"
                     android:text="@string/txt_pay"
+                    android:textColor="@color/light_grey"
                     android:textAllCaps="true" />
 
                 <com.tech.rotobash.utils.TextFontsBold
@@ -50,6 +56,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.35"
                     android:gravity="center"
+                    android:textSize="@dimen/small_text"
+                    android:textColor="@color/light_grey"
                     android:text="@string/txt_league"
                     android:textAllCaps="true" />
 
@@ -82,11 +90,13 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.25"
                     android:text="@string/txt_total_prize"
+                    android:textSize="@dimen/mid_text"
                     android:textAllCaps="true"
                     android:textColor="@color/color_red" />
 
                 <com.tech.rotobash.utils.TextFontsBold
                     android:id="@+id/tvMaxPrize"
+                    android:textSize="@dimen/mid_text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.25"
@@ -99,7 +109,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.15"
-                    android:text="@string/txt_pay"
+                    android:textSize="@dimen/mid_text"
                     android:textAllCaps="true"
                     android:textColor="@color/color_blue" />
 
@@ -121,14 +131,13 @@
                 android:id="@+id/seekBar"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/padding_fifteen"
+                android:layout_marginTop="20dp"
                 android:progress="40"
-                card_view:layout_constraintEnd_toEndOf="parent"
-                card_view:layout_constraintHorizontal_bias="0.0"
                 card_view:layout_constraintStart_toStartOf="parent"
                 card_view:layout_constraintTop_toBottomOf="@+id/llContestLayout" />
 
             <RelativeLayout
+                android:id="@+id/relativeLayout3"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_ten"
@@ -144,8 +153,9 @@
                     android:id="@+id/tvTeamsJoined"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/teams"
-                    android:textAllCaps="true" />
+                    android:textAllCaps="true"
+                    android:textColor="@color/dark_grey"
+                    android:textSize="@dimen/small_text" />
 
                 <com.tech.rotobash.utils.TextFontsBold
                     android:id="@+id/tvTotalWinners"
@@ -153,8 +163,10 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
-                    android:text="@string/txt_winners"
-                    android:textAllCaps="true" />
+                    android:textAllCaps="true"
+                    android:layout_marginRight="@dimen/padding_fifteen"
+                    android:textColor="@color/dark_grey"
+                    android:textSize="@dimen/small_text" />
 
             </RelativeLayout>
 
@@ -164,19 +176,21 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="16dp"
                 android:background="@drawable/bg_join_text_view"
-                android:paddingBottom="@dimen/margin_ten"
-                android:paddingLeft="@dimen/margin_twenty"
-                android:paddingRight="@dimen/margin_twenty"
-                android:paddingTop="@dimen/margin_ten"
+                android:paddingBottom="@dimen/margin_five"
+                android:paddingLeft="@dimen/padding_fifteen"
+                android:paddingRight="@dimen/padding_fifteen"
+                android:paddingTop="@dimen/margin_five"
                 android:text="@string/txt_join"
                 android:textAllCaps="true"
                 android:textColor="@color/color_white"
                 card_view:layout_constraintBottom_toBottomOf="parent"
                 card_view:layout_constraintEnd_toEndOf="parent"
                 card_view:layout_constraintHorizontal_bias="0.692"
-                card_view:layout_constraintStart_toEndOf="@+id/seekBar" />
+                card_view:layout_constraintStart_toEndOf="@+id/seekBar"
+                android:layout_marginRight="8dp"
+                android:layout_marginLeft="16dp" />
 
 
         </android.support.constraint.ConstraintLayout>

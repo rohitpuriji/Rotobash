@@ -92,7 +92,7 @@
         <android.support.constraint.ConstraintLayout
             android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="wrap_content"
             android:background="@color/color_light_grey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
@@ -170,12 +170,76 @@
             android:scrollbars="vertical"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
 
-        <include
-            android:id="@+id/includedContent"
-            layout="@layout/content_sidemenu"
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/rootLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+            tools:context="com.tech.rotobash.activites.SidemenuActivity"
+            tools:showIn="@layout/activity_match_list">
+
+            <com.tech.rotobash.utils.ButtonFontBold
+                android:id="@+id/btnCurrent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@color/color_current_gray"
+                android:text="@string/txt_current"
+                android:textColor="@color/color_red"
+                app:layout_constraintEnd_toStartOf="@+id/btnComing"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.tech.rotobash.utils.ButtonFontBold
+                android:id="@+id/btnComing"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@color/color_white"
+                android:text="@string/txt_coming"
+                android:textColor="@color/light_grey"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/btnCurrent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <FrameLayout
+                android:id="@+id/relativeLayout2"
+                android:layout_width="match_parent"
+                android:layout_height="521dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnCurrent"
+                app:layout_constraintVertical_bias="0.0">
+
+                <android.support.v4.widget.SwipeRefreshLayout
+                    android:id="@+id/swipeContainerCurrent"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="?attr/actionBarSize">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scrollbars="vertical" />
+
+                </android.support.v4.widget.SwipeRefreshLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:background="@drawable/gradient_view_grey" />
+
+            </FrameLayout>
+
+        </android.support.constraint.ConstraintLayout>
 
     </android.support.constraint.ConstraintLayout>
 

@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -61,14 +62,14 @@ public class MatchContestActivity extends SidemenuActivity {
 
         ViewsVisibilites.showActiveMatchView(this, mMatchContestActivityBinding);
 
-        mMatchContestActivityBinding.includedContent.btnCurrent.setOnClickListener(v -> {
+        mMatchContestActivityBinding.btnCurrent.setOnClickListener(v -> {
             mLoading = true;
             status = getString(R.string.active);
             ViewsVisibilites.showActiveMatchView(this, mMatchContestActivityBinding);
             setRecyclerView(status);
         });
 
-        mMatchContestActivityBinding.includedContent.btnComing.setOnClickListener(v -> {
+        mMatchContestActivityBinding.btnComing.setOnClickListener(v -> {
             mLoading = true;
             status = getString(R.string.inActive);
             ViewsVisibilites.showInActiveMatchView(this, mMatchContestActivityBinding);
@@ -84,7 +85,7 @@ public class MatchContestActivity extends SidemenuActivity {
                     if (leaguesList.size() > 0) {
                         mWhichFilter = getString(R.string.txt_select_league);
                         mMatchContestActivityBinding.recyclerViewOther.setVisibility(View.VISIBLE);
-                        mMatchContestActivityBinding.includedContent.rootLayout.setVisibility(View.GONE);
+                        mMatchContestActivityBinding.rootLayout.setVisibility(View.GONE);
                         setFilterAdapter();
                     }
 
@@ -93,7 +94,7 @@ public class MatchContestActivity extends SidemenuActivity {
 
             } else {
                 mMatchContestActivityBinding.recyclerViewOther.setVisibility(View.GONE);
-                mMatchContestActivityBinding.includedContent.rootLayout.setVisibility(View.VISIBLE);
+                mMatchContestActivityBinding.rootLayout.setVisibility(View.VISIBLE);
             }
         });
 
@@ -106,7 +107,7 @@ public class MatchContestActivity extends SidemenuActivity {
 
         mMatchContestActivityBinding.imgMenu.setOnClickListener(v -> openCloseDrawer());
 
-        mMatchContestActivityBinding.includedContent.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        mMatchContestActivityBinding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 if (dy > 0) {
@@ -127,10 +128,10 @@ public class MatchContestActivity extends SidemenuActivity {
             }
         });
 
-        mMatchContestActivityBinding.includedContent.swipeContainerCurrent.setOnRefreshListener(() -> {
+        mMatchContestActivityBinding.swipeContainerCurrent.setOnRefreshListener(() -> {
             // refreshList();
-            if (mMatchContestActivityBinding.includedContent.swipeContainerCurrent.isRefreshing()) {
-                mMatchContestActivityBinding.includedContent.swipeContainerCurrent.setRefreshing(false);
+            if (mMatchContestActivityBinding.swipeContainerCurrent.isRefreshing()) {
+                mMatchContestActivityBinding.swipeContainerCurrent.setRefreshing(false);
             }
         });
     }
@@ -142,8 +143,8 @@ public class MatchContestActivity extends SidemenuActivity {
             mTempArrayListInActiveContestData.clear();
             mTempArrayListActiveContestData.clear();
             mMatchContestActivityBinding.recyclerViewOther.setVisibility(View.GONE);
-            mMatchContestActivityBinding.includedContent.rootLayout.setVisibility(View.VISIBLE);
-            mMatchContestActivityBinding.includedContent.recyclerView.setVisibility(View.VISIBLE);
+            mMatchContestActivityBinding.rootLayout.setVisibility(View.VISIBLE);
+            mMatchContestActivityBinding.recyclerView.setVisibility(View.VISIBLE);
             mAdapter = null;
             loadMatchContest();
 
@@ -222,6 +223,9 @@ public class MatchContestActivity extends SidemenuActivity {
         mLayoutFilterManager = new LinearLayoutManager(this);
         mMatchContestActivityBinding.recyclerViewOther.setLayoutManager(mLayoutFilterManager);
         mMatchContestActivityBinding.recyclerViewOther.setItemAnimator(new DefaultItemAnimator());
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mMatchContestActivityBinding.recyclerView.getContext(),
+                DividerItemDecoration.VERTICAL);
+        mMatchContestActivityBinding.recyclerViewOther.addItemDecoration(dividerItemDecoration);
     }
 
     private void loadMatchContest() {
@@ -280,25 +284,24 @@ public class MatchContestActivity extends SidemenuActivity {
 
         if (status.equalsIgnoreCase(getString(R.string.active))) {
             mAdapter = new MatchContestsAdapter(MatchContestActivity.this, mTempArrayListActiveContestData);
-            mMatchContestActivityBinding.includedContent.recyclerView.setAdapter(mAdapter);
-
+            mMatchContestActivityBinding.recyclerView.setAdapter(mAdapter);
         } else {
             mAdapter = new MatchContestsAdapter(MatchContestActivity.this, mTempArrayListInActiveContestData);
-            mMatchContestActivityBinding.includedContent.recyclerView.setAdapter(mAdapter);
+            mMatchContestActivityBinding.recyclerView.setAdapter(mAdapter);
         }
     }
 
     private void setCurrentRecyclerViewManager() {
         mLayoutManager = new LinearLayoutManager(this);
-        mMatchContestActivityBinding.includedContent.recyclerView.setLayoutManager(mLayoutManager);
-        mMatchContestActivityBinding.includedContent.recyclerView.setItemAnimator(new DefaultItemAnimator());
+        mMatchContestActivityBinding.recyclerView.setLayoutManager(mLayoutManager);
+        mMatchContestActivityBinding.recyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 
     @Override
     public void onBackPressed() {
         if (mMatchContestActivityBinding.recyclerViewOther.getVisibility() == View.VISIBLE) {
             mMatchContestActivityBinding.recyclerViewOther.setVisibility(View.GONE);
-            mMatchContestActivityBinding.includedContent.rootLayout.setVisibility(View.VISIBLE);
+            mMatchContestActivityBinding.rootLayout.setVisibility(View.VISIBLE);
 
         } else
             super.onBackPressed();
