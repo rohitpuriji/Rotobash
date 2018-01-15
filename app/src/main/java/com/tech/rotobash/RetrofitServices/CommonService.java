@@ -14,6 +14,9 @@ import com.tech.rotobash.model.MatchesResponse;
 import com.tech.rotobash.model.SeriesResponse;
 import com.tech.rotobash.model.UserResponse;
 
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -31,12 +34,18 @@ import static com.tech.rotobash.utils.AppConstant.sMainUrl;
 public class CommonService {
 
     private static Retrofit retrofit = null;
+    private OkHttpClient okHttpClient;
 
     public static Retrofit getRetrofitClient() {
         Gson gson = new GsonBuilder().setLenient().create();
         if (retrofit == null) {
+
             retrofit = new Retrofit.Builder()
                     .baseUrl(sMainUrl)
+                    .client(new OkHttpClient.Builder()
+                            .readTimeout(60, TimeUnit.MINUTES)
+                            .connectTimeout(60, TimeUnit.MINUTES)
+                            .build())
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
         }
@@ -270,6 +279,7 @@ public class CommonService {
 
                     @Override
                     public void onFailure(Call<MatchesResponse> call, Throwable t) {
+
                         Log.e("on Failure :", "retrofit error" + t.getLocalizedMessage());
                     }
                 });
@@ -363,7 +373,7 @@ public class CommonService {
 
         getRetrofitClient()
                 .create(ApiInterface.class)
-                .doLogout(aUserResponse.getResponse().getAccessToken(),aUserResponse.getResponse().getUserId())
+                .doLogout(aUserResponse.getResponse().getAccessToken(), aUserResponse.getResponse().getUserId())
                 .enqueue(new Callback<UserResponse>() {
 
                     @Override
