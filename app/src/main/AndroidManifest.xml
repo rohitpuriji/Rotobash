@@ -62,8 +62,13 @@
 
         <activity
             android:name=".activites.MatchListActivity"
-            android:label="@string/title_activity_matchList"
-            android:theme="@style/AppTheme" />
+            android:label="@string/title_activity_sidemenu"
+            android:theme="@style/AppTheme"/>
+
+        <activity
+            android:name=".activites.MatchContestActivity"
+            android:label="@string/title_activity_sidemenu"
+            android:theme="@style/AppTheme"/>
     </application>
 
 </manifest>

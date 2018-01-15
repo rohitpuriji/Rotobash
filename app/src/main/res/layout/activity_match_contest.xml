@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.tech.rotobash.activites.MatchContestActivity">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/color_red"
+            app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/imgBack"
+                    android:layout_width="@dimen/margin_ten"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/back_arrow"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <LinearLayout
+                    android:id="@+id/llMatchName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="25dp"
+                    android:layout_marginStart="25dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toEndOf="@+id/imgBack">
+
+                    <com.tech.rotobash.utils.TextFontsRegular
+                        android:id="@+id/tvMatchName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/txt_kkr_vs_rcb"
+                        android:textColor="@color/color_white"
+                        android:textSize="@dimen/mid_text" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin_ten"
+                        android:src="@drawable/down_arrow" />
+
+                </LinearLayout>
+
+                <com.tech.rotobash.utils.TextFontsRegular
+                    android:id="@+id/btnSelectMatches"
+                    android:layout_width="130dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/bg_match_timer"
+                    android:drawableLeft="@drawable/timer_white"
+                    android:drawablePadding="@dimen/margin_ten"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/margin_five"
+                    android:text="@string/txt_time"
+                    android:textColor="@color/color_white"
+                    android:textSize="@dimen/large_mid_text"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/imgMenu"
+                    app:layout_constraintStart_toEndOf="@+id/llMatchName"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/imgMenu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/margin_twenty"
+                    android:layout_marginStart="@dimen/margin_twenty"
+                    android:layout_marginTop="@dimen/margin_twenty"
+                    android:background="@drawable/menu"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </android.support.constraint.ConstraintLayout>
+
+        </android.support.v7.widget.Toolbar>
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:background="@color/color_light_grey"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+            <com.tech.rotobash.utils.TextFontsRegular
+                android:id="@+id/tvSelectLeague"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="@dimen/margin_ten"
+                android:layout_marginLeft="@dimen/margin_ten"
+                android:layout_marginRight="@dimen/margin_ten"
+                android:layout_marginStart="@dimen/margin_ten"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/dropdown_bg_whiteline"
+                android:drawableEnd="@drawable/droparrow"
+                android:drawablePadding="10dp"
+                android:drawableRight="@drawable/droparrow"
+                android:gravity="center_vertical"
+                android:padding="10dp"
+                android:text="@string/txt_select_league"
+                android:textAllCaps="false"
+                android:textColor="@color/color_black"
+                android:textSize="@dimen/large_mid_text"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.533" />
+
+            <com.tech.rotobash.utils.TextFontsRegular
+                android:id="@+id/tvSelectPay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/dropdown_bg_whiteline"
+                android:drawableEnd="@drawable/droparrow"
+                android:drawablePadding="10dp"
+                android:drawableRight="@drawable/droparrow"
+                android:gravity="center_vertical"
+                android:padding="10dp"
+                android:text="@string/txt_select_play"
+                android:textAllCaps="false"
+                android:textColor="@color/color_black"
+                android:textSize="@dimen/large_mid_text"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/imgRefresh"
+                app:layout_constraintStart_toEndOf="@+id/tvSelectLeague"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.533" />
+
+            <ImageView
+                android:id="@+id/imgRefresh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/refresh"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </android.support.constraint.ConstraintLayout>
+
+        <include
+            android:id="@+id/includedContent"
+            layout="@layout/content_sidemenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</layout>

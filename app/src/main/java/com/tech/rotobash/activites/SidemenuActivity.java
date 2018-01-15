@@ -35,7 +35,7 @@ import static com.tech.rotobash.utils.AppConstant.sPleaseWait;
 
 /**
  * @Module Name/Class		:	SidemenuActivity
- * @Author Name            :	Rohit Puri
+ * @Author Name             :	Rohit Puri
  * @Date :	Jan 8rd , 2018
  * @Purpose :	This class contains both sidemenu screen and main matches contents
  */
@@ -43,8 +43,9 @@ public class SidemenuActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     public ActivitySidemenuBinding mBinding;
+
     private ProgressDialog progressDoalog;
-    private UserResponse mUserResponse;
+    public UserResponse mUserResponse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,10 +70,9 @@ public class SidemenuActivity extends AppCompatActivity
         }
     }
 
-
     /**
      * @Module Name/Class		:	initData
-     * @Author Name            :	Rohit Puri
+     * @Author Name             :	Rohit Puri
      * @Date :	Jan 8rd , 2018
      * @Purpose :	This method initialize the basic functionality
      */
@@ -80,12 +80,10 @@ public class SidemenuActivity extends AppCompatActivity
 
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_sidemenu);
         AppPreferences mPref = new AppPreferences(SidemenuActivity.this);
-
         mBinding.navigationView.setNavigationItemSelectedListener(this);
         if (mPref.getPreferenceSocial()) {
             mBinding.navigationView.getMenu().findItem(R.id.nav_reset).setVisible(false);
         }
-
         progressDoalog = new ProgressDialog(SidemenuActivity.this);
         progressDoalog.setMax(100);
         progressDoalog.setMessage(sPleaseWait);

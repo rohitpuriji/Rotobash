@@ -12,8 +12,8 @@ import com.tech.rotobash.utils.AppPreferences;
 /**
  * @Module Name/Class		:	SplashActivity
  * @Author Name            :	Rohit Puri
- * @Date                    :	Jan 1st , 2018
- * @Purpose                :	This class contains the splash screen
+ * @Date :	Jan 1st , 2018
+ * @Purpose :	This class contains the splash screen
  */
 public class SplashActivity extends AppCompatActivity {
 
@@ -30,8 +30,9 @@ public class SplashActivity extends AppCompatActivity {
         mAppPreferences = new AppPreferences(SplashActivity.this);
         mUserResponse = mAppPreferences.getUserData();
         new Handler().postDelayed(() -> {
+
             if (mAppPreferences.getPreferenceBoolean()) {
-                i = new Intent(SplashActivity.this, MatchListActivity.class);
+                i = new Intent(SplashActivity.this, MatchContestActivity.class);
                 i.putExtra("UserResponse", mUserResponse);
 
             } else {

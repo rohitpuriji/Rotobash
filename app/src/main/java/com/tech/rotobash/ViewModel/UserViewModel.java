@@ -44,4 +44,5 @@ public class UserViewModel extends ViewModel {
         mLiveData = mCommonService.doResetPassword(progressDoalog,aUserResponse,aOldPass,aNewPass);
         return mLiveData;
     }
+
 }

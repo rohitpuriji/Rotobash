@@ -7,11 +7,10 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.tech.rotobash.activites.AuthenticationActivity;
 import com.tech.rotobash.interfaces.ApiInterface;
+import com.tech.rotobash.model.MatchContestsResponse;
 import com.tech.rotobash.model.MatchesResponse;
 import com.tech.rotobash.model.UserResponse;
-import com.tech.rotobash.utils.AppPreferences;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -22,17 +21,17 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import static com.tech.rotobash.utils.AppConstant.sMainUrl;
 
 /**
- @Module class/module		:	CommonService
- @Author Name			    :	Rohit Puri
- @Date					    :	Jan 3 , 2018
- @Purpose				    :	This class defines Retrofit service to support MVVM arch
+ * @Module class/module		:	CommonService
+ * @Author Name                :	Rohit Puri
+ * @Date :	Jan 3 , 2018
+ * @Purpose :	This class defines Retrofit service to support MVVM arch
  */
 public class CommonService {
 
     private static Retrofit retrofit = null;
 
     public static Retrofit getRetrofitClient() {
-        Gson gson = new GsonBuilder() .setLenient() .create();
+        Gson gson = new GsonBuilder().setLenient().create();
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
                     .baseUrl(sMainUrl)
@@ -43,12 +42,12 @@ public class CommonService {
     }
 
     /**
-     @Module class/module		:	doUserSignin
-     @Author Name			    :	Rohit Puri
-     @Date					    :	Jan 3 , 2018
-     @Purpose				    :	This method return the MutableLiveData for login
+     * @Module class/module		:	doUserSignin
+     * @Author Name                :	Rohit Puri
+     * @Date :	Jan 3 , 2018
+     * @Purpose :	This method return the MutableLiveData for login
      */
-    public LiveData<UserResponse> doUserSignin(ProgressDialog progressDoalog,String aEmail, String aPassword,String aDeviceToken, String aDeviceType) {
+    public LiveData<UserResponse> doUserSignin(ProgressDialog progressDoalog, String aEmail, String aPassword, String aDeviceToken, String aDeviceType) {
 
         if (!progressDoalog.isShowing()) {
             progressDoalog.show();
@@ -58,53 +57,12 @@ public class CommonService {
 
         getRetrofitClient()
                 .create(ApiInterface.class)
-                .signin(aEmail,aPassword,aDeviceToken,aDeviceType)
-                .enqueue(new Callback<UserResponse>(){
-
-            @Override
-            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                Log.e("on response :",response.body().getMessage());
-                if (progressDoalog.isShowing()) {
-                    progressDoalog.dismiss();
-                }
-                UserResponse userResponse = response.body();
-                liveUserResponse.setValue(userResponse);
-            }
-
-            @Override
-            public void onFailure(Call<UserResponse> call, Throwable t) {
-                Log.e("on Failure :","retrofit error");
-                if (progressDoalog.isShowing()) {
-                    progressDoalog.dismiss();
-                }
-            }
-        });
-
-        return liveUserResponse;
-    }
-
-    /**
-     @Module class/module		:	doUserSignup
-     @Author Name			    :	Rohit Puri
-     @Date					    :	Jan 5 , 2018
-     @Purpose				    :	This method return the MutableLiveData for sign up
-     */
-    public LiveData<UserResponse> doUserSignup(ProgressDialog progressDoalog,String aName,String aEmail, String aPassword,String aDeviceToken, String aDeviceType) {
-
-        if (!progressDoalog.isShowing()) {
-            progressDoalog.show();
-        }
-
-        final MutableLiveData<UserResponse> liveUserResponse = new MutableLiveData<>();
-
-        getRetrofitClient()
-                .create(ApiInterface.class)
-                .signup(aName,aEmail,aPassword,aDeviceToken,aDeviceType)
-                .enqueue(new Callback<UserResponse>(){
+                .signin(aEmail, aPassword, aDeviceToken, aDeviceType)
+                .enqueue(new Callback<UserResponse>() {
 
                     @Override
                     public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                        Log.e("on response :",response.body().getMessage());
+                        Log.e("on response :", response.body().getMessage());
                         if (progressDoalog.isShowing()) {
                             progressDoalog.dismiss();
                         }
@@ -114,7 +72,48 @@ public class CommonService {
 
                     @Override
                     public void onFailure(Call<UserResponse> call, Throwable t) {
-                        Log.e("on Failure :","retrofit error");
+                        Log.e("on Failure :", "retrofit error");
+                        if (progressDoalog.isShowing()) {
+                            progressDoalog.dismiss();
+                        }
+                    }
+                });
+
+        return liveUserResponse;
+    }
+
+    /**
+     * @Module class/module		:	doUserSignup
+     * @Author Name                :	Rohit Puri
+     * @Date :	Jan 5 , 2018
+     * @Purpose :	This method return the MutableLiveData for sign up
+     */
+    public LiveData<UserResponse> doUserSignup(ProgressDialog progressDoalog, String aName, String aEmail, String aPassword, String aDeviceToken, String aDeviceType) {
+
+        if (!progressDoalog.isShowing()) {
+            progressDoalog.show();
+        }
+
+        final MutableLiveData<UserResponse> liveUserResponse = new MutableLiveData<>();
+
+        getRetrofitClient()
+                .create(ApiInterface.class)
+                .signup(aName, aEmail, aPassword, aDeviceToken, aDeviceType)
+                .enqueue(new Callback<UserResponse>() {
+
+                    @Override
+                    public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                        Log.e("on response :", response.body().getMessage());
+                        if (progressDoalog.isShowing()) {
+                            progressDoalog.dismiss();
+                        }
+                        UserResponse userResponse = response.body();
+                        liveUserResponse.setValue(userResponse);
+                    }
+
+                    @Override
+                    public void onFailure(Call<UserResponse> call, Throwable t) {
+                        Log.e("on Failure :", "retrofit error");
                         if (progressDoalog.isShowing()) {
                             progressDoalog.dismiss();
                         }
@@ -126,12 +125,12 @@ public class CommonService {
 
 
     /**
-     @Module class/module		:	doSocialConnect
-     @Author Name			    :	Rohit Puri
-     @Date					    :	Jan 9 , 2018
-     @Purpose				    :	This method return the MutableLiveData for social connect api
+     * @Module class/module		:	doSocialConnect
+     * @Author Name                :	Rohit Puri
+     * @Date :	Jan 9 , 2018
+     * @Purpose :	This method return the MutableLiveData for social connect api
      */
-    public LiveData<UserResponse> doSocialConnect(ProgressDialog progressDoalog,String aName, String aEmail, String socialType, String socialId, String aDeviceToken, String aDeviceType) {
+    public LiveData<UserResponse> doSocialConnect(ProgressDialog progressDoalog, String aName, String aEmail, String socialType, String socialId, String aDeviceToken, String aDeviceType) {
 
         if (!progressDoalog.isShowing()) {
             progressDoalog.show();
@@ -141,12 +140,12 @@ public class CommonService {
 
         getRetrofitClient()
                 .create(ApiInterface.class)
-                .socialConnect(aName,aEmail,socialId,socialType,aDeviceToken,aDeviceType)
-                .enqueue(new Callback<UserResponse>(){
+                .socialConnect(aName, aEmail, socialId, socialType, aDeviceToken, aDeviceType)
+                .enqueue(new Callback<UserResponse>() {
 
                     @Override
                     public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                        Log.e("on response :",response.body().getMessage());
+                        Log.e("on response :", response.body().getMessage());
                         if (progressDoalog.isShowing()) {
                             progressDoalog.dismiss();
                         }
@@ -156,8 +155,8 @@ public class CommonService {
 
                     @Override
                     public void onFailure(Call<UserResponse> call, Throwable t) {
-                        Log.e("on Failure :","retrofit error"+t.getLocalizedMessage());
-                        Log.e("on Failure :","retrofit error"+t.getMessage());
+                        Log.e("on Failure :", "retrofit error" + t.getLocalizedMessage());
+                        Log.e("on Failure :", "retrofit error" + t.getMessage());
                         if (progressDoalog.isShowing()) {
                             progressDoalog.dismiss();
                         }
@@ -168,10 +167,10 @@ public class CommonService {
     }
 
     /**
-     @Module class/module		:	doForgetPassword
-     @Author Name			    :	Rohit Puri
-     @Date					    :	Jan 9 , 2018
-     @Purpose				    :	This method return the MutableLiveData for forget password api
+     * @Module class/module		:	doForgetPassword
+     * @Author Name                :	Rohit Puri
+     * @Date :	Jan 9 , 2018
+     * @Purpose :	This method return the MutableLiveData for forget password api
      */
     public LiveData<UserResponse> doForgetPassword(String aEmail) {
 
@@ -181,18 +180,18 @@ public class CommonService {
         getRetrofitClient()
                 .create(ApiInterface.class)
                 .forgetPassword(aEmail)
-                .enqueue(new Callback<UserResponse>(){
+                .enqueue(new Callback<UserResponse>() {
 
                     @Override
                     public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                        Log.e("on response :",response.body().getMessage());
+                        Log.e("on response :", response.body().getMessage());
                         UserResponse userResponse = response.body();
                         liveUserResponse.setValue(userResponse);
                     }
 
                     @Override
                     public void onFailure(Call<UserResponse> call, Throwable t) {
-                        Log.e("on Failure :","retrofit error"+t.getLocalizedMessage());
+                        Log.e("on Failure :", "retrofit error" + t.getLocalizedMessage());
                     }
                 });
 
@@ -200,12 +199,12 @@ public class CommonService {
     }
 
     /**
-     @Module class/module		:	doResetPassword
-     @Author Name			    :	Rohit Puri
-     @Date					    :	Jan 11 , 2018
-     @Purpose				    :	This method return the MutableLiveData for reset password api
+     * @Module class/module		:	doResetPassword
+     * @Author Name                :	Rohit Puri
+     * @Date :	Jan 11 , 2018
+     * @Purpose :	This method return the MutableLiveData for reset password api
      */
-    public LiveData<UserResponse> doResetPassword(ProgressDialog progressDoalog,UserResponse aUserResponse,String oldass, String newPass) {
+    public LiveData<UserResponse> doResetPassword(ProgressDialog progressDoalog, UserResponse aUserResponse, String oldass, String newPass) {
 
         if (!progressDoalog.isShowing()) {
             progressDoalog.show();
@@ -214,12 +213,12 @@ public class CommonService {
 
         getRetrofitClient()
                 .create(ApiInterface.class)
-                .resetPassword(aUserResponse.getResponse().getAccessToken(),aUserResponse.getResponse().getUserId(),oldass,newPass )
-                .enqueue(new Callback<UserResponse>(){
+                .resetPassword(aUserResponse.getResponse().getAccessToken(), aUserResponse.getResponse().getUserId(), oldass, newPass)
+                .enqueue(new Callback<UserResponse>() {
 
                     @Override
                     public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                        Log.e("on response :",response.body().getMessage());
+                        Log.e("on response :", response.body().getMessage());
                         if (progressDoalog.isShowing()) {
                             progressDoalog.dismiss();
                         }
@@ -229,7 +228,7 @@ public class CommonService {
 
                     @Override
                     public void onFailure(Call<UserResponse> call, Throwable t) {
-                        Log.e("on Failure :","retrofit error"+t.getLocalizedMessage());
+                        Log.e("on Failure :", "retrofit error" + t.getLocalizedMessage());
                         if (progressDoalog.isShowing()) {
                             progressDoalog.dismiss();
                         }
@@ -240,12 +239,12 @@ public class CommonService {
     }
 
     /**
-     @Module class/module		:	getMatches
-     @Author Name			    :	Rohit Puri
-     @Date					    :	Jan 11 , 2018
-     @Purpose				    :	This method return the MutableLiveData for get Matches api
+     * @Module class/module		:	getMatches
+     * @Author Name                :	Rohit Puri
+     * @Date :	Jan 11 , 2018
+     * @Purpose :	This method return the MutableLiveData for get Matches api
      */
-    public LiveData<MatchesResponse> getMatches(ProgressDialog progressDoalog,UserResponse aUserResponse,String aType,int aOffset) {
+    public LiveData<MatchesResponse> getMatches(ProgressDialog progressDoalog, UserResponse aUserResponse, String aType, String aOffset) {
 
         if (!progressDoalog.isShowing()) {
             progressDoalog.show();
@@ -254,12 +253,17 @@ public class CommonService {
 
         getRetrofitClient()
                 .create(ApiInterface.class)
-                .getMatches(aUserResponse.getResponse().getAccessToken(),aUserResponse.getResponse().getUserId(),aType,aOffset )
-                .enqueue(new Callback<MatchesResponse>(){
+                .getMatches(aUserResponse.getResponse().getAccessToken(), aUserResponse.getResponse().getUserId(), aType, aOffset)
+                .enqueue(new Callback<MatchesResponse>() {
 
                     @Override
                     public void onResponse(Call<MatchesResponse> call, Response<MatchesResponse> aMatchesResponse) {
-                        Log.e("on response :",aMatchesResponse.body().getMessage());
+                        Log.e("on getAccessToken :", aUserResponse.getResponse().getAccessToken());
+                        Log.e("on getUserId :", aUserResponse.getResponse().getUserId());
+                        Log.e("on type :", aType);
+                        Log.e("on offset :", aOffset);
+                        Log.e("on response :", aMatchesResponse.body().getStatus());
+                        Log.e("on response :", aMatchesResponse.body().getMessage());
                         if (progressDoalog.isShowing()) {
                             progressDoalog.dismiss();
                         }
@@ -269,7 +273,7 @@ public class CommonService {
 
                     @Override
                     public void onFailure(Call<MatchesResponse> call, Throwable t) {
-                        Log.e("on Failure :","retrofit error"+t.getLocalizedMessage());
+                        Log.e("on Failure :", "retrofit error" + t.getLocalizedMessage());
                         if (progressDoalog.isShowing()) {
                             progressDoalog.dismiss();
                         }
@@ -279,4 +283,45 @@ public class CommonService {
         return liveMatchResponse;
     }
 
+    /**
+     * @Module class/module		:	getMatchContests
+     * @Author Name                :	Rohit Puri
+     * @Date :	Jan 11 , 2018
+     * @Purpose :	This method return the MutableLiveData for get Matches api
+     */
+    public LiveData<MatchContestsResponse> getMatchContests(ProgressDialog progressDialog, UserResponse aUserResponse, String aMatchId, String aOffset, String aLimit) {
+
+        if (!progressDialog.isShowing()) {
+            progressDialog.show();
+        }
+        final MutableLiveData<MatchContestsResponse> matchContestsResponse = new MutableLiveData<>();
+
+        getRetrofitClient()
+                .create(ApiInterface.class)
+                .getMatchContests(aUserResponse.getResponse().getAccessToken(), aMatchId, aOffset,aLimit)
+                .enqueue(new Callback<MatchContestsResponse>() {
+
+                    @Override
+                    public void onResponse(Call<MatchContestsResponse> call, Response<MatchContestsResponse> aMatchesResponse) {
+                        Log.e("on getAccessToken :", aUserResponse.getResponse().getAccessToken());
+                        Log.e("on getUserId :", aUserResponse.getResponse().getUserId());
+                        Log.e("on offset :", aOffset);
+                        if (progressDialog.isShowing()) {
+                            progressDialog.dismiss();
+                        }
+                        MatchContestsResponse matcheContestsResponse = aMatchesResponse.body();
+                        matchContestsResponse.setValue(matcheContestsResponse);
+                    }
+
+                    @Override
+                    public void onFailure(Call<MatchContestsResponse> call, Throwable t) {
+                        Log.e("on Failure :", "retrofit error" + t.getLocalizedMessage());
+                        if (progressDialog.isShowing()) {
+                            progressDialog.dismiss();
+                        }
+                    }
+                });
+
+        return matchContestsResponse;
+    }
 }

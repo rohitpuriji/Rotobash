@@ -99,6 +99,7 @@ public class AuthenticationActivity extends AppCompatActivity implements GoogleA
                 if (FieldValidations.doRegValidation(this, mBinding)) {
                     if (Network.isAvailable(AuthenticationActivity.this)) {
                         doRegistration();
+
                     } else {
                         Toast.makeText(AuthenticationActivity.this, AppConstant.sNoInternet, Toast.LENGTH_LONG).show();
                     }
@@ -451,7 +452,7 @@ public class AuthenticationActivity extends AppCompatActivity implements GoogleA
     }
 
     private void moveScreen(UserResponse aUserResponse) {
-        Intent i = new Intent(AuthenticationActivity.this, MatchListActivity.class);
+        Intent i = new Intent(AuthenticationActivity.this, MatchContestActivity.class);
         i.putExtra("UserResponse", aUserResponse);
         startActivity(i);
         finish();

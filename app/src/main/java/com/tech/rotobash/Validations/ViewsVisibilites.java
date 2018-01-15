@@ -1,12 +1,14 @@
 package com.tech.rotobash.Validations;
 
 import android.graphics.Typeface;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.tech.rotobash.R;
 import com.tech.rotobash.databinding.ActivityLoginBinding;
-import com.tech.rotobash.utils.TextFontsBold;
-import com.tech.rotobash.utils.TextFontsRegular;
+import com.tech.rotobash.databinding.ActivityMatchContestBinding;
+import com.tech.rotobash.databinding.ActivityMatchListBinding;
 
 import static com.tech.rotobash.utils.AppConstant.sLoginWith;
 import static com.tech.rotobash.utils.AppConstant.sRegisterWith;
@@ -17,7 +19,7 @@ import static com.tech.rotobash.utils.AppConstant.sRegisterWith;
 
 public class ViewsVisibilites {
 
-    public static void handleLoginViews(ActivityLoginBinding mBinding, Typeface mBoldTypeface, Typeface mNormalTypeFace){
+    public static void handleLoginViews(ActivityLoginBinding mBinding, Typeface mBoldTypeface, Typeface mNormalTypeFace) {
         mBinding.viewLogin.setVisibility(View.VISIBLE);
         mBinding.viewRegister.setVisibility(View.INVISIBLE);
         mBinding.imgLogin.setVisibility(View.VISIBLE);
@@ -38,7 +40,7 @@ public class ViewsVisibilites {
         mBinding.imgRefer.setVisibility(View.GONE);
     }
 
-    public static void handleRegViews(ActivityLoginBinding mBinding, Typeface mBoldTypeface, Typeface mNormalTypeFace){
+    public static void handleRegViews(ActivityLoginBinding mBinding, Typeface mBoldTypeface, Typeface mNormalTypeFace) {
         mBinding.viewLogin.setVisibility(View.INVISIBLE);
         mBinding.viewRegister.setVisibility(View.VISIBLE);
         mBinding.etName.setVisibility(View.VISIBLE);
@@ -61,7 +63,7 @@ public class ViewsVisibilites {
     }
 
 
-    public static void clearFocusView(ActivityLoginBinding mBinding){
+    public static void clearFocusView(ActivityLoginBinding mBinding) {
         mBinding.etName.clearFocus();
         mBinding.etRegEmail.clearFocus();
         mBinding.etConfirmPass.clearFocus();
@@ -80,5 +82,40 @@ public class ViewsVisibilites {
         mBinding.etRegEmail.setText("");
         mBinding.etRegPassword.setText("");
         mBinding.etConfirmPass.setText("");
+    }
+
+    public static void showCurrentMatchesView(AppCompatActivity aAppCompatActivity, ActivityMatchListBinding mBinding) {
+        mBinding.includedContent.swipeContainerCurrent.setVisibility(View.VISIBLE);
+        mBinding.includedContent.swipeContainerUpcoming.setVisibility(View.GONE);
+        mBinding.includedContent.btnCurrent.setBackgroundColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_current_gray));
+        mBinding.includedContent.btnComing.setBackgroundColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_white));
+        mBinding.includedContent.btnCurrent.setTextColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_red));
+        mBinding.includedContent.btnComing.setTextColor(ContextCompat.getColor(aAppCompatActivity, R.color.light_grey));
+
+    }
+
+    public static void showComingMatchesView(AppCompatActivity aAppCompatActivity, ActivityMatchListBinding mBinding) {
+        mBinding.includedContent.swipeContainerCurrent.setVisibility(View.GONE);
+        mBinding.includedContent.swipeContainerUpcoming.setVisibility(View.VISIBLE);
+        mBinding.includedContent.btnCurrent.setBackgroundColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_white));
+        mBinding.includedContent.btnComing.setBackgroundColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_current_gray));
+        mBinding.includedContent.btnCurrent.setTextColor(ContextCompat.getColor(aAppCompatActivity, R.color.light_grey));
+        mBinding.includedContent.btnComing.setTextColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_red));
+    }
+
+    public static void showActiveMatchView(AppCompatActivity aAppCompatActivity, ActivityMatchContestBinding mBinding) {
+        mBinding.includedContent.btnCurrent.setText(aAppCompatActivity.getString(R.string.active));
+        mBinding.includedContent.btnComing.setText(aAppCompatActivity.getString(R.string.inActive));
+        mBinding.includedContent.btnCurrent.setBackgroundColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_light_blue));
+        mBinding.includedContent.btnComing.setBackgroundColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_white));
+
+    }
+
+    public static void showInActiveMatchView(AppCompatActivity aAppCompatActivity, ActivityMatchContestBinding mBinding) {
+        mBinding.includedContent.btnCurrent.setText(aAppCompatActivity.getString(R.string.active));
+        mBinding.includedContent.btnComing.setText(aAppCompatActivity.getString(R.string.inActive));
+        mBinding.includedContent.btnComing.setBackgroundColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_light_blue));
+        mBinding.includedContent.btnCurrent.setBackgroundColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_white));
+
     }
 }

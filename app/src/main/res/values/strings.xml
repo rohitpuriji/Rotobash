@@ -36,5 +36,19 @@
     <string name="txt_coming">UPCOMING</string>
     <string name="txt_all">All Matches</string>
     <string name="title_activity_matchList">MatchListActivity</string>
+    <string name="txt_kkr_vs_rcb">KKR VS RCB</string>
+    <string name="txt_time">2:34:56</string>
+    <string name="txt_select_league">Select League</string>
+    <string name="txt_select_play">Select Play</string>
+    <string name="active">ACTIVE</string>
+    <string name="inActive">INACTIVE</string>
+    <string name="txt_total_prize">Total Prize</string>
+    <string name="txt_max_prize">Max Prize</string>
+    <string name="txt_pay">Pay</string>
+    <string name="txt_league">League</string>
+    <string name="teams">16/20 Teams</string>
+    <string name="txt_winners">3000 Winners</string>
+    <string name="txt_join">Join</string>
+    <string name="Rs">\u20B9</string>
 
 </resources>
