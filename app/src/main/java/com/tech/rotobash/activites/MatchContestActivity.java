@@ -193,7 +193,6 @@ public class MatchContestActivity extends SidemenuActivity {
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 
         status = getString(R.string.active);
-        mMatchContestActivityBinding.includedContent.rlCreateNewContest.setVisibility(View.GONE);
 
         setCurrentRecyclerViewManager();
         setFilterRecyclerViewManager();
@@ -203,7 +202,6 @@ public class MatchContestActivity extends SidemenuActivity {
         if (Network.isAvailable(this)) {
             getLeague();
             loadMatchContest();
-
         } else {
             Toast.makeText(this, AppConstant.sNoInternet, Toast.LENGTH_LONG).show();
         }

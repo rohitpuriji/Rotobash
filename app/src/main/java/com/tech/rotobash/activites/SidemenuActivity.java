@@ -98,10 +98,6 @@ public class SidemenuActivity extends AppCompatActivity
 
     }
 
-    public UserResponse getUserResponse() {
-        return mUserResponse;
-    }
-
     @Override
     public void onBackPressed() {
 
