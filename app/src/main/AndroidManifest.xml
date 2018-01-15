@@ -56,14 +56,19 @@
             android:name=".activites.AuthenticationActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
 
         <activity android:name=".activites.WelcomeActivity" />
 
         <activity
             android:name=".activites.MatchListActivity"
             android:label="@string/title_activity_sidemenu"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme"/>
+
+        <activity
+            android:name=".activites.MatchContestActivity"
+            android:label="@string/title_activity_sidemenu"
+            android:theme="@style/AppTheme"/>
     </application>
 
 </manifest>

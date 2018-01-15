@@ -13,8 +13,8 @@
             android:layout_height="match_parent">
 
             <android.support.design.widget.AppBarLayout
-                android:layout_width="match_parent"
                 android:id="@+id/appbarLayout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:theme="@style/AppTheme.AppBarOverlay">
 
@@ -37,13 +37,13 @@
                             android:layout_centerVertical="true"
                             android:layout_marginBottom="8dp"
                             android:layout_marginEnd="15dp"
+                            android:layout_marginRight="15dp"
                             android:layout_marginTop="8dp"
                             android:background="@drawable/menu"
                             android:padding="@dimen/margin_five"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            android:layout_marginRight="15dp" />
+                            app:layout_constraintTop_toTopOf="parent" />
 
                         <ImageView
                             android:id="@+id/imageView2"
@@ -51,13 +51,13 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="8dp"
                             android:layout_marginEnd="10dp"
+                            android:layout_marginRight="10dp"
                             android:layout_marginTop="8dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toStartOf="@+id/textFontsRegular"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:srcCompat="@drawable/ball"
-                            android:layout_marginRight="10dp" />
+                            app:srcCompat="@drawable/ball" />
 
                         <com.tech.rotobash.utils.TextFontsRegular
                             android:id="@+id/textFontsRegular"
@@ -65,6 +65,7 @@
                             android:layout_height="match_parent"
                             android:layout_marginBottom="8dp"
                             android:layout_marginEnd="8dp"
+                            android:layout_marginRight="8dp"
                             android:layout_marginTop="8dp"
                             android:gravity="center_vertical"
                             android:text="@string/txt_cricket"
@@ -73,8 +74,7 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toStartOf="@+id/btnSelectMatches"
                             app:layout_constraintStart_toEndOf="@+id/imageView2"
-                            app:layout_constraintTop_toTopOf="parent"
-                            android:layout_marginRight="8dp" />
+                            app:layout_constraintTop_toTopOf="parent" />
 
                         <com.tech.rotobash.utils.ButtonFontBold
                             android:id="@+id/btnSelectMatches"
@@ -153,12 +153,11 @@
 
 
             <include
-                android:layout_below="@id/appbarLayout"
+                android:id="@+id/includedContent"
+                layout="@layout/content_sidemenu"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/includedContent"
-                android:layout_marginBottom="60dp"
-                layout="@layout/content_sidemenu" />
+                android:layout_below="@id/appbarLayout" />
 
 
             <RelativeLayout

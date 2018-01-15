@@ -8,6 +8,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -36,15 +37,16 @@ import static com.tech.rotobash.utils.AppConstant.sPleaseWait;
 /**
  * @Module Name/Class		:	SidemenuActivity
  * @Author Name             :	Rohit Puri
- * @Date                    :	Jan 8rd , 2018
- * @Purpose                 :	This class contains both sidemenu screen and main matches contents
+ * @Date :	Jan 8rd , 2018
+ * @Purpose :	This class contains both sidemenu screen and main matches contents
  */
 public class SidemenuActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     public ActivitySidemenuBinding mBinding;
-    private UserResponse mUserResponse;
+
     private ProgressDialog progressDoalog;
+    public UserResponse mUserResponse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,16 +56,26 @@ public class SidemenuActivity extends AppCompatActivity
 
     }
 
-    public void setDataToParentClass(UserResponse mUserResponse) {
-        this.mUserResponse = mUserResponse;
+    /**
+     * @Module Name/Class		:	openCloseDrawer
+     * @Author Name            :	Sachin Arora
+     * @Date :	Jan 8rd , 2018
+     * @Purpose :	This method will open close drawer
+     */
+    public void openCloseDrawer() {
 
+        if (mBinding.drawerLayout.isDrawerOpen(Gravity.RIGHT)) {
+            mBinding.drawerLayout.closeDrawer(Gravity.RIGHT);
+        } else {
+            mBinding.drawerLayout.openDrawer(Gravity.RIGHT);
+        }
     }
 
     /**
      * @Module Name/Class		:	initData
      * @Author Name             :	Rohit Puri
-     * @Date                    :	Jan 8rd , 2018
-     * @Purpose                 :	This method initialize the basic functionality
+     * @Date :	Jan 8rd , 2018
+     * @Purpose :	This method initialize the basic functionality
      */
     private void initData() {
 
@@ -77,8 +89,18 @@ public class SidemenuActivity extends AppCompatActivity
         progressDoalog.setMax(100);
         progressDoalog.setMessage(sPleaseWait);
         progressDoalog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+
+        // setSupportActionBar(mBinding.included.toolbar);
     }
 
+    public void setDataToParentClass(UserResponse mUserResponse) {
+        this.mUserResponse = mUserResponse;
+
+    }
+
+    public UserResponse getUserResponse() {
+        return mUserResponse;
+    }
 
     @Override
     public void onBackPressed() {

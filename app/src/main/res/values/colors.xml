@@ -9,9 +9,12 @@
     <color name="color_black">#000000</color>
     <color name="color_grey">#999999</color>
     <color name="color_blue">#385386</color>
-    <color name="color_light_blue">#3688E4</color>
+    <color name="color_light_blue_create">#3688E4</color>
     <color name="color_current_gray">#d4d4d4</color>
     <color name="light_grey">#676767</color>
     <color name="dark_grey">#404040</color>
+    <color name="color_light">#D14F5C</color>
+    <color name="color_light_grey">#E6E6E6</color>
+    <color name="color_light_blue">#E2FFF5</color>
 
 </resources>

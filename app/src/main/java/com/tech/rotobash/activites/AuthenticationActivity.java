@@ -99,6 +99,7 @@ public class AuthenticationActivity extends AppCompatActivity implements GoogleA
                 if (FieldValidations.doRegValidation(this, mBinding)) {
                     if (Network.isAvailable(AuthenticationActivity.this)) {
                         doRegistration();
+
                     } else {
                         Toast.makeText(AuthenticationActivity.this, AppConstant.sNoInternet, Toast.LENGTH_LONG).show();
                     }
