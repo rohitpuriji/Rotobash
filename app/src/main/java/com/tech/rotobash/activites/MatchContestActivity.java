@@ -21,6 +21,7 @@ import com.tech.rotobash.adapters.MatchContestsAdapter;
 import com.tech.rotobash.databinding.ActivityMatchContestBinding;
 import com.tech.rotobash.model.LeagueContestData;
 import com.tech.rotobash.model.MatchContestsData;
+import com.tech.rotobash.model.MatchesData;
 import com.tech.rotobash.utils.AppConstant;
 import com.tech.rotobash.utils.Network;
 
@@ -39,6 +40,7 @@ public class MatchContestActivity extends SidemenuActivity {
     private int aLimit = 10;
     private int league_id = 0;
     private String matchId;
+    private String price = null;
     private MatchContestsAdapter mAdapter;
     private ArrayList<MatchContestsData> mTempArrayListActiveContestData;
     private ArrayList<MatchContestsData> mTempArrayListInActiveContestData;
@@ -52,6 +54,8 @@ public class MatchContestActivity extends SidemenuActivity {
     private ArrayList<String> payArrayList;
     private ContestsFilterAdapter mFilterAdapter;
     private String mWhichFilter;
+    private ArrayList<MatchesData> matchArrayList;
+    private int matchPositionSelected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +102,11 @@ public class MatchContestActivity extends SidemenuActivity {
         });
 
         mMatchContestActivityBinding.tvSelectPay.setOnClickListener(v -> {
+            mWhichFilter = getString(R.string.txt_select_pay);
+            mMatchContestActivityBinding.recyclerViewOther.setVisibility(View.VISIBLE);
+            mMatchContestActivityBinding.includedContent.rootLayout.setVisibility(View.GONE);
 
+            setFilterAdapter();
 
         });
 
@@ -133,11 +141,48 @@ public class MatchContestActivity extends SidemenuActivity {
                 mMatchContestActivityBinding.includedContent.swipeContainerCurrent.setRefreshing(false);
             }
         });
+
+        mMatchContestActivityBinding.llMatchName.setOnClickListener(v -> {
+            mWhichFilter = getString(R.string.txt_match_name);
+            mMatchContestActivityBinding.recyclerViewOther.setVisibility(View.VISIBLE);
+            mMatchContestActivityBinding.includedContent.rootLayout.setVisibility(View.GONE);
+
+            setFilterAdapter();
+
+        });
     }
 
     private void setFilterAdapter() {
-        mFilterAdapter = new ContestsFilterAdapter(mWhichFilter, leaguesList, pos -> {
-            league_id = Integer.parseInt(leaguesList.get(pos).getId());
+        mFilterAdapter = new ContestsFilterAdapter(mWhichFilter, leaguesList, payArrayList, matchArrayList, pos -> {
+
+            if (mWhichFilter.equalsIgnoreCase(getString(R.string.txt_select_league)))
+                league_id = Integer.parseInt(leaguesList.get(pos).getId());
+            else if (mWhichFilter.equalsIgnoreCase(getString(R.string.txt_select_pay))) {
+
+                switch (pos) {
+                    case 0:
+                        price = "0";
+                        break;
+                    case 1:
+                        price = "100";
+                        break;
+                    case 2:
+                        price = "500";
+                        break;
+                    case 3:
+                        price = "1000";
+                        break;
+                    case 4:
+                        price = "2000";
+                        break;
+                }
+
+            } else {
+                matchId = matchArrayList.get(pos).getMatchId();
+                mMatchContestActivityBinding.tvMatchName.setText(new StringBuilder().append(matchArrayList.get(pos).getTeam1Name()).append(" VS ").append(matchArrayList.get(pos).getTeam2Name()).toString());
+
+            }
+
             aOffset = 0;
             mTempArrayListInActiveContestData.clear();
             mTempArrayListActiveContestData.clear();
@@ -180,8 +225,12 @@ public class MatchContestActivity extends SidemenuActivity {
 
     private void initDataVariables() {
         mMatchContestActivityBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.activity_match_contest, mBinding.contentFrame, true);
-        matchId = "52";
+        matchArrayList = getIntent().getParcelableArrayListExtra("matchList");
         mUserResponse = getIntent().getExtras().getParcelable("UserResponse");
+        matchPositionSelected = getIntent().getIntExtra("position", -1);
+
+        matchId = matchArrayList.get(matchPositionSelected).getMatchId();
+
         mTempArrayListActiveContestData = new ArrayList<>();
         mTempArrayListInActiveContestData = new ArrayList<>();
         leaguesList = new ArrayList<>();
@@ -196,6 +245,8 @@ public class MatchContestActivity extends SidemenuActivity {
 
         setCurrentRecyclerViewManager();
         setFilterRecyclerViewManager();
+
+        mMatchContestActivityBinding.tvMatchName.setText(new StringBuilder().append(matchArrayList.get(matchPositionSelected).getTeam1Name()).append(" VS ").append(matchArrayList.get(matchPositionSelected).getTeam2Name()).toString());
 
         setSelectPay();
 
@@ -228,7 +279,7 @@ public class MatchContestActivity extends SidemenuActivity {
 
         MatchContestsViewModel mMatchContestViewModel = ViewModelProviders.of(this).get(MatchContestsViewModel.class);
 
-        mMatchContestViewModel.getMatchContests(progressDialog, mUserResponse, matchId, String.valueOf(league_id), String.valueOf(aOffset), String.valueOf(aLimit))
+        mMatchContestViewModel.getMatchContests(progressDialog, mUserResponse, matchId, String.valueOf(league_id), price, String.valueOf(aOffset), String.valueOf(aLimit))
                 .observe(this, matchContestsResponse -> {
                     if (matchContestsResponse.getStatus().equalsIgnoreCase("success")) {
                         if (matchContestsResponse.getMatchModel().size() > 0) {
@@ -243,6 +294,7 @@ public class MatchContestActivity extends SidemenuActivity {
                         }
 
                     } else {
+                        Log.e("failure", "***");
                         Toast.makeText(MatchContestActivity.this, matchContestsResponse.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });

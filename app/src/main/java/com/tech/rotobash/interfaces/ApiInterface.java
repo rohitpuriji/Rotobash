@@ -68,6 +68,7 @@ public interface ApiInterface {
     Call<MatchContestsResponse> getMatchContests(@Header("Authorization") String token,
                                                  @Field("match_id") String matchId,
                                                  @Field("league_id") String leagueId,
+                                                 @Field("price") String price,
                                                  @Field("offset") String offset,
                                                  @Field("limit") String aLimit);
 

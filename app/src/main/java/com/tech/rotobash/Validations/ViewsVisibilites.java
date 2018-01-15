@@ -104,6 +104,8 @@ public class ViewsVisibilites {
         mBinding.includedContent.btnComing.setText(aAppCompatActivity.getString(R.string.inActive));
         mBinding.includedContent.btnCurrent.setBackgroundColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_light_blue));
         mBinding.includedContent.btnComing.setBackgroundColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_white));
+        mBinding.includedContent.btnCurrent.setTextColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_green));
+        mBinding.includedContent.btnComing.setTextColor(ContextCompat.getColor(aAppCompatActivity, R.color.dark_grey));
 
     }
 
@@ -112,6 +114,8 @@ public class ViewsVisibilites {
         mBinding.includedContent.btnComing.setText(aAppCompatActivity.getString(R.string.inActive));
         mBinding.includedContent.btnComing.setBackgroundColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_light_blue));
         mBinding.includedContent.btnCurrent.setBackgroundColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_white));
+        mBinding.includedContent.btnComing.setTextColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_green));
+        mBinding.includedContent.btnCurrent.setTextColor(ContextCompat.getColor(aAppCompatActivity, R.color.dark_grey));
 
     }
 }

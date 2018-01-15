@@ -22,11 +22,8 @@ import com.tech.rotobash.ViewModel.SeriesViewModel;
 import com.tech.rotobash.adapters.FiltersAdapter;
 import com.tech.rotobash.adapters.MatchesAdapter;
 import com.tech.rotobash.databinding.ActivityMatchListBinding;
-import com.tech.rotobash.interfaces.FilterClickListener;
-import com.tech.rotobash.interfaces.MatchItemInterface;
 import com.tech.rotobash.model.MatchesData;
 import com.tech.rotobash.model.SeriesData;
-import com.tech.rotobash.model.SeriesModel;
 import com.tech.rotobash.model.UserResponse;
 import com.tech.rotobash.utils.AppConstant;
 import com.tech.rotobash.utils.Network;
@@ -110,12 +107,12 @@ public class MatchListActivity extends SidemenuActivity {
         });
     }
 
-    private void handleFilterVisibility(){
-        if (mSeriesList.size()>0){
+    private void handleFilterVisibility() {
+        if (mSeriesList.size() > 0) {
             if (mMatchListActivityBinding.listViewFilter.getVisibility() != View.VISIBLE) {
                 mMatchListActivityBinding.listViewFilter.setVisibility(View.VISIBLE);
                 mMatchListActivityBinding.includedContent.rootLayout.setVisibility(View.GONE);
-            }else{
+            } else {
                 mMatchListActivityBinding.listViewFilter.setVisibility(View.GONE);
                 mMatchListActivityBinding.includedContent.rootLayout.setVisibility(View.VISIBLE);
             }
@@ -242,8 +239,8 @@ public class MatchListActivity extends SidemenuActivity {
                             Toast.makeText(MatchListActivity.this, matchesResponse.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     } else {
-                        if (mSeriesId!=0){
-                            if (mLoading){
+                        if (mSeriesId != 0) {
+                            if (mLoading) {
                                 mTempList.clear();
                                 mAdapter.notifyDataSetChanged();
                             }
@@ -256,7 +253,8 @@ public class MatchListActivity extends SidemenuActivity {
     private void moveScreen(int pos) {
         Intent intent = new Intent(this, MatchContestActivity.class);
         intent.putExtra("UserResponse", mUserResponse);
-        intent.putExtra("matchId", mTempList.get(pos).getMatchId());
+        intent.putParcelableArrayListExtra("matchList", mTempList);
+        intent.putExtra("position", pos);
         startActivity(intent);
 
     }
@@ -300,7 +298,7 @@ public class MatchListActivity extends SidemenuActivity {
         if (mMatchListActivityBinding.listViewFilter.getVisibility() == View.VISIBLE) {
             mMatchListActivityBinding.listViewFilter.setVisibility(View.GONE);
             mMatchListActivityBinding.includedContent.rootLayout.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             finish();
         }
     }

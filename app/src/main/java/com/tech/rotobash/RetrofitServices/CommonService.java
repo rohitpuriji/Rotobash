@@ -34,17 +34,16 @@ import static com.tech.rotobash.utils.AppConstant.sMainUrl;
 public class CommonService {
 
     private static Retrofit retrofit = null;
-    private OkHttpClient okHttpClient;
 
     public static Retrofit getRetrofitClient() {
         Gson gson = new GsonBuilder().setLenient().create();
         if (retrofit == null) {
-
             retrofit = new Retrofit.Builder()
                     .baseUrl(sMainUrl)
                     .client(new OkHttpClient.Builder()
-                            .readTimeout(60, TimeUnit.MINUTES)
-                            .connectTimeout(60, TimeUnit.MINUTES)
+                            .connectTimeout(60, TimeUnit.SECONDS)
+                            .writeTimeout(60, TimeUnit.SECONDS)
+                            .readTimeout(60, TimeUnit.SECONDS)
                             .build())
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
@@ -293,7 +292,7 @@ public class CommonService {
      * @Date :	Jan 11 , 2018
      * @Purpose :	This method return the MutableLiveData for get Matches api
      */
-    public LiveData<MatchContestsResponse> getMatchContests(ProgressDialog progressDialog, UserResponse aUserResponse, String aMatchId, String aLeagueId, String aOffset, String aLimit) {
+    public LiveData<MatchContestsResponse> getMatchContests(ProgressDialog progressDialog, UserResponse aUserResponse, String aMatchId, String aLeagueId, String price, String aOffset, String aLimit) {
 
         if (!progressDialog.isShowing()) {
             progressDialog.show();
@@ -302,7 +301,7 @@ public class CommonService {
 
         getRetrofitClient()
                 .create(ApiInterface.class)
-                .getMatchContests(aUserResponse.getResponse().getAccessToken(), aMatchId, aLeagueId, aOffset, aLimit)
+                .getMatchContests(aUserResponse.getResponse().getAccessToken(), aMatchId, aLeagueId, price,aOffset, aLimit)
                 .enqueue(new Callback<MatchContestsResponse>() {
 
                     @Override
