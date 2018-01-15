@@ -3,11 +3,14 @@ package com.tech.rotobash.adapters;
 
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.tech.rotobash.R;
 import com.tech.rotobash.databinding.ItemMatchesBinding;
+import com.tech.rotobash.interfaces.MatchItemInterface;
 import com.tech.rotobash.model.MatchesData;
 
 import java.util.List;
@@ -15,6 +18,7 @@ import java.util.List;
 public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.MyViewHolder> {
 
     private List<MatchesData> matchesDataList;
+    private MatchItemInterface mMatchItemInterface;
 
     class MyViewHolder extends RecyclerView.ViewHolder {
 
@@ -32,9 +36,9 @@ public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.MyViewHo
         }
     }
 
-    public MatchesAdapter(List<MatchesData> matchesDataList) {
+    public MatchesAdapter(List<MatchesData> matchesDataList, MatchItemInterface matchItemInterface) {
         this.matchesDataList = matchesDataList;
-
+        mMatchItemInterface = matchItemInterface;
     }
 
     @Override
@@ -49,10 +53,15 @@ public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.MyViewHo
     public void onBindViewHolder(MyViewHolder holder, int position) {
 
         ItemMatchesBinding viewDataBinding = holder.getViewDataBinding();
-        viewDataBinding.tvMatchName.setText(matchesDataList.get(position).getMatchName());
+        viewDataBinding.tvMatchName.setText(matchesDataList.get(position).getSeriesShortName());
         viewDataBinding.tvTeam1Name.setText(matchesDataList.get(position).getTeam1Name());
         viewDataBinding.tvTeam2Name.setText(matchesDataList.get(position).getTeam2Name());
+
+        viewDataBinding.cardView.setOnClickListener(view -> {
+            mMatchItemInterface.onItemClick(position);
+        });
     }
+
 
     @Override
     public int getItemCount() {

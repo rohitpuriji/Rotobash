@@ -1,6 +1,5 @@
 package com.tech.rotobash.ViewModel;
 
-import android.app.ProgressDialog;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 
@@ -16,13 +15,13 @@ import com.tech.rotobash.model.UserResponse;
  */
 public class MatchesViewModel extends ViewModel {
 
-    private LiveData<MatchesResponse> mLiveMatchData;
+    private LiveData<MatchesResponse> mMatchData;
 
     private CommonService mCommonService = new CommonService();
 
-    public LiveData<MatchesResponse> getMatches(ProgressDialog progressDialog, UserResponse aUserResponse, String aMatchType, String aOffset) {
-        mLiveMatchData = mCommonService.getMatches(progressDialog,aUserResponse,aMatchType,aOffset);
-        return mLiveMatchData;
+    public LiveData<MatchesResponse> getMatches(String aSeriesId,UserResponse aUserResponse, String aMatchType, String aOffset) {
+        mMatchData = mCommonService.getMatches(aSeriesId,aUserResponse,aMatchType,aOffset);
+        return mMatchData;
     }
 
 }

@@ -65,22 +65,28 @@ public class MatchContestsAdapter extends RecyclerView.Adapter<MatchContestsAdap
         viewDataBinding.tvPay.setText(new StringBuilder().append(appCompatActivity.getString(R.string.Rs)).append(" ").append(matchContestsData.getEntry_fee()).toString());
         viewDataBinding.tvLeagueName.setText(matchContestsData.getLeague_name());
         viewDataBinding.tvTotalWinners.setText(new StringBuilder().append(matchContestsData.getNo_of_winners()).append(" ").append("WINNERS").toString());
-        viewDataBinding.tvTeamsJoined.setText(new StringBuilder().append("3").append("/").append(matchContestsData.getMax_user()).append(" ").append("TEAMS").toString());
+        viewDataBinding.tvTeamsJoined.setText(new StringBuilder().append(matchContestsData.getTotal_users()).append("/").append(matchContestsData.getMax_user()).append(" ").append("TEAMS").toString());
 
-        setProgress(viewDataBinding, matchContestsData);
+        viewDataBinding.seekBar.setProgress(getProgress(viewDataBinding, matchContestsData));
+
 
     }
 
-    private void setProgress(ItemMatchContestsBinding viewDataBinding, MatchContestsData matchContestsData) {
-        int progress, teamsJoined, maxTeams;
-        teamsJoined = Integer.parseInt("3");
-        maxTeams = Integer.parseInt(matchContestsData.getMax_user());
+    private int getProgress(ItemMatchContestsBinding viewDataBinding, MatchContestsData matchContestsData) {
 
-        progress = (teamsJoined / maxTeams) * 100;
+        int progress;
+        int total_users;
+        int max_users;
 
-        Log.e("progress is", progress + "");
+        total_users = Integer.parseInt(matchContestsData.getTotal_users());
+        max_users = Integer.parseInt(matchContestsData.getMax_user());
 
-        viewDataBinding.seekBar.setProgress(progress);
+        progress = (total_users * 100) / max_users;
+
+
+        Log.e("progress", progress + "");
+
+        return progress;
 
     }
 

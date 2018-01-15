@@ -8,6 +8,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -95,6 +96,10 @@ public class SidemenuActivity extends AppCompatActivity
     public void setDataToParentClass(UserResponse mUserResponse) {
         this.mUserResponse = mUserResponse;
 
+    }
+
+    public UserResponse getUserResponse() {
+        return mUserResponse;
     }
 
     @Override
@@ -187,13 +192,11 @@ public class SidemenuActivity extends AppCompatActivity
                             mBinding.etNewPass.requestFocus();
                             mBinding.tvErrorNewPassword.setVisibility(View.VISIBLE);
                             mBinding.tvErrorNewPassword.setText(sEnterValidPassword);
-                            // mBinding.etNewPass.setError(sEnterValidPassword);
 
                         } else if (!AppUtils.validate(mBinding.etNewPass.getText().toString())) {
                             mBinding.etNewPass.requestFocus();
                             mBinding.tvErrorNewPassword.setVisibility(View.VISIBLE);
                             mBinding.tvErrorNewPassword.setText(ePasswordReq);
-                            // mBinding.etNewPass.setError(ePasswordReq);
                         }
                     }
                 }));

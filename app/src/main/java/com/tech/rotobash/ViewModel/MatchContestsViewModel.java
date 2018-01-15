@@ -18,8 +18,8 @@ public class MatchContestsViewModel extends ViewModel {
 
     private CommonService mCommonService = new CommonService();
 
-    public LiveData<MatchContestsResponse> getMatchContests(ProgressDialog progressDialog, UserResponse mUserResponse, String aMatchId, String aOffset,String aLimit) {
-        mLiveMatchContestsData = mCommonService.getMatchContests(progressDialog,mUserResponse, aMatchId,aOffset,aLimit);
+    public LiveData<MatchContestsResponse> getMatchContests(ProgressDialog progressDialog, UserResponse mUserResponse, String aMatchId, String league_id, String aOffset, String aLimit) {
+        mLiveMatchContestsData = mCommonService.getMatchContests(progressDialog,mUserResponse, aMatchId,league_id,aOffset,aLimit);
         return mLiveMatchContestsData;
     }
 }

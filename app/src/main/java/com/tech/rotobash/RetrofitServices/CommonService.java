@@ -8,8 +8,10 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.tech.rotobash.interfaces.ApiInterface;
+import com.tech.rotobash.model.LeaguesResponse;
 import com.tech.rotobash.model.MatchContestsResponse;
 import com.tech.rotobash.model.MatchesResponse;
+import com.tech.rotobash.model.SeriesResponse;
 import com.tech.rotobash.model.UserResponse;
 
 import retrofit2.Call;
@@ -244,16 +246,14 @@ public class CommonService {
      * @Date :	Jan 11 , 2018
      * @Purpose :	This method return the MutableLiveData for get Matches api
      */
-    public LiveData<MatchesResponse> getMatches(ProgressDialog progressDoalog, UserResponse aUserResponse, String aType, String aOffset) {
+    public LiveData<MatchesResponse> getMatches(String aSeriesid, UserResponse aUserResponse, String aType, String aOffset) {
 
-        if (!progressDoalog.isShowing()) {
-            progressDoalog.show();
-        }
+
         final MutableLiveData<MatchesResponse> liveMatchResponse = new MutableLiveData<>();
 
         getRetrofitClient()
                 .create(ApiInterface.class)
-                .getMatches(aUserResponse.getResponse().getAccessToken(), aUserResponse.getResponse().getUserId(), aType, aOffset)
+                .getMatches(aUserResponse.getResponse().getAccessToken(), aSeriesid, aType, aOffset)
                 .enqueue(new Callback<MatchesResponse>() {
 
                     @Override
@@ -264,9 +264,9 @@ public class CommonService {
                         Log.e("on offset :", aOffset);
                         Log.e("on response :", aMatchesResponse.body().getStatus());
                         Log.e("on response :", aMatchesResponse.body().getMessage());
-                        if (progressDoalog.isShowing()) {
-                            progressDoalog.dismiss();
-                        }
+//                        if (progressDoalog.isShowing()) {
+//                            progressDoalog.dismiss();
+//                        }
                         MatchesResponse matchesResponse = aMatchesResponse.body();
                         liveMatchResponse.setValue(matchesResponse);
                     }
@@ -274,9 +274,10 @@ public class CommonService {
                     @Override
                     public void onFailure(Call<MatchesResponse> call, Throwable t) {
                         Log.e("on Failure :", "retrofit error" + t.getLocalizedMessage());
-                        if (progressDoalog.isShowing()) {
-                            progressDoalog.dismiss();
-                        }
+//                        if (progressDoalog.isShowing()) {
+//                            progressDoalog.dismiss();
+//                        }
+
                     }
                 });
 
@@ -289,7 +290,7 @@ public class CommonService {
      * @Date :	Jan 11 , 2018
      * @Purpose :	This method return the MutableLiveData for get Matches api
      */
-    public LiveData<MatchContestsResponse> getMatchContests(ProgressDialog progressDialog, UserResponse aUserResponse, String aMatchId, String aOffset, String aLimit) {
+    public LiveData<MatchContestsResponse> getMatchContests(ProgressDialog progressDialog, UserResponse aUserResponse, String aMatchId, String aLeagueId, String aOffset, String aLimit) {
 
         if (!progressDialog.isShowing()) {
             progressDialog.show();
@@ -298,7 +299,7 @@ public class CommonService {
 
         getRetrofitClient()
                 .create(ApiInterface.class)
-                .getMatchContests(aUserResponse.getResponse().getAccessToken(), aMatchId, aOffset,aLimit)
+                .getMatchContests(aUserResponse.getResponse().getAccessToken(), aMatchId, aLeagueId, aOffset, aLimit)
                 .enqueue(new Callback<MatchContestsResponse>() {
 
                     @Override
@@ -323,5 +324,76 @@ public class CommonService {
                 });
 
         return matchContestsResponse;
+    }
+
+    /**
+     * @Module class/module		:	getMatchContests
+     * @Author Name                :	Rohit Puri
+     * @Date :	Jan 11 , 2018
+     * @Purpose :	This method return the MutableLiveData for get Matches api
+     */
+    public LiveData<SeriesResponse> getFilters(UserResponse aUserResponse) {
+
+        final MutableLiveData<SeriesResponse> liveSeriesRespose = new MutableLiveData<>();
+
+        getRetrofitClient()
+                .create(ApiInterface.class)
+                .getFilters(aUserResponse.getResponse().getAccessToken(), aUserResponse.getResponse().getUserId())
+                .enqueue(new Callback<SeriesResponse>() {
+
+                    @Override
+                    public void onResponse(Call<SeriesResponse> call, Response<SeriesResponse> aSeriesResponse) {
+                        Log.e("on getAccessToken :", aUserResponse.getResponse().getAccessToken());
+                        Log.e("on response :", aSeriesResponse.body().getStatus());
+                        Log.e("on response :", new Gson().toJson(aSeriesResponse));
+
+                        SeriesResponse seriesResponse = aSeriesResponse.body();
+                        liveSeriesRespose.setValue(seriesResponse);
+                    }
+
+                    @Override
+                    public void onFailure(Call<SeriesResponse> call, Throwable t) {
+                        Log.e("on Failure :", "retrofit error" + t.getLocalizedMessage());
+                        t.getStackTrace();
+                    }
+                });
+
+        return liveSeriesRespose;
+    }
+
+
+    /**
+     * @Module class/module		:	getMatchContests
+     * @Author Name                :	Sachin Arora
+     * @Date :	Jan 11 , 2018
+     * @Purpose :	This method return the MutableLiveData for get Matches api
+     */
+    public LiveData<LeaguesResponse> getLeague(ProgressDialog progressDialog, UserResponse aUserResponse) {
+
+        final MutableLiveData<LeaguesResponse> leaguesResponse = new MutableLiveData<>();
+
+        getRetrofitClient()
+                .create(ApiInterface.class)
+                .getLeague(aUserResponse.getResponse().getAccessToken(), aUserResponse.getResponse().getUserId())
+                .enqueue(new Callback<LeaguesResponse>() {
+
+                    @Override
+                    public void onResponse(Call<LeaguesResponse> call, Response<LeaguesResponse> aSeriesResponse) {
+
+                        if (progressDialog.isShowing())
+                            progressDialog.dismiss();
+
+                        LeaguesResponse response = aSeriesResponse.body();
+                        leaguesResponse.setValue(response);
+                    }
+
+                    @Override
+                    public void onFailure(Call<LeaguesResponse> call, Throwable t) {
+                        Log.e("on Failure :", "retrofit error" + t.getLocalizedMessage());
+                        t.getStackTrace();
+                    }
+                });
+
+        return leaguesResponse;
     }
 }

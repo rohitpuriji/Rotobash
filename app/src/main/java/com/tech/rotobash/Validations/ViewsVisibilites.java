@@ -85,8 +85,6 @@ public class ViewsVisibilites {
     }
 
     public static void showCurrentMatchesView(AppCompatActivity aAppCompatActivity, ActivityMatchListBinding mBinding) {
-        mBinding.includedContent.swipeContainerCurrent.setVisibility(View.VISIBLE);
-        mBinding.includedContent.swipeContainerUpcoming.setVisibility(View.GONE);
         mBinding.includedContent.btnCurrent.setBackgroundColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_current_gray));
         mBinding.includedContent.btnComing.setBackgroundColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_white));
         mBinding.includedContent.btnCurrent.setTextColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_red));
@@ -95,8 +93,6 @@ public class ViewsVisibilites {
     }
 
     public static void showComingMatchesView(AppCompatActivity aAppCompatActivity, ActivityMatchListBinding mBinding) {
-        mBinding.includedContent.swipeContainerCurrent.setVisibility(View.GONE);
-        mBinding.includedContent.swipeContainerUpcoming.setVisibility(View.VISIBLE);
         mBinding.includedContent.btnCurrent.setBackgroundColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_white));
         mBinding.includedContent.btnComing.setBackgroundColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_current_gray));
         mBinding.includedContent.btnCurrent.setTextColor(ContextCompat.getColor(aAppCompatActivity, R.color.light_grey));

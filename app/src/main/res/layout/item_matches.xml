@@ -8,6 +8,7 @@
         android:id="@+id/card_view"
         android:layout_gravity="center"
         android:layout_width="match_parent"
+        android:layout_margin="@dimen/margin_ten"
         android:layout_height="wrap_content"
         card_view:cardCornerRadius="4dp">
 
@@ -60,15 +61,16 @@
                 android:id="@+id/tvTeam1Name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:maxLength="10"
                 android:text="KKR"
                 android:textColor="@color/dark_grey"
                 android:textSize="@dimen/mid_text"
                 app:layout_constraintBottom_toTopOf="@+id/tvTimeLeft"
                 app:layout_constraintEnd_toStartOf="@+id/tvTeamVs"
                 app:layout_constraintStart_toEndOf="@+id/imgTeam1"
-                app:layout_constraintTop_toBottomOf="@+id/tvMatchName"
-                tools:layout_editor_absoluteX="134dp"
-                tools:layout_editor_absoluteY="69dp" />
+                app:layout_constraintTop_toBottomOf="@+id/tvMatchName" />
 
             <com.tech.rotobash.utils.TextFontsRegular
                 android:id="@+id/tvTeamVs"
@@ -87,15 +89,16 @@
                 android:id="@+id/tvTeam2Name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:maxLength="10"
                 android:text="CSK"
                 android:textColor="@color/dark_grey"
                 android:textSize="@dimen/mid_text"
                 app:layout_constraintBottom_toTopOf="@+id/tvTimeLeft"
                 app:layout_constraintEnd_toStartOf="@+id/imgTeam2"
                 app:layout_constraintStart_toEndOf="@+id/tvTeamVs"
-                app:layout_constraintTop_toBottomOf="@+id/tvMatchName"
-                tools:layout_editor_absoluteX="200dp"
-                tools:layout_editor_absoluteY="76dp" />
+                app:layout_constraintTop_toBottomOf="@+id/tvMatchName" />
 
             <com.tech.rotobash.utils.TextFontsRegular
                 android:id="@+id/tvTimeLeft"

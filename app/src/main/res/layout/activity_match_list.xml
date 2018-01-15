@@ -8,140 +8,157 @@
         android:layout_height="match_parent"
         tools:context="com.tech.rotobash.activites.SidemenuActivity">
 
-        <android.support.design.widget.AppBarLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/AppTheme.AppBarOverlay">
+            android:layout_height="match_parent">
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
+            <android.support.design.widget.AppBarLayout
+                android:id="@+id/appbarLayout"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@color/color_red"
-                app:popupTheme="@style/AppTheme.PopupOverlay">
+                android:layout_height="wrap_content"
+                android:theme="@style/AppTheme.AppBarOverlay">
 
-                <android.support.constraint.ConstraintLayout
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="?attr/actionBarSize"
+                    android:background="@color/color_red"
+                    app:popupTheme="@style/AppTheme.PopupOverlay">
 
-                    <ImageView
-                        android:id="@+id/imgMenu"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginEnd="15dp"
-                        android:layout_marginTop="8dp"
-                        android:background="@drawable/menu"
-                        android:padding="@dimen/margin_five"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        android:layout_marginRight="15dp" />
-
-                    <ImageView
-                        android:id="@+id/imageView2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginTop="8dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/textFontsRegular"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/ball"
-                        android:layout_marginRight="10dp" />
-
-                    <com.tech.rotobash.utils.TextFontsRegular
-                        android:id="@+id/textFontsRegular"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginTop="8dp"
-                        android:gravity="center_vertical"
-                        android:text="@string/txt_cricket"
-                        android:textColor="@color/color_white"
-                        android:textSize="@dimen/mid_text"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/btnSelectMatches"
-                        app:layout_constraintStart_toEndOf="@+id/imageView2"
-                        app:layout_constraintTop_toTopOf="parent"
-                        android:layout_marginRight="8dp" />
-
-                    <com.tech.rotobash.utils.ButtonFontBold
-                        android:id="@+id/btnSelectMatches"
-                        android:layout_width="148dp"
-                        android:layout_height="25dp"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
-                        android:background="@drawable/dropdown_bg_whiteline"
-                        android:drawableRight="@drawable/droparrow"
-                        android:paddingEnd="@dimen/margin_five"
-                        android:paddingRight="@dimen/margin_five"
-                        android:text="@string/txt_all"
-                        android:textAllCaps="true"
-                        android:textColor="@color/light_grey"
-                        android:textSize="@dimen/small_text"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/relativeLayout"
-                        app:layout_constraintStart_toEndOf="@+id/textFontsRegular"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <RelativeLayout
-                        android:id="@+id/relativeLayout"
-                        android:layout_width="43dp"
-                        android:layout_height="40dp"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/imgMenu"
-                        app:layout_constraintHorizontal_bias="1.0"
-                        app:layout_constraintStart_toEndOf="@+id/btnSelectMatches"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.0">
-
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
                         <ImageView
-                            android:id="@+id/imageView3"
+                            android:id="@+id/imgMenu"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            app:srcCompat="@drawable/ico_greaycup" />
-
-                        <com.tech.rotobash.utils.TextFontsBold
-                            android:id="@+id/tvNotification"
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
+                            android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
-                            android:layout_marginLeft="-5dp"
-                            android:layout_marginTop="-10dp"
-                            android:layout_toRightOf="@id/imageView3"
-                            android:background="@drawable/circle_bg_white"
-                            android:gravity="center"
-                            android:text="5"
-                            android:textColor="@color/color_red"
-                            android:textSize="8sp" />
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginEnd="15dp"
+                            android:layout_marginRight="15dp"
+                            android:layout_marginTop="8dp"
+                            android:background="@drawable/menu"
+                            android:padding="@dimen/margin_five"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
+                            android:id="@+id/imageView2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/textFontsRegular"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/ball" />
+
+                        <com.tech.rotobash.utils.TextFontsRegular
+                            android:id="@+id/textFontsRegular"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginRight="8dp"
+                            android:layout_marginTop="8dp"
+                            android:gravity="center_vertical"
+                            android:text="@string/txt_cricket"
+                            android:textColor="@color/color_white"
+                            android:textSize="@dimen/mid_text"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/btnSelectMatches"
+                            app:layout_constraintStart_toEndOf="@+id/imageView2"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <com.tech.rotobash.utils.ButtonFontBold
+                            android:id="@+id/btnSelectMatches"
+                            android:layout_width="148dp"
+                            android:layout_height="25dp"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:background="@drawable/dropdown_bg_whiteline"
+                            android:drawableRight="@drawable/droparrow"
+                            android:paddingEnd="@dimen/margin_five"
+                            android:paddingRight="@dimen/margin_five"
+                            android:text="@string/txt_all"
+                            android:textAllCaps="true"
+                            android:textColor="@color/light_grey"
+                            android:textSize="@dimen/small_text"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/relativeLayout"
+                            app:layout_constraintStart_toEndOf="@+id/textFontsRegular"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <RelativeLayout
+                            android:id="@+id/relativeLayout"
+                            android:layout_width="43dp"
+                            android:layout_height="40dp"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/imgMenu"
+                            app:layout_constraintHorizontal_bias="1.0"
+                            app:layout_constraintStart_toEndOf="@+id/btnSelectMatches"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_bias="0.0">
 
 
-                    </RelativeLayout>
+                            <ImageView
+                                android:id="@+id/imageView3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                app:srcCompat="@drawable/bell" />
 
-                </android.support.constraint.ConstraintLayout>
+                            <com.tech.rotobash.utils.TextFontsBold
+                                android:id="@+id/tvNotification"
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="-8dp"
+                                android:layout_marginTop="-10dp"
+                                android:layout_toRightOf="@id/imageView3"
+                                android:background="@drawable/circle_bg_white"
+                                android:gravity="center"
+                                android:text="5"
+                                android:textColor="@color/color_red"
+                                android:textSize="8sp" />
 
-            </android.support.v7.widget.Toolbar>
 
-        </android.support.design.widget.AppBarLayout>
+                        </RelativeLayout>
 
-        <include
-            android:id="@+id/includedContent"
-            layout="@layout/content_sidemenu" />
+                    </android.support.constraint.ConstraintLayout>
 
+                </android.support.v7.widget.Toolbar>
+
+            </android.support.design.widget.AppBarLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/listViewFilter"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/appbarLayout" />
+
+
+            <include
+                android:id="@+id/includedContent"
+                layout="@layout/content_sidemenu"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/appbarLayout" />
+
+
+        </RelativeLayout>
 
     </android.support.design.widget.CoordinatorLayout>
 </layout>

@@ -163,6 +163,13 @@
 
         </android.support.constraint.ConstraintLayout>
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerViewOther"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
         <include
             android:id="@+id/includedContent"
             layout="@layout/content_sidemenu"
