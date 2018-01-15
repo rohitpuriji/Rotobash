@@ -3,15 +3,14 @@ package com.tech.rotobash.adapters;
 
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import com.tech.rotobash.R;
 import com.tech.rotobash.databinding.ItemMatchesBinding;
 import com.tech.rotobash.interfaces.MatchItemInterface;
 import com.tech.rotobash.model.MatchesData;
+import com.tech.rotobash.utils.AppUtils;
 
 import java.util.List;
 
@@ -56,10 +55,9 @@ public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.MyViewHo
         viewDataBinding.tvMatchName.setText(matchesDataList.get(position).getSeriesShortName());
         viewDataBinding.tvTeam1Name.setText(matchesDataList.get(position).getTeam1Name());
         viewDataBinding.tvTeam2Name.setText(matchesDataList.get(position).getTeam2Name());
+        viewDataBinding.tvTimeLeft.setText(AppUtils.getDateFormatYear(matchesDataList.get(position).getMatchStartDate()));
+        viewDataBinding.cardView.setOnClickListener(view -> mMatchItemInterface.onItemClick(position));
 
-        viewDataBinding.cardView.setOnClickListener(view -> {
-            mMatchItemInterface.onItemClick(position);
-        });
     }
 
 

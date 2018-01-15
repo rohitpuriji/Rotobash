@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -22,9 +23,11 @@ import com.tech.rotobash.ViewModel.SeriesViewModel;
 import com.tech.rotobash.adapters.FiltersAdapter;
 import com.tech.rotobash.adapters.MatchesAdapter;
 import com.tech.rotobash.databinding.ActivityMatchListBinding;
+import com.tech.rotobash.interfaces.FilterClickListener;
 import com.tech.rotobash.interfaces.MatchItemInterface;
 import com.tech.rotobash.model.MatchesData;
 import com.tech.rotobash.model.SeriesData;
+import com.tech.rotobash.model.SeriesModel;
 import com.tech.rotobash.model.UserResponse;
 import com.tech.rotobash.utils.AppConstant;
 import com.tech.rotobash.utils.Network;
@@ -107,16 +110,20 @@ public class MatchListActivity extends SidemenuActivity {
 
 
         mMatchListActivityBinding.btnSelectMatches.setOnClickListener(view -> {
-            if (mSeriesList.size()>0){
-                if (mMatchListActivityBinding.listViewFilter.getVisibility() != View.VISIBLE) {
-                    mMatchListActivityBinding.listViewFilter.setVisibility(View.VISIBLE);
-                    mMatchListActivityBinding.includedContent.rootLayout.setVisibility(View.GONE);
-                }else{
-                    mMatchListActivityBinding.listViewFilter.setVisibility(View.GONE);
-                    mMatchListActivityBinding.includedContent.rootLayout.setVisibility(View.VISIBLE);
-                }
-            }
+            handleFilterVisibility();
         });
+    }
+
+    private void handleFilterVisibility(){
+        if (mSeriesList.size()>0){
+            if (mMatchListActivityBinding.listViewFilter.getVisibility() != View.VISIBLE) {
+                mMatchListActivityBinding.listViewFilter.setVisibility(View.VISIBLE);
+                mMatchListActivityBinding.includedContent.rootLayout.setVisibility(View.GONE);
+            }else{
+                mMatchListActivityBinding.listViewFilter.setVisibility(View.GONE);
+                mMatchListActivityBinding.includedContent.rootLayout.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     private void refreshList(){
@@ -134,7 +141,8 @@ public class MatchListActivity extends SidemenuActivity {
             mMatchesList.clear();
         }
 
-        loadMatches(mSeriesId+"",mMatchType+"",mOffset+"");
+        loadMatches(mSeriesId + "", mMatchType + "", mOffset + "");
+
     }
 
     /**
@@ -188,7 +196,9 @@ public class MatchListActivity extends SidemenuActivity {
         mLayoutFilterManager = new LinearLayoutManager(MatchListActivity.this);
         mMatchListActivityBinding.listViewFilter.setLayoutManager(mLayoutFilterManager);
         mMatchListActivityBinding.listViewFilter.setItemAnimator(new DefaultItemAnimator());
-
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mMatchListActivityBinding.listViewFilter.getContext(),
+                DividerItemDecoration.VERTICAL);
+        mMatchListActivityBinding.listViewFilter.addItemDecoration(dividerItemDecoration);
     }
 
     /**
@@ -236,6 +246,12 @@ public class MatchListActivity extends SidemenuActivity {
                             Toast.makeText(MatchListActivity.this, matchesResponse.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     } else {
+                        if (mSeriesId!=0){
+                            if (mLoading){
+                                mTempList.clear();
+                                mAdapter.notifyDataSetChanged();
+                            }
+                        }
                         Toast.makeText(MatchListActivity.this, matchesResponse.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
@@ -260,7 +276,15 @@ public class MatchListActivity extends SidemenuActivity {
                     if (seriesResponse.getStatus().equalsIgnoreCase("success")) {
                         if (seriesResponse.getSeriesModel().size() > 0) {
                             mSeriesList = seriesResponse.getSeriesModel();
-                            mFilterAdapter = new FiltersAdapter(mSeriesList);
+
+                            mFilterAdapter = new FiltersAdapter(mSeriesList, pos -> {
+                                mSeriesId = Integer.parseInt(mSeriesList.get(pos).getmSeriesModel().getSeriesId());
+                                mMatchListActivityBinding.btnSelectMatches.setText(mSeriesList.get(pos).getmSeriesModel().getSeriesShortName());
+                                refreshList();
+                                mMatchListActivityBinding.listViewFilter.setVisibility(View.GONE);
+                                mMatchListActivityBinding.includedContent.rootLayout.setVisibility(View.VISIBLE);
+                            });
+
                             mMatchListActivityBinding.listViewFilter.setAdapter(mFilterAdapter);
                         }
                         else {
@@ -272,5 +296,13 @@ public class MatchListActivity extends SidemenuActivity {
                 });
     }
 
-
+    @Override
+    public void onBackPressed() {
+        if (mMatchListActivityBinding.listViewFilter.getVisibility() == View.VISIBLE) {
+            mMatchListActivityBinding.listViewFilter.setVisibility(View.GONE);
+            mMatchListActivityBinding.includedContent.rootLayout.setVisibility(View.VISIBLE);
+        }else{
+            finish();
+        }
+    }
 }

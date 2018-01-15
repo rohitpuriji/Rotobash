@@ -4,10 +4,12 @@ package com.tech.rotobash.adapters;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.tech.rotobash.R;
 import com.tech.rotobash.databinding.ListItemsFilterBinding;
+import com.tech.rotobash.interfaces.FilterClickListener;
 import com.tech.rotobash.model.SeriesData;
 
 import java.util.List;
@@ -15,6 +17,7 @@ import java.util.List;
 public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.MyViewHolder> {
 
     private List<SeriesData> seriesDataList;
+    private FilterClickListener mFilterClickListener;
 
     class MyViewHolder extends RecyclerView.ViewHolder {
 
@@ -32,8 +35,9 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.MyViewHo
         }
     }
 
-    public FiltersAdapter(List<SeriesData> seriesDataList) {
+    public FiltersAdapter(List<SeriesData> seriesDataList, FilterClickListener filterClickListener) {
         this.seriesDataList = seriesDataList;
+        mFilterClickListener = filterClickListener;
 
     }
 
@@ -50,6 +54,9 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.MyViewHo
 
         ListItemsFilterBinding viewDataBinding = holder.getViewDataBinding();
         viewDataBinding.tvItemName.setText(seriesDataList.get(position).getmSeriesModel().getSeriesShortName());
+        viewDataBinding.tvItemName.setOnClickListener(view -> {
+            mFilterClickListener.onClick(position);
+        });
     }
 
     @Override

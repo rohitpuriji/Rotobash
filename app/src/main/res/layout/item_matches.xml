@@ -109,7 +109,6 @@
                 android:drawablePadding="@dimen/margin_five"
                 android:gravity="center_vertical"
                 android:paddingHorizontal="@dimen/margin_five"
-                android:text="135:23:00"
                 android:textColor="@color/color_red"
                 android:textSize="@dimen/mid_text"
                 app:layout_constraintBottom_toBottomOf="parent"

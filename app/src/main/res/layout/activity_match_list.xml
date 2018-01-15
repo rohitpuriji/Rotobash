@@ -143,19 +143,48 @@
 
             </android.support.design.widget.AppBarLayout>
 
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/listViewFilter"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginBottom="60dp"
                 android:layout_below="@+id/appbarLayout" />
+
 
             <include
                 android:layout_below="@id/appbarLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/includedContent"
+                android:layout_marginBottom="60dp"
                 layout="@layout/content_sidemenu" />
 
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/color_light_blue">
+
+                <com.tech.rotobash.utils.TextFontsBold
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginBottom="@dimen/margin_ten"
+                    android:layout_marginTop="@dimen/margin_ten"
+                    android:background="@drawable/dropdown_bg_whiteline"
+                    android:drawableLeft="@drawable/ico_greaycup"
+                    android:drawablePadding="@dimen/margin_ten"
+                    android:paddingBottom="@dimen/margin_ten"
+                    android:paddingLeft="@dimen/padding_fifteen"
+                    android:paddingRight="@dimen/padding_fifteen"
+                    android:paddingTop="@dimen/margin_ten"
+                    android:text="@string/txt_create_contest"
+                    android:textColor="@color/color_black"
+                    android:textSize="@dimen/small_text" />
+
+            </RelativeLayout>
 
         </RelativeLayout>
 

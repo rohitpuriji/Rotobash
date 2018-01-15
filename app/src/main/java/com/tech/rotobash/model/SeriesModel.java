@@ -14,18 +14,18 @@ public class SeriesModel implements Parcelable{
 
     @SerializedName("id")
     @Expose
-    private String matchId;
+    private String seriesId;
 
     @SerializedName("series_key")
     @Expose
     private String seriesKey;
 
-    public String getMatchId() {
-        return matchId;
+    public String getSeriesId() {
+        return seriesId;
     }
 
-    public void setMatchId(String matchId) {
-        this.matchId = matchId;
+    public void setSeriesId(String seriesId) {
+        this.seriesId = seriesId;
     }
 
     public String getSeriesKey() {
@@ -92,7 +92,7 @@ public class SeriesModel implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.matchId);
+        dest.writeString(this.seriesId);
         dest.writeString(this.seriesKey);
         dest.writeString(this.seriesName);
         dest.writeString(this.seriesShortName);
@@ -104,7 +104,7 @@ public class SeriesModel implements Parcelable{
     }
 
     protected SeriesModel(Parcel in) {
-        this.matchId = in.readString();
+        this.seriesId = in.readString();
         this.seriesKey = in.readString();
         this.seriesName = in.readString();
         this.seriesShortName = in.readString();

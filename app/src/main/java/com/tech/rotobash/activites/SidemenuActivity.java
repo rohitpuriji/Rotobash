@@ -114,9 +114,7 @@ public class SidemenuActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_logout) {
-            AppPreferences mAppPreferences = new AppPreferences(SidemenuActivity.this);
-            mAppPreferences.clearAll();
-            moveScreen();
+            doLogout();
         } else if (id == R.id.nav_reset) {
             if (Network.isAvailable(SidemenuActivity.this)) {
                 showResetDialog();
@@ -134,6 +132,24 @@ public class SidemenuActivity extends AppCompatActivity
         return true;
     }
 
+    /**
+     * @Module Name/Class		:	doLogout
+     * @Author Name             :	Rohit Puri
+     * @Date                    :	Jan 11th , 2018
+     * @Purpose                 :	This method observe the response coming after logout operation.
+     */
+    private void doLogout() {
+
+        UserViewModel mLogoutViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+
+        mLogoutViewModel.doLogout(progressDoalog, mUserResponse)
+                .observe(this, userResponse -> {
+                    Toast.makeText(SidemenuActivity.this, userResponse.getMessage(), Toast.LENGTH_LONG).show();
+                    AppPreferences mAppPreferences = new AppPreferences(SidemenuActivity.this);
+                    mAppPreferences.clearAll();
+                    moveScreen();
+                });
+    }
 
     private void moveScreen() {
         Intent i = new Intent(SidemenuActivity.this, AuthenticationActivity.class);

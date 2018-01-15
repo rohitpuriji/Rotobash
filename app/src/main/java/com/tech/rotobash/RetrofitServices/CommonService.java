@@ -250,13 +250,14 @@ public class CommonService {
 
         getRetrofitClient()
                 .create(ApiInterface.class)
-                .getMatches(aSeriesId,aUserResponse.getResponse().getAccessToken(),aType,aOffset )
+                .getMatches(aUserResponse.getResponse().getAccessToken(),aSeriesId,aType,aOffset )
                 .enqueue(new Callback<MatchesResponse>(){
 
                     @Override
                     public void onResponse(Call<MatchesResponse> call, Response<MatchesResponse> aMatchesResponse) {
                         Log.e("on getAccessToken :",aUserResponse.getResponse().getAccessToken());
                         Log.e("on getUserId :",aUserResponse.getResponse().getUserId());
+                        Log.e("on series id :",aSeriesId);
                         Log.e("on type :",aType);
                         Log.e("on offset :",aOffset);
                         Log.e("on response :",aMatchesResponse.body().getStatus());
@@ -312,4 +313,31 @@ public class CommonService {
     }
 
 
+    public LiveData<UserResponse> doLogout(ProgressDialog progressDoalog, UserResponse aUserResponse) {
+        if (!progressDoalog.isShowing()) {
+            progressDoalog.show();
+        }
+        final MutableLiveData<UserResponse> liveUserResponse = new MutableLiveData<>();
+
+        getRetrofitClient()
+                .create(ApiInterface.class)
+                .doLogout(aUserResponse.getResponse().getAccessToken(),aUserResponse.getResponse().getUserId())
+                .enqueue(new Callback<UserResponse>(){
+
+                    @Override
+                    public void onResponse(Call<UserResponse> call, Response<UserResponse> aSeriesResponse) {
+                        Log.e("on response :",aSeriesResponse.body().getStatus());
+                        UserResponse seriesResponse = aSeriesResponse.body();
+                        liveUserResponse.setValue(seriesResponse);
+                    }
+
+                    @Override
+                    public void onFailure(Call<UserResponse> call, Throwable t) {
+                        Log.e("on Failure :","retrofit error"+t.getLocalizedMessage());
+                        t.getStackTrace();
+                    }
+                });
+
+        return liveUserResponse;
+    }
 }

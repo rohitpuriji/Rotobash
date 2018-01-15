@@ -45,4 +45,10 @@ public class UserViewModel extends ViewModel {
         return mLiveData;
     }
 
+
+    public LiveData<UserResponse> doLogout(ProgressDialog progressDoalog,UserResponse aUserResponse) {
+        mLiveData = mCommonService.doLogout(progressDoalog,aUserResponse);
+        return mLiveData;
+    }
+
 }

@@ -14,6 +14,9 @@ import android.widget.ToggleButton;
 
 import com.tech.rotobash.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -102,6 +105,25 @@ public class AppUtils {
 		Matcher matcher = pattern.matcher(password);
 		return matcher.matches();
 	}
+
+	public static String getDateFormatYear(String date) {
+		String oldFormat = "yyyy-MM-dd HH:mm:ss";
+		String newFormat = "HH:mm:ss";
+
+		String s = null;
+		SimpleDateFormat sdf = new SimpleDateFormat(oldFormat);
+		try {
+
+			Date d = sdf.parse(date);
+			sdf.applyPattern(newFormat);
+			s = sdf.format(d);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		return s;
+	}
+
 }
 
 
