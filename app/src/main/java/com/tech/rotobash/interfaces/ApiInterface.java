@@ -1,6 +1,7 @@
 package com.tech.rotobash.interfaces;
 
 import com.tech.rotobash.model.MatchesResponse;
+import com.tech.rotobash.model.SeriesResponse;
 import com.tech.rotobash.model.UserResponse;
 
 import retrofit2.Call;
@@ -56,7 +57,14 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("getMatches")
     Call<MatchesResponse> getMatches(@Header("Authorization") String token,
-                                     @Field("user_id") String userId,
-                                     @Field("type") String matchType,
-                                     @Field("offset") String offset );
+                                            @Field("series_id") String seriesId,
+                                            @Field("type") String matchType,
+                                            @Field("offset") String offset );
+
+    @FormUrlEncoded
+    @POST("getFilters")
+    Call<SeriesResponse> getFilters(@Header("Authorization") String token,
+                                    @Field("user_id") String userId);
+
+
 }

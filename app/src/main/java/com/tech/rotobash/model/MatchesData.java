@@ -50,6 +50,32 @@ public class MatchesData implements Parcelable {
     @Expose
     private String team2Name;
 
+    @SerializedName("series_name")
+    @Expose
+    private String seriesName;
+
+    @SerializedName("series_short_name")
+    @Expose
+    private String seriesShortName;
+
+
+
+    public String getSeriesName() {
+        return seriesName;
+    }
+
+    public void setSeriesName(String seriesName) {
+        this.seriesName = seriesName;
+    }
+
+    public String getSeriesShortName() {
+        return seriesShortName;
+    }
+
+    public void setSeriesShortName(String seriesShortName) {
+        this.seriesShortName = seriesShortName;
+    }
+
     public String getMatchId() {
         return matchId;
     }
@@ -122,6 +148,9 @@ public class MatchesData implements Parcelable {
         this.team2Name = team2Name;
     }
 
+    public MatchesData() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -137,10 +166,9 @@ public class MatchesData implements Parcelable {
         dest.writeString(this.matchVanue);
         dest.writeString(this.matchCreateAt);
         dest.writeString(this.team1Name);
+        dest.writeString(this.seriesName);
+        dest.writeString(this.seriesShortName);
         dest.writeString(this.team2Name);
-    }
-
-    public MatchesData() {
     }
 
     protected MatchesData(Parcel in) {
@@ -152,6 +180,8 @@ public class MatchesData implements Parcelable {
         this.matchVanue = in.readString();
         this.matchCreateAt = in.readString();
         this.team1Name = in.readString();
+        this.seriesName = in.readString();
+        this.seriesShortName = in.readString();
         this.team2Name = in.readString();
     }
 

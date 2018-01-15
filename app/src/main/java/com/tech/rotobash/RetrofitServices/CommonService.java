@@ -7,11 +7,10 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.tech.rotobash.activites.AuthenticationActivity;
 import com.tech.rotobash.interfaces.ApiInterface;
 import com.tech.rotobash.model.MatchesResponse;
+import com.tech.rotobash.model.SeriesResponse;
 import com.tech.rotobash.model.UserResponse;
-import com.tech.rotobash.utils.AppPreferences;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -243,18 +242,15 @@ public class CommonService {
      @Module class/module		:	getMatches
      @Author Name			    :	Rohit Puri
      @Date					    :	Jan 11 , 2018
-     @Purpose				    :	This method return the MutableLiveData for get Matches api
+     @Purpose				    :	This method return the MutableLiveData for Matches api
      */
-    public LiveData<MatchesResponse> getMatches(ProgressDialog progressDoalog,UserResponse aUserResponse,String aType,String aOffset) {
+    public LiveData<MatchesResponse> getMatches(String aSeriesId,UserResponse aUserResponse, String aType, String aOffset) {
 
-        if (!progressDoalog.isShowing()) {
-            progressDoalog.show();
-        }
         final MutableLiveData<MatchesResponse> liveMatchResponse = new MutableLiveData<>();
 
         getRetrofitClient()
                 .create(ApiInterface.class)
-                .getMatches(aUserResponse.getResponse().getAccessToken(),aUserResponse.getResponse().getUserId(),aType,aOffset )
+                .getMatches(aSeriesId,aUserResponse.getResponse().getAccessToken(),aType,aOffset )
                 .enqueue(new Callback<MatchesResponse>(){
 
                     @Override
@@ -265,9 +261,7 @@ public class CommonService {
                         Log.e("on offset :",aOffset);
                         Log.e("on response :",aMatchesResponse.body().getStatus());
                         Log.e("on response :",aMatchesResponse.body().getMessage());
-                        if (progressDoalog.isShowing()) {
-                            progressDoalog.dismiss();
-                        }
+
                         MatchesResponse matchesResponse = aMatchesResponse.body();
                         liveMatchResponse.setValue(matchesResponse);
                     }
@@ -275,13 +269,47 @@ public class CommonService {
                     @Override
                     public void onFailure(Call<MatchesResponse> call, Throwable t) {
                         Log.e("on Failure :","retrofit error"+t.getLocalizedMessage());
-                        if (progressDoalog.isShowing()) {
-                            progressDoalog.dismiss();
-                        }
+                        t.getStackTrace();
                     }
                 });
 
         return liveMatchResponse;
     }
+
+    /**
+     @Module class/module		:	getFilters
+     @Author Name			    :	Rohit Puri
+     @Date					    :	Jan 15 , 2018
+     @Purpose				    :	This method return the filters for Dashboard
+     */
+    public LiveData<SeriesResponse> getFilters(UserResponse aUserResponse) {
+
+        final MutableLiveData<SeriesResponse> liveSeriesRespose = new MutableLiveData<>();
+
+        getRetrofitClient()
+                .create(ApiInterface.class)
+                .getFilters(aUserResponse.getResponse().getAccessToken(),aUserResponse.getResponse().getUserId())
+                .enqueue(new Callback<SeriesResponse>(){
+
+                    @Override
+                    public void onResponse(Call<SeriesResponse> call, Response<SeriesResponse> aSeriesResponse) {
+                        Log.e("on getAccessToken :",aUserResponse.getResponse().getAccessToken());
+                        Log.e("on response :",aSeriesResponse.body().getStatus());
+                        Log.e("on response :",new Gson().toJson(aSeriesResponse));
+
+                        SeriesResponse seriesResponse = aSeriesResponse.body();
+                        liveSeriesRespose.setValue(seriesResponse);
+                    }
+
+                    @Override
+                    public void onFailure(Call<SeriesResponse> call, Throwable t) {
+                        Log.e("on Failure :","retrofit error"+t.getLocalizedMessage());
+                        t.getStackTrace();
+                    }
+                });
+
+        return liveSeriesRespose;
+    }
+
 
 }

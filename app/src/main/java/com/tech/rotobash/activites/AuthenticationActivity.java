@@ -353,9 +353,9 @@ public class AuthenticationActivity extends AppCompatActivity implements GoogleA
 
     /**
      * @Module Name/Class		:	doSocialConnect
-     * @Author Name            :	Rohit Puri
-     * @Date :	Jan 9rd , 2018
-     * @Purpose :	This method used to access details from facebook or google login
+     * @Author Name             :	Rohit Puri
+     * @Date                    :	Jan 9rd , 2018
+     * @Purpose                 :	This method used to access details from facebook or google login
      */
     private void doSocialConnect(Object any) {
 
@@ -366,7 +366,6 @@ public class AuthenticationActivity extends AppCompatActivity implements GoogleA
             mSignupViewModel.getSocialConnect(progressDoalog, acct.getDisplayName(), acct.getEmail(), sGoogle,
                     acct.getId(), FirebaseInstanceId.getInstance().getToken(), sDeviceType)
                     .observe(this, userResponse -> {
-
                         Toast.makeText(AuthenticationActivity.this, userResponse.getMessage(), Toast.LENGTH_LONG).show();
                         if (userResponse.getStatus().equalsIgnoreCase("success")) {
                             rememberMe(userResponse);
@@ -380,6 +379,7 @@ public class AuthenticationActivity extends AppCompatActivity implements GoogleA
                 mSignupViewModel.getSocialConnect(progressDoalog, acct.getString("name"), acct.getString("email"),
                         sFacebook, acct.getString("id"), FirebaseInstanceId.getInstance().getToken(), sDeviceType)
                         .observe(this, userResponse -> {
+                            Log.e("accessToken",userResponse.getResponse().getAccessToken());
 
                             Toast.makeText(AuthenticationActivity.this, userResponse.getMessage(), Toast.LENGTH_LONG).show();
                             if (userResponse.getStatus().equalsIgnoreCase("success")) {

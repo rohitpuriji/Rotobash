@@ -34,6 +34,7 @@
     <string name="txt_cricket">CRICKET</string>
     <string name="txt_current">CURRENT</string>
     <string name="txt_coming">UPCOMING</string>
+    <string name="txt_create_contest">CREATE A PRIVATE CONTEST</string>
     <string name="txt_all">All Matches</string>
 
 </resources>

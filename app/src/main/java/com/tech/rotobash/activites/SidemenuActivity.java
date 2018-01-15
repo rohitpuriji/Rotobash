@@ -170,13 +170,11 @@ public class SidemenuActivity extends AppCompatActivity
                             mBinding.etNewPass.requestFocus();
                             mBinding.tvErrorNewPassword.setVisibility(View.VISIBLE);
                             mBinding.tvErrorNewPassword.setText(sEnterValidPassword);
-                            // mBinding.etNewPass.setError(sEnterValidPassword);
 
                         } else if (!AppUtils.validate(mBinding.etNewPass.getText().toString())) {
                             mBinding.etNewPass.requestFocus();
                             mBinding.tvErrorNewPassword.setVisibility(View.VISIBLE);
                             mBinding.tvErrorNewPassword.setText(ePasswordReq);
-                            // mBinding.etNewPass.setError(ePasswordReq);
                         }
                     }
                 }));
