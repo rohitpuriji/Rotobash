@@ -9,15 +9,18 @@ import android.view.ViewGroup;
 import com.tech.rotobash.R;
 import com.tech.rotobash.databinding.ItemMatchesBinding;
 import com.tech.rotobash.interfaces.MatchItemInterface;
+import com.tech.rotobash.model.CountdownData;
 import com.tech.rotobash.model.MatchesData;
 import com.tech.rotobash.utils.AppUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.MyViewHolder> {
 
     private List<MatchesData> matchesDataList;
     private MatchItemInterface mMatchItemInterface;
+    private List<CountdownData> mCountdownlist;
 
     class MyViewHolder extends RecyclerView.ViewHolder {
 
@@ -38,6 +41,7 @@ public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.MyViewHo
     public MatchesAdapter(List<MatchesData> matchesDataList, MatchItemInterface matchItemInterface) {
         this.matchesDataList = matchesDataList;
         mMatchItemInterface = matchItemInterface;
+        mCountdownlist = new ArrayList<>();
     }
 
     @Override

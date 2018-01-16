@@ -393,7 +393,6 @@ public class MatchContestActivity extends SidemenuActivity {
         if (mMatchContestActivityBinding.recyclerViewOther.getVisibility() == View.VISIBLE) {
             mMatchContestActivityBinding.recyclerViewOther.setVisibility(View.GONE);
             mMatchContestActivityBinding.rootLayout.setVisibility(View.VISIBLE);
-
         } else
             super.onBackPressed();
     }
