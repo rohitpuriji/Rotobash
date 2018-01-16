@@ -151,6 +151,26 @@ public class MatchContestActivity extends SidemenuActivity {
             setFilterAdapter();
 
         });
+
+        // onclick for refreshing league and pay
+        mMatchContestActivityBinding.imgRefresh.setOnClickListener(view -> {
+            if (Network.isAvailable(this)) {
+               Log.e("TAG", "refresh");
+
+               refreshToDefaultValues();
+            }
+        });
+    }
+
+    private void refreshToDefaultValues() {
+        league_id = 0;
+        price = null;
+
+        mMatchContestActivityBinding.tvSelectPay.setText(getString(R.string.txt_select_pay));
+        mMatchContestActivityBinding.tvSelectLeague.setText(getString(R.string.txt_select_league));
+
+        // method to clear list and adapter
+        clearListAndAdapter();
     }
 
     private void setFilterAdapter() {
@@ -186,17 +206,27 @@ public class MatchContestActivity extends SidemenuActivity {
 
             }
 
-            aOffset = 0;
-            mTempArrayListInActiveContestData.clear();
-            mTempArrayListActiveContestData.clear();
-            mMatchContestActivityBinding.recyclerViewOther.setVisibility(View.GONE);
-            mMatchContestActivityBinding.rootLayout.setVisibility(View.VISIBLE);
-            mMatchContestActivityBinding.recyclerView.setVisibility(View.VISIBLE);
-            mAdapter = null;
-            loadMatchContest();
+            // method to clear list and adapter
+            clearListAndAdapter();
 
         });
         mMatchContestActivityBinding.recyclerViewOther.setAdapter(mFilterAdapter);
+    }
+
+
+    private void clearListAndAdapter() {
+
+        aOffset = 0;
+        mTempArrayListInActiveContestData.clear();
+        mTempArrayListActiveContestData.clear();
+        mMatchContestActivityBinding.recyclerViewOther.setVisibility(View.GONE);
+        mMatchContestActivityBinding.rootLayout.setVisibility(View.VISIBLE);
+        mMatchContestActivityBinding.recyclerView.setVisibility(View.VISIBLE);
+
+
+        mAdapter.notifyDataSetChanged();
+        mAdapter = null;
+        loadMatchContest();
     }
 
     private void getLeague() {
