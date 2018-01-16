@@ -66,14 +66,14 @@ public class MatchContestActivity extends SidemenuActivity {
 
         ViewsVisibilites.showActiveMatchView(this, mMatchContestActivityBinding);
 
-        mMatchContestActivityBinding.btnCurrent.setOnClickListener(v -> {
+        mMatchContestActivityBinding.btnActive.setOnClickListener(v -> {
             mLoading = true;
             status = getString(R.string.active);
             ViewsVisibilites.showActiveMatchView(this, mMatchContestActivityBinding);
             setRecyclerView(status);
         });
 
-        mMatchContestActivityBinding.btnComing.setOnClickListener(v -> {
+        mMatchContestActivityBinding.btnInActive.setOnClickListener(v -> {
             mLoading = true;
             status = getString(R.string.inActive);
             ViewsVisibilites.showInActiveMatchView(this, mMatchContestActivityBinding);
@@ -155,9 +155,9 @@ public class MatchContestActivity extends SidemenuActivity {
         // onclick for refreshing league and pay
         mMatchContestActivityBinding.imgRefresh.setOnClickListener(view -> {
             if (Network.isAvailable(this)) {
-               Log.e("TAG", "refresh");
+                Log.e("TAG", "refresh");
 
-               refreshToDefaultValues();
+                refreshToDefaultValues();
             }
         });
     }
@@ -213,7 +213,12 @@ public class MatchContestActivity extends SidemenuActivity {
         mMatchContestActivityBinding.recyclerViewOther.setAdapter(mFilterAdapter);
     }
 
-
+    /**
+     * @Module Name/Class		:	clearListAndAdapter
+     * @Author Name             :	Sombir Bisht
+     * @Date                    :	Jan 16th , 2018
+     * @Purpose                 :	This method is used to notify adapter and set offset to 0.
+     */
     private void clearListAndAdapter() {
 
         aOffset = 0;
@@ -339,11 +344,11 @@ public class MatchContestActivity extends SidemenuActivity {
                 .getMatchContests(mUserResponse, matchId, String.valueOf(league_id), price, String.valueOf(aOffset), String.valueOf(aLimit))
                 .observe(this, matchContestsResponse -> {
                     if (matchContestsResponse.getStatus().equalsIgnoreCase(sSuccess)) {
-                        if (matchContestsResponse.getMatchModel().size() > 0) {
-                            Log.e("size is", matchContestsResponse.getMatchModel().size() + "");
+                        if (matchContestsResponse.getContestModel().size() > 0) {
+                            Log.e("size is", matchContestsResponse.getContestModel().size() + "");
                             mLoading = true;
-                            aOffset = aOffset + matchContestsResponse.getMatchModel().size();
-                            setActiveOrInActive(matchContestsResponse.getMatchModel());
+                            aOffset = aOffset + matchContestsResponse.getContestModel().size();
+                            setActiveOrInActive(matchContestsResponse.getContestModel());
                         } else {
                             Toast.makeText(MatchContestActivity.this, matchContestsResponse.getMessage(), Toast.LENGTH_LONG).show();
                         }
@@ -423,6 +428,7 @@ public class MatchContestActivity extends SidemenuActivity {
         if (mMatchContestActivityBinding.recyclerViewOther.getVisibility() == View.VISIBLE) {
             mMatchContestActivityBinding.recyclerViewOther.setVisibility(View.GONE);
             mMatchContestActivityBinding.rootLayout.setVisibility(View.VISIBLE);
+
         } else
             super.onBackPressed();
     }

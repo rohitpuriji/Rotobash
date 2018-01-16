@@ -101,7 +101,7 @@
 
             <com.tech.rotobash.utils.TextFontsRegular
                 android:id="@+id/tvSelectLeague"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="@dimen/margin_ten"
@@ -113,9 +113,10 @@
                 android:drawableEnd="@drawable/droparrow"
                 android:drawablePadding="10dp"
                 android:drawableRight="@drawable/droparrow"
-                android:gravity="center_vertical"
+                android:gravity="center_vertical|center_horizontal"
                 android:padding="10dp"
                 android:text="@string/txt_select_league"
+                app:layout_constraintHorizontal_weight="1"
                 android:textAllCaps="false"
                 android:textColor="@color/color_black"
                 android:textSize="@dimen/large_mid_text"
@@ -126,17 +127,17 @@
 
             <com.tech.rotobash.utils.TextFontsRegular
                 android:id="@+id/tvSelectPay"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/dropdown_bg_whiteline"
                 android:drawableEnd="@drawable/droparrow"
                 android:drawablePadding="10dp"
                 android:drawableRight="@drawable/droparrow"
-                android:gravity="center_vertical"
+                android:gravity="center_vertical|center_horizontal"
                 android:padding="10dp"
                 android:text="@string/txt_select_pay"
                 android:textAllCaps="false"
@@ -144,9 +145,12 @@
                 android:textSize="@dimen/large_mid_text"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/imgRefresh"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/tvSelectLeague"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.533" />
+                app:layout_constraintVertical_bias="0.533"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="8dp" />
 
             <ImageView
                 android:id="@+id/imgRefresh"
@@ -182,63 +186,72 @@
             tools:context="com.tech.rotobash.activites.SidemenuActivity"
             tools:showIn="@layout/activity_match_list">
 
-            <com.tech.rotobash.utils.ButtonFontBold
-                android:id="@+id/btnCurrent"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="@color/color_current_gray"
-                android:text="@string/txt_current"
-                android:textColor="@color/color_red"
-                app:layout_constraintEnd_toStartOf="@+id/btnComing"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintHorizontal_weight="1"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <com.tech.rotobash.utils.ButtonFontBold
-                android:id="@+id/btnComing"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="@color/color_white"
-                android:text="@string/txt_coming"
-                android:textColor="@color/light_grey"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintHorizontal_weight="1"
-                app:layout_constraintStart_toEndOf="@+id/btnCurrent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <FrameLayout
-                android:id="@+id/relativeLayout2"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="521dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnCurrent"
-                app:layout_constraintVertical_bias="0.0">
+                android:layout_height="match_parent">
 
-                <android.support.v4.widget.SwipeRefreshLayout
-                    android:id="@+id/swipeContainerCurrent"
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:id="@+id/btnConstraint"
+                    android:layout_height="wrap_content">
+
+                    <com.tech.rotobash.utils.ButtonFontBold
+                        android:id="@+id/btnActive"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@color/color_light_blue"
+                        android:text="@string/txt_active"
+                        android:textColor="@color/color_red"
+                        app:layout_constraintEnd_toStartOf="@+id/btnInActive"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintHorizontal_weight="1"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.tech.rotobash.utils.ButtonFontBold
+                        android:id="@+id/btnInActive"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@color/color_white"
+                        android:text="@string/txt_inactive"
+                        android:textColor="@color/light_grey"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintHorizontal_weight="1"
+                        app:layout_constraintStart_toEndOf="@+id/btnActive"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </android.support.constraint.ConstraintLayout>
+
+                <FrameLayout
+                    android:id="@+id/relativeLayout2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="?attr/actionBarSize">
+                    android:layout_marginBottom="?attr/actionBarSize"
+                    android:layout_below="@id/btnConstraint">
 
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/recyclerView"
+                    <android.support.v4.widget.SwipeRefreshLayout
+                        android:id="@+id/swipeContainerCurrent"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:scrollbars="vertical" />
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="?attr/actionBarSize">
 
-                </android.support.v4.widget.SwipeRefreshLayout>
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/recyclerView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scrollbars="vertical" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="15dp"
-                    android:background="@drawable/gradient_view_grey" />
+                    </android.support.v4.widget.SwipeRefreshLayout>
 
-            </FrameLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="15dp"
+                        android:background="@drawable/gradient_view_grey" />
 
+                </FrameLayout>
+
+            </RelativeLayout>
         </android.support.constraint.ConstraintLayout>
 
     </android.support.constraint.ConstraintLayout>

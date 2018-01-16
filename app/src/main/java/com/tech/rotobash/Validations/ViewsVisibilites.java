@@ -100,21 +100,22 @@ public class ViewsVisibilites {
     }
 
     public static void showActiveMatchView(AppCompatActivity aAppCompatActivity, ActivityMatchContestBinding mBinding) {
-        mBinding.btnCurrent.setText(aAppCompatActivity.getString(R.string.active));
-        mBinding.btnComing.setText(aAppCompatActivity.getString(R.string.inActive));
-        mBinding.btnCurrent.setBackgroundColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_light_blue));
-        mBinding.btnComing.setBackgroundColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_white));
-        mBinding.btnCurrent.setTextColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_green));
-        mBinding.btnComing.setTextColor(ContextCompat.getColor(aAppCompatActivity, R.color.dark_grey));
+        mBinding.btnActive.setText(aAppCompatActivity.getString(R.string.active));
+        mBinding.btnInActive.setText(aAppCompatActivity.getString(R.string.inActive));
+        mBinding.btnActive.setBackgroundColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_light_blue));
+        mBinding.btnInActive.setBackgroundColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_white));
+        mBinding.btnActive.setTextColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_green));
+        mBinding.btnInActive.setTextColor(ContextCompat.getColor(aAppCompatActivity, R.color.dark_grey));
 
     }
 
     public static void showInActiveMatchView(AppCompatActivity aAppCompatActivity, ActivityMatchContestBinding mBinding) {
-        mBinding.btnCurrent.setText(aAppCompatActivity.getString(R.string.active));
-        mBinding.btnComing.setText(aAppCompatActivity.getString(R.string.inActive));
-        mBinding.btnComing.setBackgroundColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_light_blue));
-        mBinding.btnCurrent.setBackgroundColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_white));
-        mBinding.btnComing.setTextColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_green));
-        mBinding.btnCurrent.setTextColor(ContextCompat.getColor(aAppCompatActivity, R.color.dark_grey));
+        mBinding.btnActive.setText(aAppCompatActivity.getString(R.string.active));
+        mBinding.btnInActive.setText(aAppCompatActivity.getString(R.string.inActive));
+        mBinding.btnInActive.setBackgroundColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_light_blue));
+        mBinding.btnActive.setBackgroundColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_white));
+        mBinding.btnInActive.setTextColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_green));
+        mBinding.btnActive.setTextColor(ContextCompat.getColor(aAppCompatActivity, R.color.dark_grey));
     }
+
 }

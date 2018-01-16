@@ -151,16 +151,8 @@
                 android:layout_marginBottom="60dp"
                 android:layout_below="@+id/appbarLayout" />
 
-
-            <include
-                android:id="@+id/includedContent"
-                layout="@layout/content_sidemenu"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@id/appbarLayout" />
-
-
             <RelativeLayout
+                android:id="@+id/privateContestLayout"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_alignParentBottom="true"
@@ -184,6 +176,16 @@
                     android:textSize="@dimen/small_text" />
 
             </RelativeLayout>
+
+
+            <include
+                android:id="@+id/includedContent"
+                layout="@layout/content_sidemenu"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@id/privateContestLayout"
+                android:layout_below="@id/appbarLayout" />
+
 
         </RelativeLayout>
 
