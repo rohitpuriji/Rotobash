@@ -177,10 +177,10 @@ public class CommonService {
     }
 
     /**
-     * @Module class/module		:	doForgetPassword
-     * @Author Name                :	Rohit Puri
-     * @Date :	Jan 9 , 2018
-     * @Purpose :	This method return the MutableLiveData for forget password api
+     * @Module class/module		    :	doForgetPassword
+     * @Author Name                 :	Rohit Puri
+     * @Date                        :	Jan 9 , 2018
+     * @Purpose                     :	This method return the MutableLiveData for forget password api
      */
     public LiveData<UserResponse> doForgetPassword(String aEmail) {
 
@@ -209,10 +209,10 @@ public class CommonService {
     }
 
     /**
-     * @Module class/module		:	doResetPassword
-     * @Author Name                :	Rohit Puri
-     * @Date :	Jan 11 , 2018
-     * @Purpose :	This method return the MutableLiveData for reset password api
+     * @Module class/module		    :	doResetPassword
+     * @Author Name                 :	Rohit Puri
+     * @Date                        :	Jan 11 , 2018
+     * @Purpose                     :	This method return the MutableLiveData for reset password api
      */
     public LiveData<UserResponse> doResetPassword(ProgressDialog progressDoalog, UserResponse aUserResponse, String oldass, String newPass) {
 
@@ -249,10 +249,10 @@ public class CommonService {
     }
 
     /**
-     * @Module class/module		:	getMatches
-     * @Author Name                :	Rohit Puri
-     * @Date :	Jan 11 , 2018
-     * @Purpose :	This method return the MutableLiveData for get Matches api
+     * @Module class/module		    :	getMatches
+     * @Author Name                 :	Rohit Puri
+     * @Date                        :	Jan 11 , 2018
+     * @Purpose                     :	This method return the MutableLiveData for get Matches api
      */
     public LiveData<MatchesResponse> getMatches(String aSeriesid, UserResponse aUserResponse, String aType, String aOffset) {
 
@@ -321,10 +321,10 @@ public class CommonService {
     }
 
     /**
-     * @Module class/module		:	getMatchContests
-     * @Author Name                :	Rohit Puri
-     * @Date :	Jan 11 , 2018
-     * @Purpose :	This method return the MutableLiveData for get Matches api
+     * @Module class/module		    :	getMatchContests
+     * @Author Name                 :	Rohit Puri
+     * @Date                        :	Jan 11 , 2018
+     * @Purpose                     :	This method return the MutableLiveData for get Matches api
      */
     public LiveData<SeriesResponse> getFilters(UserResponse aUserResponse) {
 
@@ -355,7 +355,12 @@ public class CommonService {
         return liveSeriesRespose;
     }
 
-
+    /**
+     * @Module class/module		    :	doLogout
+     * @Author Name                 :	Rohit Puri
+     * @Date                        :	Jan 15 , 2018
+     * @Purpose                     :	This method return the MutableLiveData for logout api
+     */
     public LiveData<UserResponse> doLogout(ProgressDialog progressDoalog, UserResponse aUserResponse) {
         if (!progressDoalog.isShowing()) {
             progressDoalog.show();
@@ -384,10 +389,10 @@ public class CommonService {
     }
 
     /**
-     * @Module class/module		:	getMatchContests
-     * @Author Name                :	Sachin Arora
-     * @Date :	Jan 11 , 2018
-     * @Purpose :	This method return the MutableLiveData for get Matches api
+     * @Module class/module		    :	getMatchContests
+     * @Author Name                 :	Sachin Arora
+     * @Date                        :	Jan 11 , 2018
+     * @Purpose                     :	This method return the MutableLiveData for get Matches api
      */
     public LiveData<LeaguesResponse> getLeague( UserResponse aUserResponse) {
 

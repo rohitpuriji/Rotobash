@@ -9,6 +9,8 @@ import com.tech.rotobash.R;
 import com.tech.rotobash.model.UserResponse;
 import com.tech.rotobash.utils.AppPreferences;
 
+import static com.tech.rotobash.utils.AppConstant.sUserResponseKey;
+
 /**
  * @Module Name/Class		:	SplashActivity
  * @Author Name            :	Rohit Puri
@@ -33,7 +35,7 @@ public class SplashActivity extends AppCompatActivity {
 
             if (mAppPreferences.getPreferenceBoolean()) {
                 i = new Intent(SplashActivity.this, MatchListActivity.class);
-                i.putExtra("UserResponse", mUserResponse);
+                i.putExtra(sUserResponseKey, mUserResponse);
 
             } else {
                 i = new Intent(SplashActivity.this, AuthenticationActivity.class);

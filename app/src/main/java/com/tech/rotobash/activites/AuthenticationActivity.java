@@ -54,7 +54,9 @@ import static com.tech.rotobash.utils.AppConstant.sEnterValidEmail;
 import static com.tech.rotobash.utils.AppConstant.sFacebook;
 import static com.tech.rotobash.utils.AppConstant.sGoogle;
 import static com.tech.rotobash.utils.AppConstant.sLoginWith;
+import static com.tech.rotobash.utils.AppConstant.sPleaseWait;
 import static com.tech.rotobash.utils.AppConstant.sRegisterWith;
+import static com.tech.rotobash.utils.AppConstant.sUserResponseKey;
 
 /**
  * @Module Name/Class		:	AuthenticationActivity
@@ -150,7 +152,7 @@ public class AuthenticationActivity extends AppCompatActivity implements GoogleA
 
         progressDoalog = new ProgressDialog(AuthenticationActivity.this);
         progressDoalog.setMax(100);
-        progressDoalog.setMessage("Please wait....");
+        progressDoalog.setMessage(sPleaseWait);
         progressDoalog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 
         showLogin();
@@ -257,8 +259,6 @@ public class AuthenticationActivity extends AppCompatActivity implements GoogleA
         if (result.isSuccess()) {
             GoogleSignInAccount acct = result.getSignInAccount();
             if (acct != null) {
-                Log.e("user name :", acct.getDisplayName());
-                Log.e("user email :", acct.getEmail());
                 doSocialConnect(acct);
             }
         }
@@ -308,18 +308,19 @@ public class AuthenticationActivity extends AppCompatActivity implements GoogleA
     private void doFbConnect() {
         if (Network.isAvailable(AuthenticationActivity.this)) {
             if (AppUtils.checkIsAppLicationInstalled(AuthenticationActivity.this, AppConstant.sFacebooks)) {
-                LoginManager.getInstance().logInWithReadPermissions(AuthenticationActivity.this, Arrays.asList("public_profile", "email"));
+
+                LoginManager
+                        .getInstance()
+                        .logInWithReadPermissions(AuthenticationActivity.this, Arrays.asList("public_profile", "email"));
 
                 SocialMediaManager socialMediaManager = new SocialMediaManager(AuthenticationActivity.this, new SocialMediaListners() {
                     @Override
                     public void loginSuccess(JSONObject aJsonObject) {
-                        Log.e("fb json :", aJsonObject.toString());
                         doSocialConnect(aJsonObject);
                     }
 
                     @Override
                     public void loginError(String loginError) {
-                        Log.e("fb json :", loginError);
                         Toast.makeText(AuthenticationActivity.this, AppConstant.sConnectionErr, Toast.LENGTH_LONG).show();
                     }
                 });
@@ -342,7 +343,8 @@ public class AuthenticationActivity extends AppCompatActivity implements GoogleA
 
         UserViewModel mSignupViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
 
-        mSignupViewModel.getForgetPassword(aEmailId)
+        mSignupViewModel
+                .getForgetPassword(aEmailId)
                 .observe(this, userResponse -> {
                     Toast.makeText(AuthenticationActivity.this, userResponse.getMessage(), Toast.LENGTH_LONG).show();
                     AppUtils.hideSoftKeyboard(AuthenticationActivity.this);
@@ -364,7 +366,8 @@ public class AuthenticationActivity extends AppCompatActivity implements GoogleA
 
         if (any instanceof GoogleSignInAccount) {
             GoogleSignInAccount acct = (GoogleSignInAccount) any;
-            mSignupViewModel.getSocialConnect(progressDoalog, acct.getDisplayName(), acct.getEmail(), sGoogle,
+            mSignupViewModel
+                    .getSocialConnect(progressDoalog, acct.getDisplayName(), acct.getEmail(), sGoogle,
                     acct.getId(), FirebaseInstanceId.getInstance().getToken(), sDeviceType)
                     .observe(this, userResponse -> {
                         Log.e("accessToken",userResponse.getResponse().getAccessToken());
@@ -379,7 +382,8 @@ public class AuthenticationActivity extends AppCompatActivity implements GoogleA
             JSONObject acct = (JSONObject) any;
 
             try {
-                mSignupViewModel.getSocialConnect(progressDoalog, acct.getString("name"), acct.getString("email"),
+                mSignupViewModel
+                        .getSocialConnect(progressDoalog, acct.getString("name"), acct.getString("email"),
                         sFacebook, acct.getString("id"), FirebaseInstanceId.getInstance().getToken(), sDeviceType)
                         .observe(this, userResponse -> {
                             Log.e("accessToken",userResponse.getResponse().getAccessToken());
@@ -407,7 +411,8 @@ public class AuthenticationActivity extends AppCompatActivity implements GoogleA
     private void doRegistration() {
         UserViewModel mSignupViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
 
-        mSignupViewModel.getLiveSignupData(progressDoalog, mBinding.etName.getText().toString(), mBinding.etRegEmail.getText().toString(),
+        mSignupViewModel
+                .getLiveSignupData(progressDoalog, mBinding.etName.getText().toString(), mBinding.etRegEmail.getText().toString(),
                 mBinding.etRegPassword.getText().toString(), FirebaseInstanceId.getInstance().getToken(), "Android")
                 .observe(this, userResponse -> {
                     Toast.makeText(AuthenticationActivity.this, userResponse.getMessage(), Toast.LENGTH_LONG).show();
@@ -429,15 +434,14 @@ public class AuthenticationActivity extends AppCompatActivity implements GoogleA
     private void doLogin() {
         UserViewModel mSigninViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
 
-        mSigninViewModel.getLiveSigninData(progressDoalog, mBinding.etRegEmail.getText().toString(), mBinding.etRegPassword.getText().toString(), FirebaseInstanceId.getInstance().getToken(), "Android")
+        mSigninViewModel
+                .getLiveSigninData(progressDoalog, mBinding.etRegEmail.getText().toString(), mBinding.etRegPassword.getText().toString(), FirebaseInstanceId.getInstance().getToken(), "Android")
                 .observe(this, userResponse -> {
                     Toast.makeText(AuthenticationActivity.this, userResponse.getMessage(), Toast.LENGTH_LONG).show();
                     if (userResponse.getStatus().equalsIgnoreCase("success")) {
                         rememberMe(userResponse);
                         mAppPreferences.setPreferenceSocial(false);
                         Log.e("accessToken",userResponse.getResponse().getAccessToken());
-                        Log.e("accessToken",userResponse.getResponse().getUserId());
-
                     }
                     AppUtils.hideSoftKeyboard(AuthenticationActivity.this);
 
@@ -446,9 +450,9 @@ public class AuthenticationActivity extends AppCompatActivity implements GoogleA
 
     /**
      * @Module Name/Class		:	doRegistration
-     * @Author Name            :	Rohit Puri
-     * @Date :	Jan 9rd , 2018
-     * @Purpose :	This method used to check wheather user enable remember me option or not
+     * @Author Name             :	Rohit Puri
+     * @Date                    :	Jan 9rd , 2018
+     * @Purpose                 :	This method used to check wheather user enable remember me option or not
      */
     private void rememberMe(UserResponse aUserResponse) {
         mAppPreferences.setUserData(aUserResponse);
@@ -458,7 +462,7 @@ public class AuthenticationActivity extends AppCompatActivity implements GoogleA
 
     private void moveScreen(UserResponse aUserResponse) {
         Intent i = new Intent(AuthenticationActivity.this, MatchListActivity.class);
-        i.putExtra("UserResponse", aUserResponse);
+        i.putExtra(sUserResponseKey, aUserResponse);
         startActivity(i);
         finish();
     }

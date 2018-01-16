@@ -33,34 +33,32 @@ import static com.tech.rotobash.Validations.FieldValidations.doResetValidation;
 import static com.tech.rotobash.utils.AppConstant.ePasswordReq;
 import static com.tech.rotobash.utils.AppConstant.sEnterValidPassword;
 import static com.tech.rotobash.utils.AppConstant.sPleaseWait;
+import static com.tech.rotobash.utils.AppConstant.sSuccess;
 
 /**
  * @Module Name/Class		:	SidemenuActivity
  * @Author Name             :	Rohit Puri
- * @Date :	Jan 8rd , 2018
- * @Purpose :	This class contains both sidemenu screen and main matches contents
+ * @Date                    :	Jan 8rd , 2018
+ * @Purpose                 :	This class contains both sidemenu screen and main matches contents
  */
 public class SidemenuActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     public ActivitySidemenuBinding mBinding;
-
     private ProgressDialog progressDoalog;
     public UserResponse mUserResponse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         initData();
-
     }
 
     /**
      * @Module Name/Class		:	openCloseDrawer
-     * @Author Name            :	Sachin Arora
-     * @Date :	Jan 8rd , 2018
-     * @Purpose :	This method will open close drawer
+     * @Author Name             :	Sachin Arora
+     * @Date                    :	Jan 8rd , 2018
+     * @Purpose                 :	This method will open close drawer
      */
     public void openCloseDrawer() {
 
@@ -74,8 +72,8 @@ public class SidemenuActivity extends AppCompatActivity
     /**
      * @Module Name/Class		:	initData
      * @Author Name             :	Rohit Puri
-     * @Date :	Jan 8rd , 2018
-     * @Purpose :	This method initialize the basic functionality
+     * @Date                    :	Jan 8rd , 2018
+     * @Purpose                 :	This method initialize the basic functionality
      */
     private void initData() {
 
@@ -89,8 +87,6 @@ public class SidemenuActivity extends AppCompatActivity
         progressDoalog.setMax(100);
         progressDoalog.setMessage(sPleaseWait);
         progressDoalog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-
-        // setSupportActionBar(mBinding.included.toolbar);
     }
 
     public void setDataToParentClass(UserResponse mUserResponse) {
@@ -117,12 +113,7 @@ public class SidemenuActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -160,7 +151,8 @@ public class SidemenuActivity extends AppCompatActivity
 
         UserViewModel mLogoutViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
 
-        mLogoutViewModel.doLogout(progressDoalog, mUserResponse)
+        mLogoutViewModel
+                .doLogout(progressDoalog, mUserResponse)
                 .observe(this, userResponse -> {
                     Toast.makeText(SidemenuActivity.this, userResponse.getMessage(), Toast.LENGTH_LONG).show();
                     AppPreferences mAppPreferences = new AppPreferences(SidemenuActivity.this);
@@ -177,9 +169,9 @@ public class SidemenuActivity extends AppCompatActivity
 
     /**
      * @Module Name/Class		:	showResetDialog
-     * @Author Name            :	Rohit Puri
-     * @Date :	Jan 11th , 2018
-     * @Purpose :	This method shows the reset dialog
+     * @Author Name             :	Rohit Puri
+     * @Date                    :	Jan 11th , 2018
+     * @Purpose                 :	This method shows the reset dialog
      */
     private void showResetDialog() {
         LayoutResetPasswordBinding mBinding = DataBindingUtil
@@ -232,19 +224,20 @@ public class SidemenuActivity extends AppCompatActivity
 
     /**
      * @Module Name/Class		:	doResetPassword
-     * @Author Name            :	Rohit Puri
-     * @Date :	Jan 11th , 2018
-     * @Purpose :	This method observe the response coming from ViewModel class in form of LiveData
+     * @Author Name             :	Rohit Puri
+     * @Date                    :	Jan 11th , 2018
+     * @Purpose                 :	This method observe the response coming from ViewModel class in form of LiveData
      */
     private void doResetPassword(Dialog aDialog, String aOldPass, String aNewPass) {
 
         UserViewModel mSignupViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
 
-        mSignupViewModel.getResetPassword(progressDoalog, mUserResponse, aOldPass, aNewPass)
+        mSignupViewModel
+                .getResetPassword(progressDoalog, mUserResponse, aOldPass, aNewPass)
                 .observe(this, userResponse -> {
                     Toast.makeText(SidemenuActivity.this, userResponse.getMessage(), Toast.LENGTH_LONG).show();
                     AppUtils.hideSoftKeyboard(SidemenuActivity.this);
-                    if (userResponse.getStatus().equalsIgnoreCase("success")) {
+                    if (userResponse.getStatus().equalsIgnoreCase(sSuccess)) {
                         aDialog.dismiss();
                     }
                 });

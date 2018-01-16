@@ -1,6 +1,5 @@
 package com.tech.rotobash.activites;
 
-import android.app.ProgressDialog;
 import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -29,35 +28,35 @@ import com.tech.rotobash.utils.Network;
 
 import java.util.ArrayList;
 
-import static com.tech.rotobash.utils.AppConstant.sPleaseWait;
+import static com.tech.rotobash.utils.AppConstant.sMatchListKey;
+import static com.tech.rotobash.utils.AppConstant.sPositionKey;
+import static com.tech.rotobash.utils.AppConstant.sSuccess;
+import static com.tech.rotobash.utils.AppConstant.sUserResponseKey;
 
 /**
- * Created by sachinarora on 12/1/18.
+ * @Module Name/Class		:	MatchContestActivity
+ * @Author Name             :	Sachin Arora
+ * @Date                    :	Jan 15th , 2018
+ * @Purpose                 :	This is used to show the contest of selected match
  */
-
 public class MatchContestActivity extends SidemenuActivity {
 
     private ActivityMatchContestBinding mMatchContestActivityBinding;
     private int aOffset = 0;
-    private int aLimit = 10;
     private int league_id = 0;
+    private int mPastVisiblesItems, mVisibleItemCount, mTotalItemCount;
     private String matchId;
     private String price = null;
+    private String mWhichFilter;
+    private String status;
+    private boolean mLoading = true;
     private MatchContestsAdapter mAdapter;
     private ArrayList<MatchContestsData> mTempArrayListActiveContestData;
     private ArrayList<MatchContestsData> mTempArrayListInActiveContestData;
-    private String status;
-    private int mPastVisiblesItems, mVisibleItemCount, mTotalItemCount;
     private RecyclerView.LayoutManager mLayoutManager;
-    private RecyclerView.LayoutManager mLayoutFilterManager;
-    private boolean mLoading = true;
-//    private ProgressDialog progressDialog;
     private ArrayList<LeagueContestData> leaguesList;
     private ArrayList<String> payArrayList;
-    private ContestsFilterAdapter mFilterAdapter;
-    private String mWhichFilter;
     private ArrayList<MatchesData> matchArrayList;
-    private int matchPositionSelected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -155,13 +154,12 @@ public class MatchContestActivity extends SidemenuActivity {
     }
 
     private void setFilterAdapter() {
-        mFilterAdapter = new ContestsFilterAdapter(mWhichFilter, leaguesList, payArrayList, matchArrayList, pos -> {
+        ContestsFilterAdapter mFilterAdapter = new ContestsFilterAdapter(mWhichFilter, leaguesList, payArrayList, matchArrayList, pos -> {
 
             if (mWhichFilter.equalsIgnoreCase(getString(R.string.txt_select_league))) {
                 league_id = Integer.parseInt(leaguesList.get(pos).getId());
                 mMatchContestActivityBinding.tvSelectLeague.setText(leaguesList.get(pos).getName());
-            }
-            else if (mWhichFilter.equalsIgnoreCase(getString(R.string.txt_select_pay))) {
+            } else if (mWhichFilter.equalsIgnoreCase(getString(R.string.txt_select_pay))) {
 
                 switch (pos) {
                     case 0:
@@ -202,20 +200,18 @@ public class MatchContestActivity extends SidemenuActivity {
     }
 
     private void getLeague() {
-//        progressDialog.show();
 
         SelectLeagueViewModel selectLeagueViewModel = ViewModelProviders.of(this).get(SelectLeagueViewModel.class);
 
-        selectLeagueViewModel.getLeagues(mUserResponse)
+        selectLeagueViewModel
+                .getLeagues(mUserResponse)
                 .observe(this, leaguesResponse -> {
                     if (leaguesResponse.getStatus().equalsIgnoreCase("success")) {
                         if (leaguesResponse.getMatchModel().size() > 0) {
                             leaguesList = leaguesResponse.getMatchModel();
-
                         } else {
                             Toast.makeText(MatchContestActivity.this, leaguesResponse.getMessage(), Toast.LENGTH_LONG).show();
                         }
-
                     } else {
                         Toast.makeText(MatchContestActivity.this, leaguesResponse.getMessage(), Toast.LENGTH_LONG).show();
                     }
@@ -228,16 +224,21 @@ public class MatchContestActivity extends SidemenuActivity {
         status = getString(R.string.active);
     }
 
+    /**
+     * @Module Name/Class		:	initDataVariables
+     * @Author Name             :	Sachin Arora
+     * @Date                    :	Jan 15th , 2018
+     * @Purpose                 :	This method is using for initialization of base data
+     */
     private void initDataVariables() {
         mMatchContestActivityBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.activity_match_contest, mBinding.contentFrame, true);
-        matchArrayList = getIntent().getParcelableArrayListExtra("matchList");
-        mUserResponse = getIntent().getExtras().getParcelable("UserResponse");
-        matchPositionSelected = getIntent().getIntExtra("position", -1);
+        matchArrayList = getIntent().getParcelableArrayListExtra(sMatchListKey);
+        mUserResponse = getIntent().getExtras().getParcelable(sUserResponseKey);
+        int matchPositionSelected = getIntent().getIntExtra(sPositionKey, -1);
 
         matchId = matchArrayList.get(matchPositionSelected).getMatchId();
 
         mMatchContestActivityBinding.btnSelectMatches.setText(AppUtils.getDateFormatYear(matchArrayList.get(matchPositionSelected).getMatchStartDate()));
-
 
         mTempArrayListActiveContestData = new ArrayList<>();
         mTempArrayListInActiveContestData = new ArrayList<>();
@@ -246,7 +247,7 @@ public class MatchContestActivity extends SidemenuActivity {
 
         status = getString(R.string.active);
 
-        setCurrentRecyclerViewManager();
+        setContestRecyclerViewManager();
         setFilterRecyclerViewManager();
 
         mMatchContestActivityBinding.tvMatchName.setText(new StringBuilder().append(matchArrayList.get(matchPositionSelected).getTeam1Name()).append(" VS ").append(matchArrayList.get(matchPositionSelected).getTeam2Name()).toString());
@@ -262,6 +263,12 @@ public class MatchContestActivity extends SidemenuActivity {
 
     }
 
+    /**
+     * @Module Name/Class		:	setSelectPay
+     * @Author Name             :	Sachin Arora
+     * @Date                    :	Jan 15th , 2018
+     * @Purpose                 :	This method is used to create pay filter arraylist
+     */
     private void setSelectPay() {
         ArrayList<String> mPayList = new ArrayList<>();
         mPayList.add("0");
@@ -272,8 +279,14 @@ public class MatchContestActivity extends SidemenuActivity {
         payArrayList.addAll(mPayList);
     }
 
+    /**
+     * @Module Name/Class		:	setFilterRecyclerViewManager
+     * @Author Name             :	Sachin Arora
+     * @Date                    :	Jan 15th , 2018
+     * @Purpose                 :	This method is used to set layout manager for league filter recycler view
+     */
     private void setFilterRecyclerViewManager() {
-        mLayoutFilterManager = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager mLayoutFilterManager = new LinearLayoutManager(this);
         mMatchContestActivityBinding.recyclerViewOther.setLayoutManager(mLayoutFilterManager);
         mMatchContestActivityBinding.recyclerViewOther.setItemAnimator(new DefaultItemAnimator());
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mMatchContestActivityBinding.recyclerView.getContext(),
@@ -281,24 +294,29 @@ public class MatchContestActivity extends SidemenuActivity {
         mMatchContestActivityBinding.recyclerViewOther.addItemDecoration(dividerItemDecoration);
     }
 
+    /**
+     * @Module Name/Class		:	loadMatchContest
+     * @Author Name             :	Sachin Arora
+     * @Date                    :	Jan 15th , 2018
+     * @Purpose                 :	This method is used to fetch the contest list and observe data
+     */
     private void loadMatchContest() {
 
         MatchContestsViewModel mMatchContestViewModel = ViewModelProviders.of(this).get(MatchContestsViewModel.class);
 
-        mMatchContestViewModel.getMatchContests(mUserResponse, matchId, String.valueOf(league_id), price, String.valueOf(aOffset), String.valueOf(aLimit))
+        int aLimit = 10;
+        mMatchContestViewModel
+                .getMatchContests(mUserResponse, matchId, String.valueOf(league_id), price, String.valueOf(aOffset), String.valueOf(aLimit))
                 .observe(this, matchContestsResponse -> {
-                    if (matchContestsResponse.getStatus().equalsIgnoreCase("success")) {
+                    if (matchContestsResponse.getStatus().equalsIgnoreCase(sSuccess)) {
                         if (matchContestsResponse.getMatchModel().size() > 0) {
                             Log.e("size is", matchContestsResponse.getMatchModel().size() + "");
-
                             mLoading = true;
                             aOffset = aOffset + matchContestsResponse.getMatchModel().size();
                             setActiveOrInActive(matchContestsResponse.getMatchModel());
-
                         } else {
                             Toast.makeText(MatchContestActivity.this, matchContestsResponse.getMessage(), Toast.LENGTH_LONG).show();
                         }
-
                     } else {
                         Log.e("failure", "***");
                         Toast.makeText(MatchContestActivity.this, matchContestsResponse.getMessage(), Toast.LENGTH_LONG).show();
@@ -306,6 +324,12 @@ public class MatchContestActivity extends SidemenuActivity {
                 });
     }
 
+    /**
+     * @Module Name/Class		:	setActiveOrInActive
+     * @Author Name             :	Sachin Arora
+     * @Date                    :	Jan 15th , 2018
+     * @Purpose                 :	This method is used to set Active and InActive contest list
+     */
     private void setActiveOrInActive(ArrayList<MatchContestsData> matchModel) {
 
         ArrayList<MatchContestsData> activeList = new ArrayList<>();
@@ -334,6 +358,12 @@ public class MatchContestActivity extends SidemenuActivity {
 
     }
 
+    /**
+     * @Module Name/Class		:	setRecyclerView
+     * @Author Name             :	Sachin Arora
+     * @Date                    :	Jan 15th , 2018
+     * @Purpose                 :	This method is used to set recycler view based on active or inactive status
+     */
     private void setRecyclerView(String status) {
 
         if (status.equalsIgnoreCase(getString(R.string.active))) {
@@ -345,7 +375,14 @@ public class MatchContestActivity extends SidemenuActivity {
         }
     }
 
-    private void setCurrentRecyclerViewManager() {
+
+    /**
+     * @Module Name/Class		:	setContestRecyclerViewManager
+     * @Author Name             :	Sachin Arora
+     * @Date                    :	Jan 15th , 2018
+     * @Purpose                 :	This method is used to set recycler view manager for contest recycler view
+     */
+    private void setContestRecyclerViewManager() {
         mLayoutManager = new LinearLayoutManager(this);
         mMatchContestActivityBinding.recyclerView.setLayoutManager(mLayoutManager);
         mMatchContestActivityBinding.recyclerView.setItemAnimator(new DefaultItemAnimator());

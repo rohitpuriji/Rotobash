@@ -1,6 +1,5 @@
 package com.tech.rotobash.activites;
 
-import android.app.ProgressDialog;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -30,28 +29,31 @@ import com.tech.rotobash.utils.Network;
 
 import java.util.ArrayList;
 
-import static com.tech.rotobash.utils.AppConstant.sPleaseWait;
+import static com.tech.rotobash.utils.AppConstant.sPositionKey;
+import static com.tech.rotobash.utils.AppConstant.sSuccess;
+import static com.tech.rotobash.utils.AppConstant.sUserResponseKey;
 
 /**
- * Created by sachinarora on 11/1/18.
+ * @Module Name/Class		:	MatchListActivity
+ * @Author Name             :	Rohit Puri
+ * @Date                    :	Jan 8rd , 2018
+ * @Purpose                 :	This class shows the recent and upcoming matches data
  */
-
 public class MatchListActivity extends SidemenuActivity {
 
     private UserResponse mUserResponse;
     private ActivityMatchListBinding mMatchListActivityBinding;
     private int mMatchType = 2, mOffset = 0;
+    private int mPastVisiblesItems, mVisibleItemCount, mTotalItemCount;
+    private int mSeriesId = 0;
+    private int lastSizeOfList = 0;
+    private boolean mLoading = true;
     private MatchesAdapter mAdapter;
     private FiltersAdapter mFilterAdapter;
-    private boolean mLoading = true;
-    private int mPastVisiblesItems, mVisibleItemCount, mTotalItemCount;
     private RecyclerView.LayoutManager mLayoutManager;
-    private RecyclerView.LayoutManager mLayoutFilterManager;
-    private ArrayList<MatchesData> mTempList = new ArrayList<>();
-    private int lastSizeOfList = 0;
-    private ArrayList<MatchesData> mMatchesList = new ArrayList<>();
-    private ArrayList<SeriesData> mSeriesList = new ArrayList<>();
-    private int mSeriesId = 0;
+    private ArrayList<MatchesData> mTempList;
+    private ArrayList<MatchesData> mMatchesList;
+    private ArrayList<SeriesData> mSeriesList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +109,12 @@ public class MatchListActivity extends SidemenuActivity {
         });
     }
 
+    /**
+     * @Module Name/Class		:	handleFilterVisibility
+     * @Author Name             :	Rohit Puri
+     * @Date                    :	Jan 15th , 2018
+     * @Purpose                 :	This class show and hide filter list from dashboard
+     */
     private void handleFilterVisibility() {
         if (mSeriesList.size() > 0) {
             if (mMatchListActivityBinding.listViewFilter.getVisibility() != View.VISIBLE) {
@@ -119,7 +127,12 @@ public class MatchListActivity extends SidemenuActivity {
         }
     }
 
-
+    /**
+     * @Module Name/Class		:	refreshList
+     * @Author Name             :	Rohit Puri
+     * @Date                    :	Jan 15th , 2018
+     * @Purpose                 :	This class clear the list data to update them again
+     */
     private void refreshList() {
         mLoading = true;
         mPastVisiblesItems = 0;
@@ -141,9 +154,9 @@ public class MatchListActivity extends SidemenuActivity {
 
     /**
      * @Module Name/Class		:	openCloseDrawer
-     * @Author Name            :	Sachin Arora
-     * @Date :	Jan 8rd , 2018
-     * @Purpose :	This method will open close drawer
+     * @Author Name             :	Sachin Arora
+     * @Date                    :	Jan 8rd , 2018
+     * @Purpose                 :	This method will open close drawer
      */
     public void openCloseDrawer() {
 
@@ -154,16 +167,21 @@ public class MatchListActivity extends SidemenuActivity {
         }
     }
 
+    /**
+     * @Module Name/Class		:	initDataVariables
+     * @Author Name             :	Rohit Puri
+     * @Date                    :	Jan 15th , 2018
+     * @Purpose                 :	This method initialize the main data
+     */
     private void initDataVariables() {
-        mUserResponse = getIntent().getExtras().getParcelable("UserResponse");
+        mUserResponse = getIntent().getExtras().getParcelable(sUserResponseKey);
         mMatchListActivityBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.activity_match_list, mBinding.contentFrame, true);
 
         mMatchListActivityBinding.listViewFilter.setVisibility(View.GONE);
 
-        ProgressDialog progressDoalog = new ProgressDialog(MatchListActivity.this);
-        progressDoalog.setMax(100);
-        progressDoalog.setMessage(sPleaseWait);
-        progressDoalog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        mTempList = new ArrayList<>();
+        mMatchesList = new ArrayList<>();
+        mSeriesList = new ArrayList<>();
 
         setSupportActionBar(mMatchListActivityBinding.toolbar);
 
@@ -180,14 +198,26 @@ public class MatchListActivity extends SidemenuActivity {
         }
     }
 
+    /**
+     * @Module Name/Class		:	setRecyclerViewManager
+     * @Author Name             :	Rohit Puri
+     * @Date                    :	Jan 15th , 2018
+     * @Purpose                 :	This method create recyclerview manager for matches data
+     */
     private void setRecyclerViewManager() {
         mLayoutManager = new LinearLayoutManager(MatchListActivity.this);
         mMatchListActivityBinding.includedContent.recyclerView.setLayoutManager(mLayoutManager);
         mMatchListActivityBinding.includedContent.recyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 
+    /**
+     * @Module Name/Class		:	setFilterRecyclerViewManager
+     * @Author Name             :	Rohit Puri
+     * @Date                    :	Jan 15th , 2018
+     * @Purpose                 :	This method create recyclerview manager for filter data
+     */
     private void setFilterRecyclerViewManager() {
-        mLayoutFilterManager = new LinearLayoutManager(MatchListActivity.this);
+        RecyclerView.LayoutManager mLayoutFilterManager = new LinearLayoutManager(MatchListActivity.this);
         mMatchListActivityBinding.listViewFilter.setLayoutManager(mLayoutFilterManager);
         mMatchListActivityBinding.listViewFilter.setItemAnimator(new DefaultItemAnimator());
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mMatchListActivityBinding.listViewFilter.getContext(),
@@ -198,16 +228,17 @@ public class MatchListActivity extends SidemenuActivity {
     /**
      * @Module Name/Class		:	loadMatches
      * @Author Name             :	Rohit Puri
-     * @Date :	Jan 11th , 2018
-     * @Purpose :	This method loads the current or upcoming matches based on type from api
+     * @Date                    :	Jan 11th , 2018
+     * @Purpose                 :	This method loads the current or upcoming matches based on type from api
      */
     private void loadMatches(String aSeriesId, String aMatchType, String aOffset) {
 
         MatchesViewModel mMatchesViewModel = ViewModelProviders.of(this).get(MatchesViewModel.class);
 
-        mMatchesViewModel.getMatches(aSeriesId, mUserResponse, aMatchType, aOffset)
+        mMatchesViewModel
+                .getMatches(aSeriesId, mUserResponse, aMatchType, aOffset)
                 .observe(this, matchesResponse -> {
-                    if (matchesResponse.getStatus().equalsIgnoreCase("success")) {
+                    if (matchesResponse.getStatus().equalsIgnoreCase(sSuccess)) {
                         if (matchesResponse.getMatchModel().size() > 0) {
                             mMatchesList = matchesResponse.getMatchModel();
 
@@ -222,6 +253,7 @@ public class MatchListActivity extends SidemenuActivity {
                                     moveScreen(pos);
                                 }
                             });
+
                             mMatchListActivityBinding.includedContent.recyclerView.setAdapter(mAdapter);
 
                             lastSizeOfList = mTempList.size() - lastSizeOfList;
@@ -250,11 +282,17 @@ public class MatchListActivity extends SidemenuActivity {
                 });
     }
 
+    /**
+     * @Module Name/Class		:	moveScreen
+     * @Author Name             :	Rohit Puri
+     * @Date                    :	Jan 15th , 2018
+     * @Purpose                 :	This method is using for navigation
+     */
     private void moveScreen(int pos) {
         Intent intent = new Intent(this, MatchContestActivity.class);
-        intent.putExtra("UserResponse", mUserResponse);
-        intent.putParcelableArrayListExtra("matchList", mTempList);
-        intent.putExtra("position", pos);
+        intent.putExtra(AppConstant.sUserResponseKey, mUserResponse);
+        intent.putParcelableArrayListExtra(AppConstant.sMatchListKey, mTempList);
+        intent.putExtra(sPositionKey, pos);
         startActivity(intent);
 
     }
@@ -262,8 +300,8 @@ public class MatchListActivity extends SidemenuActivity {
     /**
      * @Module Name/Class		:	getFilterData
      * @Author Name             :	Rohit Puri
-     * @Date :	Jan 15th , 2018
-     * @Purpose :	This method loads the filters from api
+     * @Date                    :	Jan 15th , 2018
+     * @Purpose                 :	This method loads the filters from api
      */
     private void getFilterData() {
 
@@ -271,7 +309,7 @@ public class MatchListActivity extends SidemenuActivity {
 
         mSeriesViewModel.getSeries(mUserResponse)
                 .observe(this, seriesResponse -> {
-                    if (seriesResponse.getStatus().equalsIgnoreCase("success")) {
+                    if (seriesResponse.getStatus().equalsIgnoreCase(sSuccess)) {
                         if (seriesResponse.getSeriesModel().size() > 0) {
                             mSeriesList = seriesResponse.getSeriesModel();
 

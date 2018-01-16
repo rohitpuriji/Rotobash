@@ -22,7 +22,6 @@ public class AppConstant {
 	public static final String sGoogle = "gp";
 	public static final String sFacebook = "fb";
 	public static final String sDeviceType = "Android";
-	public static final String sPleaseWait = "Please wait....";
 	public static String sFacebookPackage = "com.facebook.katana";
 	public static String sFacebooks = "FACEBOOK";
 	public static String sFacebookDownloadMsg = "Do you want to download Facebook ?";
@@ -39,5 +38,10 @@ public class AppConstant {
 	//Pref keys
 	public static String sRememberKey = "remember";
 	public static String sPreferencePrivateKey = "Remember";
+	public static String sUserResponseKey = "UserResponse";
+	public static String sMatchListKey = "matchList";
+	public static String sPositionKey = "position";
+	public static String sPleaseWait = "Please wait....";
+	public static String sSuccess = "Success";
 
 }
