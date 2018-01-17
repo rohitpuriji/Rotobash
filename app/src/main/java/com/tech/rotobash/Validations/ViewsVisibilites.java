@@ -99,22 +99,21 @@ public class ViewsVisibilites {
         mBinding.includedContent.btnComing.setTextColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_red));
     }
 
-    public static void showActiveMatchView(AppCompatActivity aAppCompatActivity, ActivityMatchContestBinding mBinding) {
-        mBinding.btnCurrent.setText(aAppCompatActivity.getString(R.string.active));
-        mBinding.btnComing.setText(aAppCompatActivity.getString(R.string.inActive));
-        mBinding.btnCurrent.setBackgroundColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_light_blue));
-        mBinding.btnComing.setBackgroundColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_white));
-        mBinding.btnCurrent.setTextColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_green));
-        mBinding.btnComing.setTextColor(ContextCompat.getColor(aAppCompatActivity, R.color.dark_grey));
-
+    public static void showActiveContestView(ActivityMatchContestBinding mBinding) {
+        mBinding.view1.setVisibility(View.VISIBLE);
+        mBinding.view2.setVisibility(View.INVISIBLE);
+        mBinding.view3.setVisibility(View.INVISIBLE);
     }
 
-    public static void showInActiveMatchView(AppCompatActivity aAppCompatActivity, ActivityMatchContestBinding mBinding) {
-        mBinding.btnCurrent.setText(aAppCompatActivity.getString(R.string.active));
-        mBinding.btnComing.setText(aAppCompatActivity.getString(R.string.inActive));
-        mBinding.btnComing.setBackgroundColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_light_blue));
-        mBinding.btnCurrent.setBackgroundColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_white));
-        mBinding.btnComing.setTextColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_green));
-        mBinding.btnCurrent.setTextColor(ContextCompat.getColor(aAppCompatActivity, R.color.dark_grey));
+    public static void showInActiveContestView(ActivityMatchContestBinding mBinding) {
+        mBinding.view1.setVisibility(View.INVISIBLE);
+        mBinding.view2.setVisibility(View.VISIBLE);
+        mBinding.view3.setVisibility(View.INVISIBLE);
+    }
+
+    public static void showAllContestView(ActivityMatchContestBinding mBinding) {
+        mBinding.view1.setVisibility(View.INVISIBLE);
+        mBinding.view2.setVisibility(View.INVISIBLE);
+        mBinding.view3.setVisibility(View.VISIBLE);
     }
 }

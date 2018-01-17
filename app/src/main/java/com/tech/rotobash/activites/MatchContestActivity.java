@@ -53,6 +53,7 @@ public class MatchContestActivity extends SidemenuActivity {
     private MatchContestsAdapter mAdapter;
     private ArrayList<MatchContestsData> mTempArrayListActiveContestData;
     private ArrayList<MatchContestsData> mTempArrayListInActiveContestData;
+    private ArrayList<MatchContestsData> mTempArrayListAllContestData;
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<LeagueContestData> leaguesList;
     private ArrayList<String> payArrayList;
@@ -64,50 +65,58 @@ public class MatchContestActivity extends SidemenuActivity {
 
         initDataVariables();
 
-        ViewsVisibilites.showActiveMatchView(this, mMatchContestActivityBinding);
-
-        mMatchContestActivityBinding.btnCurrent.setOnClickListener(v -> {
+        mMatchContestActivityBinding.btnActive.setOnClickListener(v -> {
             mLoading = true;
             status = getString(R.string.active);
-            ViewsVisibilites.showActiveMatchView(this, mMatchContestActivityBinding);
+            ViewsVisibilites.showActiveContestView(mMatchContestActivityBinding);
             setRecyclerView(status);
         });
 
-        mMatchContestActivityBinding.btnComing.setOnClickListener(v -> {
+        mMatchContestActivityBinding.btnInActive.setOnClickListener(v -> {
             mLoading = true;
             status = getString(R.string.inActive);
-            ViewsVisibilites.showInActiveMatchView(this, mMatchContestActivityBinding);
+            ViewsVisibilites.showInActiveContestView(mMatchContestActivityBinding);
             setRecyclerView(status);
 
         });
+
+        mMatchContestActivityBinding.btnAll.setOnClickListener(v -> {
+            mLoading = true;
+            status = getString(R.string.txt_alls);
+            ViewsVisibilites.showAllContestView(mMatchContestActivityBinding);
+            setRecyclerView(status);
+
+        });
+
 
         mMatchContestActivityBinding.tvSelectLeague.setOnClickListener(v -> {
 
-            if (mMatchContestActivityBinding.recyclerViewOther.getVisibility() == View.GONE) {
-
-                if (Network.isAvailable(this)) {
-                    if (leaguesList.size() > 0) {
-                        mWhichFilter = getString(R.string.txt_select_league);
-                        mMatchContestActivityBinding.recyclerViewOther.setVisibility(View.VISIBLE);
-                        mMatchContestActivityBinding.rootLayout.setVisibility(View.GONE);
-                        setFilterAdapter();
-                    }
-
-                } else
-                    Toast.makeText(this, AppConstant.sNoInternet, Toast.LENGTH_LONG).show();
-
+            if (mMatchContestActivityBinding.recyclerViewFilter.getVisibility() == View.GONE) {
+                if (leaguesList.size() > 0) {
+                    mWhichFilter = getString(R.string.txt_select_league);
+                    mMatchContestActivityBinding.recyclerViewFilter.setVisibility(View.VISIBLE);
+                    mMatchContestActivityBinding.rootLayout.setVisibility(View.GONE);
+                    setFilterAdapter();
+                }
             } else {
-                mMatchContestActivityBinding.recyclerViewOther.setVisibility(View.GONE);
+                mMatchContestActivityBinding.recyclerViewFilter.setVisibility(View.GONE);
                 mMatchContestActivityBinding.rootLayout.setVisibility(View.VISIBLE);
             }
         });
 
         mMatchContestActivityBinding.tvSelectPay.setOnClickListener(v -> {
-            mWhichFilter = getString(R.string.txt_select_pay);
-            mMatchContestActivityBinding.recyclerViewOther.setVisibility(View.VISIBLE);
-            mMatchContestActivityBinding.rootLayout.setVisibility(View.GONE);
+            if (mMatchContestActivityBinding.recyclerViewFilter.getVisibility() == View.GONE) {
+                if (payArrayList.size() > 0) {
+                    mWhichFilter = getString(R.string.txt_select_pay);
+                    mMatchContestActivityBinding.recyclerViewFilter.setVisibility(View.VISIBLE);
+                    mMatchContestActivityBinding.rootLayout.setVisibility(View.GONE);
+                    setFilterAdapter();
+                }
+            }else {
+                mMatchContestActivityBinding.recyclerViewFilter.setVisibility(View.GONE);
+                mMatchContestActivityBinding.rootLayout.setVisibility(View.VISIBLE);
+            }
 
-            setFilterAdapter();
 
         });
 
@@ -145,19 +154,23 @@ public class MatchContestActivity extends SidemenuActivity {
 
         mMatchContestActivityBinding.llMatchName.setOnClickListener(v -> {
             mWhichFilter = getString(R.string.txt_match_name);
-            mMatchContestActivityBinding.recyclerViewOther.setVisibility(View.VISIBLE);
-            mMatchContestActivityBinding.rootLayout.setVisibility(View.GONE);
-
-            setFilterAdapter();
+            if (mMatchContestActivityBinding.recyclerViewOther.getVisibility() == View.VISIBLE){
+                mMatchContestActivityBinding.recyclerViewOther.setVisibility(View.GONE);
+                mMatchContestActivityBinding.rootLayout.setVisibility(View.VISIBLE);
+                mMatchContestActivityBinding.constraintLayout.setVisibility(View.VISIBLE);
+            }else{
+                mMatchContestActivityBinding.recyclerViewOther.setVisibility(View.VISIBLE);
+                mMatchContestActivityBinding.rootLayout.setVisibility(View.GONE);
+                mMatchContestActivityBinding.constraintLayout.setVisibility(View.GONE);
+                setFilterAdapter();
+            }
 
         });
 
-        // onclick for refreshing league and pay
         mMatchContestActivityBinding.imgRefresh.setOnClickListener(view -> {
             if (Network.isAvailable(this)) {
-               Log.e("TAG", "refresh");
-
-               refreshToDefaultValues();
+                Log.e("TAG", "refresh");
+                refreshToDefaultValues();
             }
         });
     }
@@ -165,16 +178,14 @@ public class MatchContestActivity extends SidemenuActivity {
     private void refreshToDefaultValues() {
         league_id = 0;
         price = null;
-
         mMatchContestActivityBinding.tvSelectPay.setText(getString(R.string.txt_select_pay));
         mMatchContestActivityBinding.tvSelectLeague.setText(getString(R.string.txt_select_league));
-
-        // method to clear list and adapter
         clearListAndAdapter();
     }
 
     private void setFilterAdapter() {
-        ContestsFilterAdapter mFilterAdapter = new ContestsFilterAdapter(mWhichFilter, leaguesList, payArrayList, matchArrayList, pos -> {
+        ContestsFilterAdapter mFilterAdapter = new ContestsFilterAdapter(mWhichFilter, leaguesList,
+                                                payArrayList, matchArrayList, pos -> {
 
             if (mWhichFilter.equalsIgnoreCase(getString(R.string.txt_select_league))) {
                 league_id = Integer.parseInt(leaguesList.get(pos).getId());
@@ -203,16 +214,22 @@ public class MatchContestActivity extends SidemenuActivity {
             } else {
                 matchId = matchArrayList.get(pos).getMatchId();
                 mMatchContestActivityBinding.tvMatchName.setText(new StringBuilder().append(matchArrayList.get(pos).getTeam1Name()).append(" VS ").append(matchArrayList.get(pos).getTeam2Name()).toString());
-
             }
 
-            // method to clear list and adapter
             clearListAndAdapter();
 
         });
-        mMatchContestActivityBinding.recyclerViewOther.setAdapter(mFilterAdapter);
+
+<<<<<<< HEAD
+=======
+        if (mWhichFilter.equalsIgnoreCase(getString(R.string.txt_select_league)) || mWhichFilter.equalsIgnoreCase(getString(R.string.txt_select_pay))) {
+            mMatchContestActivityBinding.recyclerViewFilter.setAdapter(mFilterAdapter);
+        }else {
+            mMatchContestActivityBinding.recyclerViewOther.setAdapter(mFilterAdapter);
+        }
     }
 
+>>>>>>> bccf6b1b789601647793ce087693794936ac919c
     /**
      * @Module Name/Class		:	clearListAndAdapter
      * @Author Name             :	Sombir Bisht
@@ -225,10 +242,9 @@ public class MatchContestActivity extends SidemenuActivity {
         mTempArrayListInActiveContestData.clear();
         mTempArrayListActiveContestData.clear();
         mMatchContestActivityBinding.recyclerViewOther.setVisibility(View.GONE);
+        mMatchContestActivityBinding.recyclerViewFilter.setVisibility(View.GONE);
         mMatchContestActivityBinding.rootLayout.setVisibility(View.VISIBLE);
         mMatchContestActivityBinding.recyclerView.setVisibility(View.VISIBLE);
-
-
         mAdapter.notifyDataSetChanged();
         mAdapter = null;
         loadMatchContest();
@@ -254,11 +270,6 @@ public class MatchContestActivity extends SidemenuActivity {
 
     }
 
-    private void refreshList() {
-        ViewsVisibilites.showActiveMatchView(this, mMatchContestActivityBinding);
-        status = getString(R.string.active);
-    }
-
     /**
      * @Module Name/Class		:	initDataVariables
      * @Author Name             :	Sachin Arora
@@ -269,23 +280,23 @@ public class MatchContestActivity extends SidemenuActivity {
         mMatchContestActivityBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.activity_match_contest, mBinding.contentFrame, true);
         matchArrayList = getIntent().getParcelableArrayListExtra(sMatchListKey);
         mUserResponse = getIntent().getExtras().getParcelable(sUserResponseKey);
-        int matchPositionSelected = getIntent().getIntExtra(sPositionKey, -1);
 
-        matchId = matchArrayList.get(matchPositionSelected).getMatchId();
+        matchId = matchArrayList.get(getIntent().getIntExtra(sPositionKey, -1)).getMatchId();
 
-        mMatchContestActivityBinding.btnSelectMatches.setText(AppUtils.getDateFormatYear(matchArrayList.get(matchPositionSelected).getMatchStartDate()));
+        mMatchContestActivityBinding.btnSelectMatches.setText(AppUtils.getDateFormatYear(matchArrayList.get(getIntent().getIntExtra(sPositionKey, -1)).getMatchStartDate()));
 
         mTempArrayListActiveContestData = new ArrayList<>();
         mTempArrayListInActiveContestData = new ArrayList<>();
         leaguesList = new ArrayList<>();
         payArrayList = new ArrayList<>();
 
-        status = getString(R.string.active);
+        status = getString(R.string.txt_alls);
+        ViewsVisibilites.showAllContestView(mMatchContestActivityBinding);
 
         setContestRecyclerViewManager();
         setFilterRecyclerViewManager();
 
-        mMatchContestActivityBinding.tvMatchName.setText(new StringBuilder().append(matchArrayList.get(matchPositionSelected).getTeam1Name()).append(" VS ").append(matchArrayList.get(matchPositionSelected).getTeam2Name()).toString());
+        mMatchContestActivityBinding.tvMatchName.setText(new StringBuilder().append(matchArrayList.get(getIntent().getIntExtra(sPositionKey, -1)).getTeam1Name()).append(" VS ").append(matchArrayList.get(getIntent().getIntExtra(sPositionKey, -1)).getTeam2Name()).toString());
 
         setSelectPay();
 
@@ -321,12 +332,18 @@ public class MatchContestActivity extends SidemenuActivity {
      * @Purpose                 :	This method is used to set layout manager for league filter recycler view
      */
     private void setFilterRecyclerViewManager() {
+        RecyclerView.LayoutManager mLayoutOtherManager = new LinearLayoutManager(this);
         RecyclerView.LayoutManager mLayoutFilterManager = new LinearLayoutManager(this);
-        mMatchContestActivityBinding.recyclerViewOther.setLayoutManager(mLayoutFilterManager);
+
+        mMatchContestActivityBinding.recyclerViewOther.setLayoutManager(mLayoutOtherManager);
         mMatchContestActivityBinding.recyclerViewOther.setItemAnimator(new DefaultItemAnimator());
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mMatchContestActivityBinding.recyclerView.getContext(),
-                DividerItemDecoration.VERTICAL);
+
+        mMatchContestActivityBinding.recyclerViewFilter.setLayoutManager(mLayoutFilterManager);
+        mMatchContestActivityBinding.recyclerViewFilter.setItemAnimator(new DefaultItemAnimator());
+
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mMatchContestActivityBinding.recyclerView.getContext(), DividerItemDecoration.VERTICAL);
         mMatchContestActivityBinding.recyclerViewOther.addItemDecoration(dividerItemDecoration);
+        mMatchContestActivityBinding.recyclerViewFilter.addItemDecoration(dividerItemDecoration);
     }
 
     /**
@@ -344,11 +361,11 @@ public class MatchContestActivity extends SidemenuActivity {
                 .getMatchContests(mUserResponse, matchId, String.valueOf(league_id), price, String.valueOf(aOffset), String.valueOf(aLimit))
                 .observe(this, matchContestsResponse -> {
                     if (matchContestsResponse.getStatus().equalsIgnoreCase(sSuccess)) {
-                        if (matchContestsResponse.getMatchModel().size() > 0) {
-                            Log.e("size is", matchContestsResponse.getMatchModel().size() + "");
+                        if (matchContestsResponse.getContestModel().size() > 0) {
+                            Log.e("size is", matchContestsResponse.getContestModel().size() + "");
                             mLoading = true;
-                            aOffset = aOffset + matchContestsResponse.getMatchModel().size();
-                            setActiveOrInActive(matchContestsResponse.getMatchModel());
+                            aOffset = aOffset + matchContestsResponse.getContestModel().size();
+                            setActiveOrInActive(matchContestsResponse.getContestModel());
                         } else {
                             Toast.makeText(MatchContestActivity.this, matchContestsResponse.getMessage(), Toast.LENGTH_LONG).show();
                         }
@@ -369,6 +386,7 @@ public class MatchContestActivity extends SidemenuActivity {
 
         ArrayList<MatchContestsData> activeList = new ArrayList<>();
         ArrayList<MatchContestsData> inActiveList = new ArrayList<>();
+        mTempArrayListAllContestData = new ArrayList<>();
 
         for (int i = 0; i < matchModel.size(); i++) {
 
@@ -385,6 +403,7 @@ public class MatchContestActivity extends SidemenuActivity {
 
         mTempArrayListActiveContestData.addAll(activeList);
         mTempArrayListInActiveContestData.addAll(inActiveList);
+        mTempArrayListAllContestData.addAll(matchModel);
 
         if (mAdapter == null)
             setRecyclerView(status);
@@ -400,8 +419,11 @@ public class MatchContestActivity extends SidemenuActivity {
      * @Purpose                 :	This method is used to set recycler view based on active or inactive status
      */
     private void setRecyclerView(String status) {
-
-        if (status.equalsIgnoreCase(getString(R.string.active))) {
+        if (status.equalsIgnoreCase(getString(R.string.txt_alls))) {
+            mAdapter = new MatchContestsAdapter(MatchContestActivity.this, mTempArrayListAllContestData);
+            mMatchContestActivityBinding.recyclerView.setAdapter(mAdapter);
+        }
+        else if (status.equalsIgnoreCase(getString(R.string.active))) {
             mAdapter = new MatchContestsAdapter(MatchContestActivity.this, mTempArrayListActiveContestData);
             mMatchContestActivityBinding.recyclerView.setAdapter(mAdapter);
         } else {
@@ -428,8 +450,12 @@ public class MatchContestActivity extends SidemenuActivity {
         if (mMatchContestActivityBinding.recyclerViewOther.getVisibility() == View.VISIBLE) {
             mMatchContestActivityBinding.recyclerViewOther.setVisibility(View.GONE);
             mMatchContestActivityBinding.rootLayout.setVisibility(View.VISIBLE);
-
-        } else
+            mMatchContestActivityBinding.constraintLayout.setVisibility(View.VISIBLE);
+        }else if(mMatchContestActivityBinding.recyclerViewFilter.getVisibility() == View.VISIBLE){
+            mMatchContestActivityBinding.recyclerViewFilter.setVisibility(View.GONE);
+            mMatchContestActivityBinding.rootLayout.setVisibility(View.VISIBLE);
+            mMatchContestActivityBinding.constraintLayout.setVisibility(View.VISIBLE);
+        }else
             super.onBackPressed();
     }
 }

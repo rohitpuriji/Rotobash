@@ -66,7 +66,9 @@ public class MatchContestsAdapter extends RecyclerView.Adapter<MatchContestsAdap
         viewDataBinding.tvLeagueName.setText(matchContestsData.getLeague_name());
         viewDataBinding.tvTotalWinners.setText(new StringBuilder().append(matchContestsData.getNo_of_winners()).append(" ").append("WINNERS").toString());
         viewDataBinding.tvTeamsJoined.setText(new StringBuilder().append(matchContestsData.getTotal_users()).append("/").append(matchContestsData.getMax_user()).append(" ").append("TEAMS").toString());
+        viewDataBinding.seekBar.setProgress(getProgress(matchContestsData));
 
+<<<<<<< HEAD
         viewDataBinding.seekBar.setProgress(getProgress(viewDataBinding, matchContestsData));
 
         // To join the contest
@@ -76,9 +78,16 @@ public class MatchContestsAdapter extends RecyclerView.Adapter<MatchContestsAdap
         });
 
 
+=======
+        if (Integer.parseInt(matchContestsData.getTotal_users()) >= Integer.parseInt(matchContestsData.getMin_user())) {
+            viewDataBinding.cardView.setBackgroundColor(appCompatActivity.getResources().getColor(R.color.color_light_blue));
+        }else{
+            viewDataBinding.cardView.setBackgroundColor(appCompatActivity.getResources().getColor(R.color.color_white));
+        }
+>>>>>>> bccf6b1b789601647793ce087693794936ac919c
     }
 
-    private int getProgress(ItemMatchContestsBinding viewDataBinding, MatchContestsData matchContestsData) {
+    private int getProgress(MatchContestsData matchContestsData) {
 
         int progress;
         int total_users;
@@ -88,7 +97,6 @@ public class MatchContestsAdapter extends RecyclerView.Adapter<MatchContestsAdap
         max_users = Integer.parseInt(matchContestsData.getMax_user());
 
         progress = (total_users * 100) / max_users;
-
 
         Log.e("progress", progress + "");
 

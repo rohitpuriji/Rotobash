@@ -21,7 +21,7 @@ public class MatchContestsResponse {
 
     @SerializedName("response")
     @Expose
-    private ArrayList<MatchContestsData> matchModel;
+    private ArrayList<MatchContestsData> contestData;
 
     public String getStatus() {
         return status;
@@ -39,11 +39,11 @@ public class MatchContestsResponse {
         this.message = message;
     }
 
-    public ArrayList<MatchContestsData> getMatchModel() {
-        return matchModel;
+    public ArrayList<MatchContestsData> getContestModel() {
+        return contestData;
     }
 
-    public void setMatchModel(ArrayList<MatchContestsData> matchModel) {
-        this.matchModel = matchModel;
+    public void setContestModel(ArrayList<MatchContestsData> contestData) {
+        this.contestData = contestData;
     }
 }
