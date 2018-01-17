@@ -1,5 +1,6 @@
 package com.tech.rotobash.adapters;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.tech.rotobash.R;
+import com.tech.rotobash.activites.SelectTeamActivity;
 import com.tech.rotobash.databinding.ItemMatchContestsBinding;
 import com.tech.rotobash.model.MatchContestsData;
 
@@ -18,8 +20,6 @@ import java.util.List;
  */
 
 public class MatchContestsAdapter extends RecyclerView.Adapter<MatchContestsAdapter.MyViewHolder> {
-
-
     private List<MatchContestsData> matchesDataList;
     private AppCompatActivity appCompatActivity;
 
@@ -68,6 +68,12 @@ public class MatchContestsAdapter extends RecyclerView.Adapter<MatchContestsAdap
         viewDataBinding.tvTeamsJoined.setText(new StringBuilder().append(matchContestsData.getTotal_users()).append("/").append(matchContestsData.getMax_user()).append(" ").append("TEAMS").toString());
 
         viewDataBinding.seekBar.setProgress(getProgress(viewDataBinding, matchContestsData));
+
+        // To join the contest
+        viewDataBinding.tvJoin.setOnClickListener(v -> {
+            Intent selectTeamIntent = new Intent(appCompatActivity, SelectTeamActivity.class);
+            appCompatActivity.startActivity(selectTeamIntent);
+        });
 
 
     }

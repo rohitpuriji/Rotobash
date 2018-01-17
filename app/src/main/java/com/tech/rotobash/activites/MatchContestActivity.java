@@ -213,7 +213,12 @@ public class MatchContestActivity extends SidemenuActivity {
         mMatchContestActivityBinding.recyclerViewOther.setAdapter(mFilterAdapter);
     }
 
-
+    /**
+     * @Module Name/Class		:	clearListAndAdapter
+     * @Author Name             :	Sombir Bisht
+     * @Date                    :	Jan 16th , 2018
+     * @Purpose                 :	This method is used to notify adapter and set offset to 0.
+     */
     private void clearListAndAdapter() {
 
         aOffset = 0;

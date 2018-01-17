@@ -7,6 +7,7 @@
 
     <dimen name="very_large_text">18sp</dimen>
     <dimen name="small_text">12sp</dimen>
+    <dimen name="extra_small_text">10sp</dimen>
     <dimen name="margin_line">8dp</dimen>
     <dimen name="margin_five">5dp</dimen>
     <dimen name="box_height">30dp</dimen>
@@ -19,6 +20,11 @@
     <dimen name="margin_ten">10dp</dimen>
     <dimen name="padding_twentyfive">25dp</dimen>
     <dimen name="invite_box_size">40dp</dimen>
+
+    <!-- Select team activity -->
+    <dimen name="text_thirty">30sp</dimen>
+    <dimen name="text_bottom_credit">10sp</dimen>
+    <dimen name="margin_fifty">50dp</dimen>
 
 
 </resources>

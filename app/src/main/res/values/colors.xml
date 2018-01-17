@@ -18,4 +18,8 @@
     <color name="color_light_blue">#E2FFF5</color>
     <color name="color_green">#009653</color>
 
+    <!-- Select your team-->
+    <color name="combinations_background_color">#333333</color>
+    <color name="next_btn_background_color">#3EA153</color>
+
 </resources>
