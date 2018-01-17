@@ -67,7 +67,6 @@ public class MatchContestActivity extends SidemenuActivity implements AdapterVie
     private ArrayList<LeagueContestData> leaguesList;
     private ArrayList<String> payArrayList;
     private ArrayList<MatchesData> matchArrayList;
-    private ArrayList<ContestItem> mChannelArray;
     private ChannelSpinnerForPay contestSelectSpinnerforPay;
     private ChannelSpinnerForLeauge contestSelectSpinner;
 
@@ -80,14 +79,14 @@ public class MatchContestActivity extends SidemenuActivity implements AdapterVie
         mMatchContestActivityBinding.btnActive.setOnClickListener(v -> {
             mLoading = true;
             status = getString(R.string.active);
-            ViewsVisibilites.showActiveContestView(mMatchContestActivityBinding);
+            ViewsVisibilites.showActiveContestView(this,mMatchContestActivityBinding);
             setRecyclerView(status);
         });
 
         mMatchContestActivityBinding.btnInActive.setOnClickListener(v -> {
             mLoading = true;
             status = getString(R.string.inActive);
-            ViewsVisibilites.showInActiveContestView(mMatchContestActivityBinding);
+            ViewsVisibilites.showInActiveContestView(this,mMatchContestActivityBinding);
             setRecyclerView(status);
 
         });
@@ -95,36 +94,10 @@ public class MatchContestActivity extends SidemenuActivity implements AdapterVie
         mMatchContestActivityBinding.btnAll.setOnClickListener(v -> {
             mLoading = true;
             status = getString(R.string.txt_alls);
-            ViewsVisibilites.showAllContestView(mMatchContestActivityBinding);
+            ViewsVisibilites.showAllContestView(this,mMatchContestActivityBinding);
             setRecyclerView(status);
 
         });
-
-
-//        mMatchContestActivityBinding.tvSelectLeague.setOnClickListener(v -> {
-//
-//
-//
-//            /*if (mMatchContestActivityBinding.recyclerViewFilter.getVisibility() == View.GONE) {
-//                if (leaguesList.size() > 0) {
-//                    mWhichFilter = getString(R.string.txt_select_league);
-//                    mMatchContestActivityBinding.recyclerViewFilter.setVisibility(View.VISIBLE);
-//                    mMatchContestActivityBinding.rootLayout.setVisibility(View.GONE);
-//                    setFilterAdapter();
-//                }
-//            } else {
-//                mMatchContestActivityBinding.recyclerViewFilter.setVisibility(View.GONE);
-//                mMatchContestActivityBinding.rootLayout.setVisibility(View.VISIBLE);
-//            }*/
-//        });
-
-
-        //mChannelArray = new ArrayList<ContestItem>();
-
-
-        // inside spinner
-        //mMatchContestActivityBinding.spinner.setOnItemClickListener((AdapterView.OnItemClickListener) this);
-
 
         mMatchContestActivityBinding.tvSelectPay.setOnClickListener(v -> {
             if (mMatchContestActivityBinding.recyclerViewFilter.getVisibility() == View.GONE) {
@@ -308,6 +281,7 @@ public class MatchContestActivity extends SidemenuActivity implements AdapterVie
         mMatchContestActivityBinding.spinnerPay.setOnItemSelectedListener(this);
 
         mMatchContestActivityBinding.spinnerPay.setAdapter(new NothingSelectedSpinnerAdapter(contestSelectSpinnerforPay, R.layout.spinner_select_pay, this));
+
     }
 
     private void setSpinnerForLeauge() {
@@ -347,8 +321,11 @@ public class MatchContestActivity extends SidemenuActivity implements AdapterVie
         leaguesList = new ArrayList<>();
         payArrayList = new ArrayList<>();
 
+        mMatchContestActivityBinding.spinnerLeauge.setPrompt(getResources().getString(R.string.txt_select_league));
+        mMatchContestActivityBinding.spinnerPay.setPrompt(getResources().getString(R.string.txt_select_pay));
+
         status = getString(R.string.txt_alls);
-        ViewsVisibilites.showAllContestView(mMatchContestActivityBinding);
+        ViewsVisibilites.showAllContestView(this,mMatchContestActivityBinding);
 
         setContestRecyclerViewManager();
         setFilterRecyclerViewManager();

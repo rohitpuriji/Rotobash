@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -11,14 +9,8 @@
             android:id="@+id/custom_channel_type"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:paddingRight="@dimen/margin_ten"
-            android:paddingStart="@dimen/margin_ten"
-            android:paddingLeft="@dimen/margin_ten"
-            android:paddingEnd="@dimen/margin_ten"
-            android:paddingTop="@dimen/margin_five"
-            android:layout_marginTop="@dimen/text_thirty"
-            android:textSize="@dimen/large_mid_text" />
+            android:padding="@dimen/margin_ten"
+            android:textSize="@dimen/mid_text" />
 
     </android.support.constraint.ConstraintLayout>
 </layout>
