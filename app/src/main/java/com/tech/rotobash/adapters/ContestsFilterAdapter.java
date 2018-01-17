@@ -18,13 +18,13 @@ public class ContestsFilterAdapter extends RecyclerView.Adapter<ContestsFilterAd
 
     private ArrayList<LeagueContestData> leaguesArrayList;
     private ArrayList<String> payArrayList;
-    private String mContests;
+    private String mContestsFilter;
     private MatchItemInterface mMatchInterface;
     private ArrayList<MatchesData> matchDataList;
 
     public ContestsFilterAdapter(String mWhichFilter, ArrayList<LeagueContestData> leaguesList, ArrayList<String> payList, ArrayList<MatchesData> matchesDataArrayList, MatchItemInterface matchItemInterface) {
 
-        mContests = mWhichFilter;
+        mContestsFilter = mWhichFilter;
         leaguesArrayList = leaguesList;
         mMatchInterface = matchItemInterface;
         payArrayList = payList;
@@ -61,35 +61,26 @@ public class ContestsFilterAdapter extends RecyclerView.Adapter<ContestsFilterAd
 
         ListItemsFilterBinding viewDataBinding = holder.getViewDataBinding();
 
-        if (mContests.equalsIgnoreCase("Select League")) {
+        if (mContestsFilter.equalsIgnoreCase("Select League")) {
             viewDataBinding.tvItemName.setText(leaguesArrayList.get(position).getName());
-            viewDataBinding.tvItemName.setOnClickListener(v -> {
-                mMatchInterface.onItemClick(position);
+            viewDataBinding.tvItemName.setOnClickListener(v -> mMatchInterface.onItemClick(position));
 
-            });
-
-        } else if (mContests.equalsIgnoreCase("Select Pay")) {
+        } else if (mContestsFilter.equalsIgnoreCase("Select Pay")) {
             viewDataBinding.tvItemName.setText(payArrayList.get(position));
-            viewDataBinding.tvItemName.setOnClickListener(v -> {
-                mMatchInterface.onItemClick(position);
-
-            });
+            viewDataBinding.tvItemName.setOnClickListener(v -> mMatchInterface.onItemClick(position));
 
         } else {
             viewDataBinding.tvItemName.setText(new StringBuilder().append(matchDataList.get(position).getTeam1Name()).append(" VS ").append(matchDataList.get(position).getTeam2Name()).toString());
-            viewDataBinding.tvItemName.setOnClickListener(v -> {
-                mMatchInterface.onItemClick(position);
-
-            });
+            viewDataBinding.tvItemName.setOnClickListener(v -> mMatchInterface.onItemClick(position));
         }
     }
 
     @Override
     public int getItemCount() {
 
-        if (mContests.equalsIgnoreCase("Select League"))
+        if (mContestsFilter.equalsIgnoreCase("Select League"))
             return leaguesArrayList.size();
-        else if (mContests.equalsIgnoreCase("Select Pay"))
+        else if (mContestsFilter.equalsIgnoreCase("Select Pay"))
             return payArrayList.size();
 
         return matchDataList.size();

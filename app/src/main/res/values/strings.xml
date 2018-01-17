@@ -35,6 +35,7 @@
     <string name="txt_current">CURRENT</string>
     <string name="txt_active">ACTIVE</string>
     <string name="txt_inactive">INACTIVE</string>
+    <string name="txt_alls">ALL</string>
     <string name="txt_coming">UPCOMING</string>
     <string name="txt_create_contest">CREATE A PRIVATE CONTEST</string>
     <string name="txt_all">All Matches</string>

@@ -44,7 +44,6 @@
                         android:id="@+id/tvMatchName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/txt_kkr_vs_rcb"
                         android:textColor="@color/color_white"
                         android:textSize="@dimen/mid_text" />
 
@@ -116,11 +115,11 @@
                 android:gravity="center_vertical|center_horizontal"
                 android:padding="10dp"
                 android:text="@string/txt_select_league"
-                app:layout_constraintHorizontal_weight="1"
                 android:textAllCaps="false"
                 android:textColor="@color/color_black"
-                android:textSize="@dimen/large_mid_text"
+                android:textSize="@dimen/mid_text"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.533" />
@@ -131,6 +130,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="10dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="10dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/dropdown_bg_whiteline"
@@ -142,15 +143,13 @@
                 android:text="@string/txt_select_pay"
                 android:textAllCaps="false"
                 android:textColor="@color/color_black"
-                android:textSize="@dimen/large_mid_text"
+                android:textSize="@dimen/mid_text"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/imgRefresh"
                 app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/tvSelectLeague"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.533"
-                android:layout_marginRight="10dp"
-                android:layout_marginLeft="8dp" />
+                app:layout_constraintVertical_bias="0.533" />
 
             <ImageView
                 android:id="@+id/imgRefresh"
@@ -172,7 +171,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="vertical"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/constraintLayout" />
 
 
         <android.support.constraint.ConstraintLayout
@@ -190,9 +191,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <android.support.constraint.ConstraintLayout
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerViewFilter"
                     android:layout_width="match_parent"
+                    android:visibility="gone"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="vertical" />
+
+                <android.support.constraint.ConstraintLayout
                     android:id="@+id/btnConstraint"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <com.tech.rotobash.utils.ButtonFontBold
@@ -201,11 +210,13 @@
                         android:layout_height="wrap_content"
                         android:background="@color/color_light_blue"
                         android:text="@string/txt_active"
-                        android:textColor="@color/color_red"
+                        android:textColor="@color/color_green"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/btnInActive"
                         app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintHorizontal_weight="1"
-                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/btnAll"
+                        app:layout_constraintHorizontal_chainStyle="spread"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <com.tech.rotobash.utils.ButtonFontBold
@@ -215,10 +226,66 @@
                         android:background="@color/color_white"
                         android:text="@string/txt_inactive"
                         android:textColor="@color/light_grey"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintHorizontal_weight="1"
                         app:layout_constraintStart_toEndOf="@+id/btnActive"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.tech.rotobash.utils.ButtonFontBold
+                        android:id="@+id/btnAll"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@color/color_white"
+                        android:text="@string/txt_alls"
+                        android:textColor="@color/light_grey"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/btnActive"
+                        app:layout_constraintHorizontal_weight="1"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </android.support.constraint.ConstraintLayout>
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_below="@id/btnConstraint"
+                    android:id="@+id/viewConstraint"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/view1"
+                        android:layout_width="0dp"
+                        android:layout_height="3dp"
+                        android:background="@color/color_red"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/view2"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintHorizontal_weight="1"
+                        app:layout_constraintStart_toEndOf="@+id/view3"
+                        app:layout_constraintHorizontal_chainStyle="spread"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/view2"
+                        android:layout_width="0dp"
+                        android:background="@color/color_red"
+                        android:layout_height="3dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_weight="1"
+                        app:layout_constraintStart_toEndOf="@+id/view1"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/view3"
+                        android:layout_width="0dp"
+                        android:background="@color/color_red"
+                        android:layout_height="3dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/view1"
+                        app:layout_constraintHorizontal_weight="1"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                 </android.support.constraint.ConstraintLayout>
@@ -227,8 +294,8 @@
                     android:id="@+id/relativeLayout2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="?attr/actionBarSize"
-                    android:layout_below="@id/btnConstraint">
+                    android:layout_below="@id/viewConstraint"
+                    android:layout_marginBottom="?attr/actionBarSize">
 
                     <android.support.v4.widget.SwipeRefreshLayout
                         android:id="@+id/swipeContainerCurrent"
