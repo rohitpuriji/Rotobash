@@ -51,7 +51,7 @@ public class ChannelSpinnerForPay extends BaseAdapter{
 
         TextView custom_channel_type = myView.findViewById(R.id.custom_channel_type);
 
-        custom_channel_type.setText(list.toString());
+        custom_channel_type.setText(list.get(position));
         return myView;
     }
 }

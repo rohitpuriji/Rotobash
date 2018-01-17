@@ -114,38 +114,11 @@ public class MatchContestActivity extends SidemenuActivity implements AdapterVie
 //        });
 
 
-
         //mChannelArray = new ArrayList<ContestItem>();
-        Log.e("new leauge list size", String.valueOf(leaguesList.size()));
 
-
-
-        // Creating adapter for spinner
-        // Spinner Drop down elements
-//        List<String> categories = new ArrayList<String>();
-//        categories.add("Automobile");
-//        categories.add("Business Services");
-//        categories.add("Computers");
-//        categories.add("Education");
-//        categories.add("Personal");
-//        categories.add("Travel");
-
-
-//        Log.e("leauge list", String.valueOf(leaguesList.size()));
-//        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categories);
-//
-//        // Drop down layout style - list view with radio button
-//        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        // attaching data adapter to spinner
-        //mMatchContestActivityBinding.spinner.setAdapter(dataAdapter);
 
         // inside spinner
         //mMatchContestActivityBinding.spinner.setOnItemClickListener((AdapterView.OnItemClickListener) this);
-
-
-
-
 
 
         mMatchContestActivityBinding.tvSelectPay.setOnClickListener(v -> {
@@ -286,8 +259,10 @@ public class MatchContestActivity extends SidemenuActivity implements AdapterVie
         mMatchContestActivityBinding.recyclerViewFilter.setVisibility(View.GONE);
         mMatchContestActivityBinding.rootLayout.setVisibility(View.VISIBLE);
         mMatchContestActivityBinding.recyclerView.setVisibility(View.VISIBLE);
-        mAdapter.notifyDataSetChanged();
-        mAdapter = null;
+        if (mAdapter != null) {
+            mAdapter.notifyDataSetChanged();
+            mAdapter = null;
+        }
         loadMatchContest();
     }
 
@@ -317,11 +292,20 @@ public class MatchContestActivity extends SidemenuActivity implements AdapterVie
         ChannelSpinnerForPay contestSelectSpinnerforPay = new ChannelSpinnerForPay(this,payArrayList) ;
         // Creating adapter for spinner
         mMatchContestActivityBinding.spinnerPay.setAdapter(contestSelectSpinnerforPay);
-        mMatchContestActivityBinding.spinnerPay.setOnItemSelectedListener(this);
+        //mMatchContestActivityBinding.spinnerPay.setOnItemSelectedListener(this);
+
+//        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, payArrayList);
+//
+//        // Drop down layout style - list view with radio button
+//        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        //attaching data adapter to spinner
+//        mMatchContestActivityBinding.spinnerPay.setAdapter(dataAdapter);
+        //  mMatchContestActivityBinding.spinnerPay.setOnItemSelectedListener(this);
+
     }
 
     private void setSpinnerForLeauge() {
-        ChannelSpinnerForLeauge contestSelectSpinner = new ChannelSpinnerForLeauge(this,leaguesList) ;
+        ChannelSpinnerForLeauge contestSelectSpinner = new ChannelSpinnerForLeauge(this, leaguesList);
         // Creating adapter for spinner
         mMatchContestActivityBinding.spinnerLeauge.setAdapter(contestSelectSpinner);
         mMatchContestActivityBinding.spinnerLeauge.setOnItemSelectedListener(this);
@@ -359,7 +343,6 @@ public class MatchContestActivity extends SidemenuActivity implements AdapterVie
         setSelectPay();
 
         setSpinnerForPay();
-
 
         if (Network.isAvailable(this)) {
             getLeague();
@@ -522,11 +505,9 @@ public class MatchContestActivity extends SidemenuActivity implements AdapterVie
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-        // On selecting a spinner item
-        String item = adapterView.getItemAtPosition(i).toString();
+        league_id = Integer.parseInt(leaguesList.get(i).getId());
+        clearListAndAdapter();
 
-        // Showing selected spinner item
-        Toast.makeText(adapterView.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
 
     }
 
