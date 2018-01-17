@@ -1,5 +1,6 @@
 package com.tech.rotobash.activites;
 
+import android.app.ProgressDialog;
 import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -11,7 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.tech.rotobash.R;
@@ -20,6 +21,7 @@ import com.tech.rotobash.ViewModel.MatchContestsViewModel;
 import com.tech.rotobash.ViewModel.SelectLeagueViewModel;
 import com.tech.rotobash.adapters.ContestsFilterAdapter;
 import com.tech.rotobash.adapters.MatchContestsAdapter;
+import com.tech.rotobash.adapters.NothingSelectedSpinnerAdapter;
 import com.tech.rotobash.databinding.ActivityMatchContestBinding;
 import com.tech.rotobash.model.ContestItem;
 import com.tech.rotobash.model.LeagueContestData;
@@ -32,9 +34,9 @@ import com.tech.rotobash.utils.AppUtils;
 import com.tech.rotobash.utils.Network;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static com.tech.rotobash.utils.AppConstant.sMatchListKey;
+import static com.tech.rotobash.utils.AppConstant.sPleaseWait;
 import static com.tech.rotobash.utils.AppConstant.sPositionKey;
 import static com.tech.rotobash.utils.AppConstant.sSuccess;
 import static com.tech.rotobash.utils.AppConstant.sUserResponseKey;
@@ -50,6 +52,7 @@ public class MatchContestActivity extends SidemenuActivity implements AdapterVie
     private ActivityMatchContestBinding mMatchContestActivityBinding;
     private int aOffset = 0;
     private int league_id = 0;
+    private ProgressDialog progressDoalog;
     private int mPastVisiblesItems, mVisibleItemCount, mTotalItemCount;
     private String matchId;
     private String price = null;
@@ -65,6 +68,8 @@ public class MatchContestActivity extends SidemenuActivity implements AdapterVie
     private ArrayList<String> payArrayList;
     private ArrayList<MatchesData> matchArrayList;
     private ArrayList<ContestItem> mChannelArray;
+    private ChannelSpinnerForPay contestSelectSpinnerforPay;
+    private ChannelSpinnerForLeauge contestSelectSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -170,11 +175,11 @@ public class MatchContestActivity extends SidemenuActivity implements AdapterVie
 
         mMatchContestActivityBinding.llMatchName.setOnClickListener(v -> {
             mWhichFilter = getString(R.string.txt_match_name);
-            if (mMatchContestActivityBinding.llRecyclerOther.getVisibility() == View.VISIBLE){
+            if (mMatchContestActivityBinding.llRecyclerOther.getVisibility() == View.VISIBLE) {
                 mMatchContestActivityBinding.llRecyclerOther.setVisibility(View.GONE);
                 mMatchContestActivityBinding.rootLayout.setVisibility(View.VISIBLE);
                 mMatchContestActivityBinding.constraintLayout.setVisibility(View.VISIBLE);
-            }else{
+            } else {
                 mMatchContestActivityBinding.llRecyclerOther.setVisibility(View.VISIBLE);
                 mMatchContestActivityBinding.rootLayout.setVisibility(View.GONE);
                 mMatchContestActivityBinding.constraintLayout.setVisibility(View.GONE);
@@ -196,6 +201,9 @@ public class MatchContestActivity extends SidemenuActivity implements AdapterVie
         price = null;
         mMatchContestActivityBinding.tvSelectPay.setText(getString(R.string.txt_select_pay));
         mMatchContestActivityBinding.tvSelectLeague.setText(getString(R.string.txt_select_league));
+        mMatchContestActivityBinding.spinnerPay.setAdapter(new NothingSelectedSpinnerAdapter(contestSelectSpinnerforPay, R.layout.spinner_select_pay, this));
+        mMatchContestActivityBinding.spinnerLeauge.setAdapter(new NothingSelectedSpinnerAdapter(contestSelectSpinner, R.layout.spinner_select_leauge, this));
+
         clearListAndAdapter();
     }
 
@@ -251,6 +259,10 @@ public class MatchContestActivity extends SidemenuActivity implements AdapterVie
      */
     private void clearListAndAdapter() {
 
+        if (progressDoalog != null && progressDoalog.isShowing()) {
+            progressDoalog.dismiss();
+        }
+
         aOffset = 0;
         mTempArrayListInActiveContestData.clear();
         mTempArrayListActiveContestData.clear();
@@ -290,26 +302,22 @@ public class MatchContestActivity extends SidemenuActivity implements AdapterVie
     }
 
     private void setSpinnerForPay() {
-        ChannelSpinnerForPay contestSelectSpinnerforPay = new ChannelSpinnerForPay(this,payArrayList) ;
+        contestSelectSpinnerforPay = new ChannelSpinnerForPay(this, payArrayList);
         // Creating adapter for spinner
         mMatchContestActivityBinding.spinnerPay.setAdapter(contestSelectSpinnerforPay);
-        //mMatchContestActivityBinding.spinnerPay.setOnItemSelectedListener(this);
+        mMatchContestActivityBinding.spinnerPay.setOnItemSelectedListener(this);
 
-//        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, payArrayList);
-//
-//        // Drop down layout style - list view with radio button
-//        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        //attaching data adapter to spinner
-//        mMatchContestActivityBinding.spinnerPay.setAdapter(dataAdapter);
-        //  mMatchContestActivityBinding.spinnerPay.setOnItemSelectedListener(this);
-
+        mMatchContestActivityBinding.spinnerPay.setAdapter(new NothingSelectedSpinnerAdapter(contestSelectSpinnerforPay, R.layout.spinner_select_pay, this));
     }
 
     private void setSpinnerForLeauge() {
-        ChannelSpinnerForLeauge contestSelectSpinner = new ChannelSpinnerForLeauge(this, leaguesList);
+        contestSelectSpinner = new ChannelSpinnerForLeauge(this, leaguesList);
         // Creating adapter for spinner
         mMatchContestActivityBinding.spinnerLeauge.setAdapter(contestSelectSpinner);
         mMatchContestActivityBinding.spinnerLeauge.setOnItemSelectedListener(this);
+
+        mMatchContestActivityBinding.spinnerLeauge.setAdapter(new NothingSelectedSpinnerAdapter(contestSelectSpinner, R.layout.spinner_select_leauge, this));
+
     }
 
 
@@ -320,6 +328,12 @@ public class MatchContestActivity extends SidemenuActivity implements AdapterVie
      * @Purpose :	This method is using for initialization of base data
      */
     private void initDataVariables() {
+
+        progressDoalog = new ProgressDialog(this);
+        progressDoalog.setMax(100);
+        progressDoalog.setMessage(sPleaseWait);
+        progressDoalog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+
         mMatchContestActivityBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.activity_match_contest, mBinding.contentFrame, true);
         matchArrayList = getIntent().getParcelableArrayListExtra(sMatchListKey);
         mUserResponse = getIntent().getExtras().getParcelable(sUserResponseKey);
@@ -506,7 +520,17 @@ public class MatchContestActivity extends SidemenuActivity implements AdapterVie
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-        league_id = Integer.parseInt(leaguesList.get(i).getId());
+        Spinner spinner = (Spinner) adapterView;
+
+        progressDoalog.show();
+
+        if (spinner.getId() == R.id.spinnerLeauge) {
+            //do this
+            league_id = Integer.parseInt(leaguesList.get(i).getId());
+        } else if (spinner.getId() == R.id.spinnerPay) {
+            //do this
+        }
+
         clearListAndAdapter();
 
 

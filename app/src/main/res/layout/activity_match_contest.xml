@@ -127,8 +127,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:id="@+id/spinnerLeauge"
+                        android:overlapAnchor="false"
                         android:text="@string/txt_select_league"
-                        android:prompt="@string/txt_select_league"
                         android:background="@drawable/gradient_spinner"
                         android:textSize="@dimen/mid_text"
                         android:layout_marginRight="@dimen/margin_ten"
@@ -146,6 +146,7 @@
                     <Spinner
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:overlapAnchor="false"
                         android:id="@+id/spinnerPay"
                         android:background="@drawable/gradient_spinner"
                         android:layout_marginRight="@dimen/margin_ten"
