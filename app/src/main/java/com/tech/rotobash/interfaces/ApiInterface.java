@@ -87,6 +87,6 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("logout")
     Call<UserResponse> doLogout(@Header("Authorization") String token,
-                                    @Field("user_id") String userId);
+                                    @Field("access_token") String accessToken);
 
 }

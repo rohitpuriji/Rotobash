@@ -148,7 +148,6 @@
                 android:id="@+id/listViewFilter"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="60dp"
                 android:layout_below="@+id/appbarLayout" />
 
             <RelativeLayout

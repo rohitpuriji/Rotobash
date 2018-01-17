@@ -134,7 +134,6 @@ public class MatchContestActivity extends SidemenuActivity implements AdapterVie
                 mMatchContestActivityBinding.rootLayout.setVisibility(View.VISIBLE);
             }
 
-
         });
 
         mMatchContestActivityBinding.imgBack.setOnClickListener(v -> onBackPressed());
@@ -171,12 +170,12 @@ public class MatchContestActivity extends SidemenuActivity implements AdapterVie
 
         mMatchContestActivityBinding.llMatchName.setOnClickListener(v -> {
             mWhichFilter = getString(R.string.txt_match_name);
-            if (mMatchContestActivityBinding.recyclerViewOther.getVisibility() == View.VISIBLE) {
-                mMatchContestActivityBinding.recyclerViewOther.setVisibility(View.GONE);
+            if (mMatchContestActivityBinding.llRecyclerOther.getVisibility() == View.VISIBLE){
+                mMatchContestActivityBinding.llRecyclerOther.setVisibility(View.GONE);
                 mMatchContestActivityBinding.rootLayout.setVisibility(View.VISIBLE);
                 mMatchContestActivityBinding.constraintLayout.setVisibility(View.VISIBLE);
-            } else {
-                mMatchContestActivityBinding.recyclerViewOther.setVisibility(View.VISIBLE);
+            }else{
+                mMatchContestActivityBinding.llRecyclerOther.setVisibility(View.VISIBLE);
                 mMatchContestActivityBinding.rootLayout.setVisibility(View.GONE);
                 mMatchContestActivityBinding.constraintLayout.setVisibility(View.GONE);
                 setFilterAdapter();
@@ -255,7 +254,7 @@ public class MatchContestActivity extends SidemenuActivity implements AdapterVie
         aOffset = 0;
         mTempArrayListInActiveContestData.clear();
         mTempArrayListActiveContestData.clear();
-        mMatchContestActivityBinding.recyclerViewOther.setVisibility(View.GONE);
+        mMatchContestActivityBinding.llRecyclerOther.setVisibility(View.GONE);
         mMatchContestActivityBinding.recyclerViewFilter.setVisibility(View.GONE);
         mMatchContestActivityBinding.rootLayout.setVisibility(View.VISIBLE);
         mMatchContestActivityBinding.recyclerView.setVisibility(View.VISIBLE);
@@ -263,6 +262,8 @@ public class MatchContestActivity extends SidemenuActivity implements AdapterVie
             mAdapter.notifyDataSetChanged();
             mAdapter = null;
         }
+        mMatchContestActivityBinding.constraintLayout.setVisibility(View.VISIBLE);
+
         loadMatchContest();
     }
 
@@ -490,8 +491,8 @@ public class MatchContestActivity extends SidemenuActivity implements AdapterVie
 
     @Override
     public void onBackPressed() {
-        if (mMatchContestActivityBinding.recyclerViewOther.getVisibility() == View.VISIBLE) {
-            mMatchContestActivityBinding.recyclerViewOther.setVisibility(View.GONE);
+        if (mMatchContestActivityBinding.llRecyclerOther.getVisibility() == View.VISIBLE) {
+            mMatchContestActivityBinding.llRecyclerOther.setVisibility(View.GONE);
             mMatchContestActivityBinding.rootLayout.setVisibility(View.VISIBLE);
             mMatchContestActivityBinding.constraintLayout.setVisibility(View.VISIBLE);
         } else if (mMatchContestActivityBinding.recyclerViewFilter.getVisibility() == View.VISIBLE) {
