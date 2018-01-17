@@ -41,7 +41,7 @@
     <string name="txt_all">All Series</string>
     <string name="title_activity_matchList">MatchListActivity</string>
     <string name="txt_kkr_vs_rcb">KKR VS RCB</string>
-    <string name="txt_time">2:34:56</string>
+    <string name="txt_time">12:34:56</string>
     <string name="txt_select_league">Select League</string>
     <string name="txt_select_pay">Select Pay</string>
     <string name="active">ACTIVE</string>
@@ -58,5 +58,13 @@
     <string name="txt_match">MATCH</string>
     <string name="txt_tournament">TOURNAMENT</string>
     <string name="txt_left">TIME LEFT</string>
+
+    <!-- Select team activity -->
+    <string name="txt_select_team_heading">Select Your Team</string>
+    <string name="txt_next">Next</string>
+    <string name="txt_credits_left">Credits Left</string>
+    <string name="txt_player_selected">Players Selected</string>
+    <string name="txt_possible_combinations">Possible Combinations</string>
+    <string name="txt_selection_criteria">Selection Criteria</string>
 
 </resources>
