@@ -99,21 +99,22 @@ public class ViewsVisibilites {
         mBinding.includedContent.btnComing.setTextColor(ContextCompat.getColor(aAppCompatActivity, R.color.color_red));
     }
 
-    public static void showActiveContestView(ActivityMatchContestBinding mBinding) {
-        mBinding.view1.setVisibility(View.VISIBLE);
-        mBinding.view2.setVisibility(View.INVISIBLE);
-        mBinding.view3.setVisibility(View.INVISIBLE);
+    public static void showActiveContestView(AppCompatActivity aAppCompatActivity,ActivityMatchContestBinding mBinding) {
+        mBinding.view2.setBackgroundColor(aAppCompatActivity.getResources().getColor(R.color.color_red));
+        mBinding.view1.setBackgroundColor(aAppCompatActivity.getResources().getColor(R.color.color_white));
+        mBinding.view3.setBackgroundColor(aAppCompatActivity.getResources().getColor(R.color.color_white));
+
     }
 
-    public static void showInActiveContestView(ActivityMatchContestBinding mBinding) {
-        mBinding.view1.setVisibility(View.INVISIBLE);
-        mBinding.view2.setVisibility(View.VISIBLE);
-        mBinding.view3.setVisibility(View.INVISIBLE);
+    public static void showInActiveContestView(AppCompatActivity aAppCompatActivity,ActivityMatchContestBinding mBinding) {
+        mBinding.view2.setBackgroundColor(aAppCompatActivity.getResources().getColor(R.color.color_light_blue));
+        mBinding.view1.setBackgroundColor(aAppCompatActivity.getResources().getColor(R.color.color_white));
+        mBinding.view3.setBackgroundColor(aAppCompatActivity.getResources().getColor(R.color.color_red));
     }
 
-    public static void showAllContestView(ActivityMatchContestBinding mBinding) {
-        mBinding.view1.setVisibility(View.INVISIBLE);
-        mBinding.view2.setVisibility(View.INVISIBLE);
-        mBinding.view3.setVisibility(View.VISIBLE);
+    public static void showAllContestView(AppCompatActivity aAppCompatActivity,ActivityMatchContestBinding mBinding) {
+        mBinding.view2.setBackgroundColor(aAppCompatActivity.getResources().getColor(R.color.color_light_blue));
+        mBinding.view1.setBackgroundColor(aAppCompatActivity.getResources().getColor(R.color.color_red));
+        mBinding.view3.setBackgroundColor(aAppCompatActivity.getResources().getColor(R.color.color_white));
     }
 }
