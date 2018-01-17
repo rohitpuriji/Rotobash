@@ -38,7 +38,7 @@
     <string name="txt_alls">ALL</string>
     <string name="txt_coming">UPCOMING</string>
     <string name="txt_create_contest">CREATE A PRIVATE CONTEST</string>
-    <string name="txt_all">All Matches</string>
+    <string name="txt_all">All Series</string>
     <string name="title_activity_matchList">MatchListActivity</string>
     <string name="txt_kkr_vs_rcb">KKR VS RCB</string>
     <string name="txt_time">2:34:56</string>
@@ -55,5 +55,8 @@
     <string name="txt_join">Join</string>
     <string name="Rs">\u20B9</string>
     <string name="txt_match_name">Match Name</string>
+    <string name="txt_match">MATCH</string>
+    <string name="txt_tournament">TOURNAMENT</string>
+    <string name="txt_left">TIME LEFT</string>
 
 </resources>

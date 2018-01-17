@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/itemConstraint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <com.tech.rotobash.utils.TextFontsRegular
+            android:id="@+id/tvMatchName"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="@dimen/margin_ten"
+            android:textColor="@color/dark_grey"
+            android:textSize="@dimen/large_text" />
+
+        <com.tech.rotobash.utils.TextFontsRegular
+            android:id="@+id/tvMatchSeries"
+            android:layout_width="0dp"
+            android:layout_weight="1.2"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="@dimen/margin_ten"
+            android:textColor="@color/light_grey"
+            android:textSize="@dimen/mid_text" />
+
+        <com.tech.rotobash.utils.TextFontsRegular
+            android:id="@+id/tvTimeLeft"
+            android:layout_width="0dp"
+            android:layout_weight="0.8"
+            android:gravity="center_vertical"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin_ten"
+            android:textColor="@color/color_red"
+            android:textSize="@dimen/mid_text" />
+
+        </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
+</layout>

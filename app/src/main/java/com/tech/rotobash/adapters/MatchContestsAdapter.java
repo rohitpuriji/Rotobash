@@ -64,6 +64,17 @@ public class MatchContestsAdapter extends RecyclerView.Adapter<MatchContestsAdap
         viewDataBinding.tvMaxPrize.setText(new StringBuilder().append(appCompatActivity.getString(R.string.Rs)).append(" ").append(matchContestsData.getMax_winning_amount()).toString());
         viewDataBinding.tvPay.setText(new StringBuilder().append(appCompatActivity.getString(R.string.Rs)).append(" ").append(matchContestsData.getEntry_fee()).toString());
         viewDataBinding.tvLeagueName.setText(matchContestsData.getLeague_name());
+        if (matchContestsData.getLeague_name().equalsIgnoreCase("max bash")){
+            viewDataBinding.tvLeagueName.setBackgroundColor(appCompatActivity.getResources().getColor(R.color.color_maxbash));
+        }else if (matchContestsData.getLeague_name().equalsIgnoreCase("max boundary")){
+            viewDataBinding.tvLeagueName.setBackgroundColor(appCompatActivity.getResources().getColor(R.color.color_max_bound));
+        }else if(matchContestsData.getLeague_name().equalsIgnoreCase("max score")){
+            viewDataBinding.tvLeagueName.setBackgroundColor(appCompatActivity.getResources().getColor(R.color.color_max_score));
+        }else if(matchContestsData.getLeague_name().equalsIgnoreCase("fast score")){
+            viewDataBinding.tvLeagueName.setBackgroundColor(appCompatActivity.getResources().getColor(R.color.color_fast_score));
+        }else{
+            viewDataBinding.tvLeagueName.setBackgroundColor(appCompatActivity.getResources().getColor(R.color.color_default));
+        }
         viewDataBinding.tvTotalWinners.setText(new StringBuilder().append(matchContestsData.getNo_of_winners()).append(" ").append("WINNERS").toString());
         viewDataBinding.tvTeamsJoined.setText(new StringBuilder().append(matchContestsData.getTotal_users()).append("/").append(matchContestsData.getMax_user()).append(" ").append("TEAMS").toString());
         viewDataBinding.seekBar.setProgress(getProgress(matchContestsData));

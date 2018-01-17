@@ -104,9 +104,7 @@ public class MatchListActivity extends SidemenuActivity {
         });
 
 
-        mMatchListActivityBinding.btnSelectMatches.setOnClickListener(view -> {
-            handleFilterVisibility();
-        });
+        mMatchListActivityBinding.btnSelectMatches.setOnClickListener(view -> handleFilterVisibility());
     }
 
     /**
@@ -120,9 +118,11 @@ public class MatchListActivity extends SidemenuActivity {
             if (mMatchListActivityBinding.listViewFilter.getVisibility() != View.VISIBLE) {
                 mMatchListActivityBinding.listViewFilter.setVisibility(View.VISIBLE);
                 mMatchListActivityBinding.includedContent.rootLayout.setVisibility(View.GONE);
+                mMatchListActivityBinding.privateContestLayout.setVisibility(View.GONE);
             } else {
                 mMatchListActivityBinding.listViewFilter.setVisibility(View.GONE);
                 mMatchListActivityBinding.includedContent.rootLayout.setVisibility(View.VISIBLE);
+                mMatchListActivityBinding.privateContestLayout.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -336,6 +336,7 @@ public class MatchListActivity extends SidemenuActivity {
         if (mMatchListActivityBinding.listViewFilter.getVisibility() == View.VISIBLE) {
             mMatchListActivityBinding.listViewFilter.setVisibility(View.GONE);
             mMatchListActivityBinding.includedContent.rootLayout.setVisibility(View.VISIBLE);
+            mMatchListActivityBinding.privateContestLayout.setVisibility(View.VISIBLE);
         } else {
             finish();
         }

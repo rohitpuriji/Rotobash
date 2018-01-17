@@ -25,7 +25,8 @@
 
                 <ImageView
                     android:id="@+id/imgBack"
-                    android:layout_width="@dimen/margin_ten"
+                    android:layout_width="wrap_content"
+                    android:padding="@dimen/margin_ten"
                     android:layout_height="match_parent"
                     android:src="@drawable/back_arrow"
                     app:layout_constraintStart_toStartOf="parent" />
@@ -34,8 +35,7 @@
                     android:id="@+id/llMatchName"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginEnd="25dp"
-                    android:layout_marginStart="25dp"
+                    android:layout_marginStart="16dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     app:layout_constraintStart_toEndOf="@+id/imgBack">
@@ -166,14 +166,76 @@
 
         </android.support.constraint.ConstraintLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerViewOther"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scrollbars="vertical"
+            android:orientation="vertical"
+            android:id="@+id/llRecyclerOther"
+            android:visibility="gone"
+            android:layout_marginEnd="0dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:layout_marginBottom="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/constraintLayout" />
+            app:layout_constraintTop_toTopOf="@+id/constraintLayout"
+            android:layout_height="wrap_content">
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/itemConstraint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.tech.rotobash.utils.TextFontsRegular
+                        android:id="@+id/tvName"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:text="@string/txt_match"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:padding="@dimen/margin_ten"
+                        android:textColor="@color/light_grey"
+                        android:textSize="@dimen/small_text" />
+
+                    <com.tech.rotobash.utils.TextFontsRegular
+                        android:id="@+id/tvSeries"
+                        android:layout_width="0dp"
+                        android:layout_weight="1.2"
+                        android:text="@string/txt_tournament"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:padding="@dimen/margin_ten"
+                        android:textColor="@color/light_grey"
+                        android:textSize="@dimen/small_text" />
+
+                    <com.tech.rotobash.utils.TextFontsRegular
+                        android:id="@+id/tvLeft"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.8"
+                        android:text="@string/txt_left"
+                        android:gravity="center_vertical"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/margin_ten"
+                        android:textColor="@color/light_grey"
+                        android:textSize="@dimen/small_text" />
+
+                </LinearLayout>
+
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerViewOther"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="vertical"/>
+
+        </LinearLayout>
+
 
 
         <android.support.constraint.ConstraintLayout
@@ -235,7 +297,7 @@
                     <com.tech.rotobash.utils.ButtonFontBold
                         android:id="@+id/btnAll"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="45dp"
                         android:background="@color/color_white"
                         android:text="@string/txt_alls"
                         android:textColor="@color/light_grey"

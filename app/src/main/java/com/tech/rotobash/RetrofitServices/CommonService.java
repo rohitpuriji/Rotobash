@@ -369,7 +369,7 @@ public class CommonService {
 
         getRetrofitClient()
                 .create(ApiInterface.class)
-                .doLogout(aUserResponse.getResponse().getAccessToken(), aUserResponse.getResponse().getUserId())
+                .doLogout(aUserResponse.getResponse().getAccessToken(), aUserResponse.getResponse().getAccessToken())
                 .enqueue(new Callback<UserResponse>() {
 
                     @Override
