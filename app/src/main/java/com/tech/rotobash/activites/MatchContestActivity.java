@@ -10,6 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.tech.rotobash.R;
@@ -19,14 +21,18 @@ import com.tech.rotobash.ViewModel.SelectLeagueViewModel;
 import com.tech.rotobash.adapters.ContestsFilterAdapter;
 import com.tech.rotobash.adapters.MatchContestsAdapter;
 import com.tech.rotobash.databinding.ActivityMatchContestBinding;
+import com.tech.rotobash.model.ContestItem;
 import com.tech.rotobash.model.LeagueContestData;
 import com.tech.rotobash.model.MatchContestsData;
 import com.tech.rotobash.model.MatchesData;
+import com.tech.rotobash.spinner.ChannelSpinnerForLeauge;
+import com.tech.rotobash.spinner.ChannelSpinnerForPay;
 import com.tech.rotobash.utils.AppConstant;
 import com.tech.rotobash.utils.AppUtils;
 import com.tech.rotobash.utils.Network;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.tech.rotobash.utils.AppConstant.sMatchListKey;
 import static com.tech.rotobash.utils.AppConstant.sPositionKey;
@@ -36,10 +42,10 @@ import static com.tech.rotobash.utils.AppConstant.sUserResponseKey;
 /**
  * @Module Name/Class		:	MatchContestActivity
  * @Author Name             :	Sachin Arora
- * @Date                    :	Jan 15th , 2018
- * @Purpose                 :	This is used to show the contest of selected match
+ * @Date :	Jan 15th , 2018
+ * @Purpose :	This is used to show the contest of selected match
  */
-public class MatchContestActivity extends SidemenuActivity {
+public class MatchContestActivity extends SidemenuActivity implements AdapterView.OnItemSelectedListener {
 
     private ActivityMatchContestBinding mMatchContestActivityBinding;
     private int aOffset = 0;
@@ -58,6 +64,7 @@ public class MatchContestActivity extends SidemenuActivity {
     private ArrayList<LeagueContestData> leaguesList;
     private ArrayList<String> payArrayList;
     private ArrayList<MatchesData> matchArrayList;
+    private ArrayList<ContestItem> mChannelArray;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,20 +96,57 @@ public class MatchContestActivity extends SidemenuActivity {
         });
 
 
-        mMatchContestActivityBinding.tvSelectLeague.setOnClickListener(v -> {
+//        mMatchContestActivityBinding.tvSelectLeague.setOnClickListener(v -> {
+//
+//
+//
+//            /*if (mMatchContestActivityBinding.recyclerViewFilter.getVisibility() == View.GONE) {
+//                if (leaguesList.size() > 0) {
+//                    mWhichFilter = getString(R.string.txt_select_league);
+//                    mMatchContestActivityBinding.recyclerViewFilter.setVisibility(View.VISIBLE);
+//                    mMatchContestActivityBinding.rootLayout.setVisibility(View.GONE);
+//                    setFilterAdapter();
+//                }
+//            } else {
+//                mMatchContestActivityBinding.recyclerViewFilter.setVisibility(View.GONE);
+//                mMatchContestActivityBinding.rootLayout.setVisibility(View.VISIBLE);
+//            }*/
+//        });
 
-            if (mMatchContestActivityBinding.recyclerViewFilter.getVisibility() == View.GONE) {
-                if (leaguesList.size() > 0) {
-                    mWhichFilter = getString(R.string.txt_select_league);
-                    mMatchContestActivityBinding.recyclerViewFilter.setVisibility(View.VISIBLE);
-                    mMatchContestActivityBinding.rootLayout.setVisibility(View.GONE);
-                    setFilterAdapter();
-                }
-            } else {
-                mMatchContestActivityBinding.recyclerViewFilter.setVisibility(View.GONE);
-                mMatchContestActivityBinding.rootLayout.setVisibility(View.VISIBLE);
-            }
-        });
+
+
+        //mChannelArray = new ArrayList<ContestItem>();
+        Log.e("new leauge list size", String.valueOf(leaguesList.size()));
+
+
+
+        // Creating adapter for spinner
+        // Spinner Drop down elements
+//        List<String> categories = new ArrayList<String>();
+//        categories.add("Automobile");
+//        categories.add("Business Services");
+//        categories.add("Computers");
+//        categories.add("Education");
+//        categories.add("Personal");
+//        categories.add("Travel");
+
+
+//        Log.e("leauge list", String.valueOf(leaguesList.size()));
+//        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categories);
+//
+//        // Drop down layout style - list view with radio button
+//        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // attaching data adapter to spinner
+        //mMatchContestActivityBinding.spinner.setAdapter(dataAdapter);
+
+        // inside spinner
+        //mMatchContestActivityBinding.spinner.setOnItemClickListener((AdapterView.OnItemClickListener) this);
+
+
+
+
+
 
         mMatchContestActivityBinding.tvSelectPay.setOnClickListener(v -> {
             if (mMatchContestActivityBinding.recyclerViewFilter.getVisibility() == View.GONE) {
@@ -112,7 +156,7 @@ public class MatchContestActivity extends SidemenuActivity {
                     mMatchContestActivityBinding.rootLayout.setVisibility(View.GONE);
                     setFilterAdapter();
                 }
-            }else {
+            } else {
                 mMatchContestActivityBinding.recyclerViewFilter.setVisibility(View.GONE);
                 mMatchContestActivityBinding.rootLayout.setVisibility(View.VISIBLE);
             }
@@ -154,11 +198,11 @@ public class MatchContestActivity extends SidemenuActivity {
 
         mMatchContestActivityBinding.llMatchName.setOnClickListener(v -> {
             mWhichFilter = getString(R.string.txt_match_name);
-            if (mMatchContestActivityBinding.recyclerViewOther.getVisibility() == View.VISIBLE){
+            if (mMatchContestActivityBinding.recyclerViewOther.getVisibility() == View.VISIBLE) {
                 mMatchContestActivityBinding.recyclerViewOther.setVisibility(View.GONE);
                 mMatchContestActivityBinding.rootLayout.setVisibility(View.VISIBLE);
                 mMatchContestActivityBinding.constraintLayout.setVisibility(View.VISIBLE);
-            }else{
+            } else {
                 mMatchContestActivityBinding.recyclerViewOther.setVisibility(View.VISIBLE);
                 mMatchContestActivityBinding.rootLayout.setVisibility(View.GONE);
                 mMatchContestActivityBinding.constraintLayout.setVisibility(View.GONE);
@@ -185,7 +229,7 @@ public class MatchContestActivity extends SidemenuActivity {
 
     private void setFilterAdapter() {
         ContestsFilterAdapter mFilterAdapter = new ContestsFilterAdapter(mWhichFilter, leaguesList,
-                                                payArrayList, matchArrayList, pos -> {
+                payArrayList, matchArrayList, pos -> {
 
             if (mWhichFilter.equalsIgnoreCase(getString(R.string.txt_select_league))) {
                 league_id = Integer.parseInt(leaguesList.get(pos).getId());
@@ -220,21 +264,18 @@ public class MatchContestActivity extends SidemenuActivity {
 
         });
 
-<<<<<<< HEAD
-=======
         if (mWhichFilter.equalsIgnoreCase(getString(R.string.txt_select_league)) || mWhichFilter.equalsIgnoreCase(getString(R.string.txt_select_pay))) {
             mMatchContestActivityBinding.recyclerViewFilter.setAdapter(mFilterAdapter);
-        }else {
+        } else {
             mMatchContestActivityBinding.recyclerViewOther.setAdapter(mFilterAdapter);
         }
     }
 
->>>>>>> bccf6b1b789601647793ce087693794936ac919c
     /**
      * @Module Name/Class		:	clearListAndAdapter
      * @Author Name             :	Sombir Bisht
-     * @Date                    :	Jan 16th , 2018
-     * @Purpose                 :	This method is used to notify adapter and set offset to 0.
+     * @Date :	Jan 16th , 2018
+     * @Purpose :	This method is used to notify adapter and set offset to 0.
      */
     private void clearListAndAdapter() {
 
@@ -260,6 +301,8 @@ public class MatchContestActivity extends SidemenuActivity {
                     if (leaguesResponse.getStatus().equalsIgnoreCase("success")) {
                         if (leaguesResponse.getMatchModel().size() > 0) {
                             leaguesList = leaguesResponse.getMatchModel();
+                            Log.e("leauge size", String.valueOf(leaguesList.size()));
+                            setSpinnerForLeauge();
                         } else {
                             Toast.makeText(MatchContestActivity.this, leaguesResponse.getMessage(), Toast.LENGTH_LONG).show();
                         }
@@ -270,11 +313,26 @@ public class MatchContestActivity extends SidemenuActivity {
 
     }
 
+    private void setSpinnerForPay() {
+        ChannelSpinnerForPay contestSelectSpinnerforPay = new ChannelSpinnerForPay(this,payArrayList) ;
+        // Creating adapter for spinner
+        mMatchContestActivityBinding.spinnerPay.setAdapter(contestSelectSpinnerforPay);
+        mMatchContestActivityBinding.spinnerPay.setOnItemSelectedListener(this);
+    }
+
+    private void setSpinnerForLeauge() {
+        ChannelSpinnerForLeauge contestSelectSpinner = new ChannelSpinnerForLeauge(this,leaguesList) ;
+        // Creating adapter for spinner
+        mMatchContestActivityBinding.spinnerLeauge.setAdapter(contestSelectSpinner);
+        mMatchContestActivityBinding.spinnerLeauge.setOnItemSelectedListener(this);
+    }
+
+
     /**
      * @Module Name/Class		:	initDataVariables
      * @Author Name             :	Sachin Arora
-     * @Date                    :	Jan 15th , 2018
-     * @Purpose                 :	This method is using for initialization of base data
+     * @Date :	Jan 15th , 2018
+     * @Purpose :	This method is using for initialization of base data
      */
     private void initDataVariables() {
         mMatchContestActivityBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.activity_match_contest, mBinding.contentFrame, true);
@@ -300,6 +358,9 @@ public class MatchContestActivity extends SidemenuActivity {
 
         setSelectPay();
 
+        setSpinnerForPay();
+
+
         if (Network.isAvailable(this)) {
             getLeague();
             loadMatchContest();
@@ -312,8 +373,8 @@ public class MatchContestActivity extends SidemenuActivity {
     /**
      * @Module Name/Class		:	setSelectPay
      * @Author Name             :	Sachin Arora
-     * @Date                    :	Jan 15th , 2018
-     * @Purpose                 :	This method is used to create pay filter arraylist
+     * @Date :	Jan 15th , 2018
+     * @Purpose :	This method is used to create pay filter arraylist
      */
     private void setSelectPay() {
         ArrayList<String> mPayList = new ArrayList<>();
@@ -328,8 +389,8 @@ public class MatchContestActivity extends SidemenuActivity {
     /**
      * @Module Name/Class		:	setFilterRecyclerViewManager
      * @Author Name             :	Sachin Arora
-     * @Date                    :	Jan 15th , 2018
-     * @Purpose                 :	This method is used to set layout manager for league filter recycler view
+     * @Date :	Jan 15th , 2018
+     * @Purpose :	This method is used to set layout manager for league filter recycler view
      */
     private void setFilterRecyclerViewManager() {
         RecyclerView.LayoutManager mLayoutOtherManager = new LinearLayoutManager(this);
@@ -349,8 +410,8 @@ public class MatchContestActivity extends SidemenuActivity {
     /**
      * @Module Name/Class		:	loadMatchContest
      * @Author Name             :	Sachin Arora
-     * @Date                    :	Jan 15th , 2018
-     * @Purpose                 :	This method is used to fetch the contest list and observe data
+     * @Date :	Jan 15th , 2018
+     * @Purpose :	This method is used to fetch the contest list and observe data
      */
     private void loadMatchContest() {
 
@@ -379,8 +440,8 @@ public class MatchContestActivity extends SidemenuActivity {
     /**
      * @Module Name/Class		:	setActiveOrInActive
      * @Author Name             :	Sachin Arora
-     * @Date                    :	Jan 15th , 2018
-     * @Purpose                 :	This method is used to set Active and InActive contest list
+     * @Date :	Jan 15th , 2018
+     * @Purpose :	This method is used to set Active and InActive contest list
      */
     private void setActiveOrInActive(ArrayList<MatchContestsData> matchModel) {
 
@@ -415,15 +476,14 @@ public class MatchContestActivity extends SidemenuActivity {
     /**
      * @Module Name/Class		:	setRecyclerView
      * @Author Name             :	Sachin Arora
-     * @Date                    :	Jan 15th , 2018
-     * @Purpose                 :	This method is used to set recycler view based on active or inactive status
+     * @Date :	Jan 15th , 2018
+     * @Purpose :	This method is used to set recycler view based on active or inactive status
      */
     private void setRecyclerView(String status) {
         if (status.equalsIgnoreCase(getString(R.string.txt_alls))) {
             mAdapter = new MatchContestsAdapter(MatchContestActivity.this, mTempArrayListAllContestData);
             mMatchContestActivityBinding.recyclerView.setAdapter(mAdapter);
-        }
-        else if (status.equalsIgnoreCase(getString(R.string.active))) {
+        } else if (status.equalsIgnoreCase(getString(R.string.active))) {
             mAdapter = new MatchContestsAdapter(MatchContestActivity.this, mTempArrayListActiveContestData);
             mMatchContestActivityBinding.recyclerView.setAdapter(mAdapter);
         } else {
@@ -436,8 +496,8 @@ public class MatchContestActivity extends SidemenuActivity {
     /**
      * @Module Name/Class		:	setContestRecyclerViewManager
      * @Author Name             :	Sachin Arora
-     * @Date                    :	Jan 15th , 2018
-     * @Purpose                 :	This method is used to set recycler view manager for contest recycler view
+     * @Date :	Jan 15th , 2018
+     * @Purpose :	This method is used to set recycler view manager for contest recycler view
      */
     private void setContestRecyclerViewManager() {
         mLayoutManager = new LinearLayoutManager(this);
@@ -451,11 +511,27 @@ public class MatchContestActivity extends SidemenuActivity {
             mMatchContestActivityBinding.recyclerViewOther.setVisibility(View.GONE);
             mMatchContestActivityBinding.rootLayout.setVisibility(View.VISIBLE);
             mMatchContestActivityBinding.constraintLayout.setVisibility(View.VISIBLE);
-        }else if(mMatchContestActivityBinding.recyclerViewFilter.getVisibility() == View.VISIBLE){
+        } else if (mMatchContestActivityBinding.recyclerViewFilter.getVisibility() == View.VISIBLE) {
             mMatchContestActivityBinding.recyclerViewFilter.setVisibility(View.GONE);
             mMatchContestActivityBinding.rootLayout.setVisibility(View.VISIBLE);
             mMatchContestActivityBinding.constraintLayout.setVisibility(View.VISIBLE);
-        }else
+        } else
             super.onBackPressed();
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+        // On selecting a spinner item
+        String item = adapterView.getItemAtPosition(i).toString();
+
+        // Showing selected spinner item
+        Toast.makeText(adapterView.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
     }
 }

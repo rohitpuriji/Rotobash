@@ -68,23 +68,17 @@ public class MatchContestsAdapter extends RecyclerView.Adapter<MatchContestsAdap
         viewDataBinding.tvTeamsJoined.setText(new StringBuilder().append(matchContestsData.getTotal_users()).append("/").append(matchContestsData.getMax_user()).append(" ").append("TEAMS").toString());
         viewDataBinding.seekBar.setProgress(getProgress(matchContestsData));
 
-<<<<<<< HEAD
-        viewDataBinding.seekBar.setProgress(getProgress(viewDataBinding, matchContestsData));
-
-        // To join the contest
+        // to join contest
         viewDataBinding.tvJoin.setOnClickListener(v -> {
             Intent selectTeamIntent = new Intent(appCompatActivity, SelectTeamActivity.class);
             appCompatActivity.startActivity(selectTeamIntent);
         });
 
-
-=======
         if (Integer.parseInt(matchContestsData.getTotal_users()) >= Integer.parseInt(matchContestsData.getMin_user())) {
             viewDataBinding.cardView.setBackgroundColor(appCompatActivity.getResources().getColor(R.color.color_light_blue));
         }else{
             viewDataBinding.cardView.setBackgroundColor(appCompatActivity.getResources().getColor(R.color.color_white));
         }
->>>>>>> bccf6b1b789601647793ce087693794936ac919c
     }
 
     private int getProgress(MatchContestsData matchContestsData) {

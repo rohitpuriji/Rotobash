@@ -98,6 +98,58 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_margin="@dimen/margin_ten"
+                android:weightSum="1">
+
+                <!-- Spinner Element -->
+                <Spinner
+                    android:id="@+id/spinnerLeauge"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".4"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:background="@drawable/dropdown_bg_whiteline"
+                    android:prompt="@string/txt_select_league"
+                    android:text="@string/txt_select_league" />
+
+                <!-- Spinner Element -->
+                <Spinner
+                    android:id="@+id/spinnerPay"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".4"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:background="@drawable/dropdown_bg_whiteline"
+                    android:layout_marginLeft="@dimen/margin_ten"
+                    android:layout_marginStart="@dimen/margin_ten"
+                    android:prompt="@string/txt_select_league"
+                    android:text="@string/txt_select_league" />
+
+                <ImageView
+                    android:id="@+id/imgRefresh"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight=".2"
+                    android:layout_marginLeft="@dimen/margin_ten"
+                    android:layout_marginStart="@dimen/margin_ten"
+                    android:src="@drawable/refresh"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </LinearLayout>
+
             <com.tech.rotobash.utils.TextFontsRegular
                 android:id="@+id/tvSelectLeague"
                 android:layout_width="0dp"
@@ -118,15 +170,17 @@
                 android:textAllCaps="false"
                 android:textColor="@color/color_black"
                 android:textSize="@dimen/mid_text"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.533" />
 
+
             <com.tech.rotobash.utils.TextFontsRegular
                 android:id="@+id/tvSelectPay"
-                android:layout_width="0dp"
+                android:layout_width="30dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="10dp"
@@ -138,12 +192,13 @@
                 android:drawableEnd="@drawable/droparrow"
                 android:drawablePadding="10dp"
                 android:drawableRight="@drawable/droparrow"
-                android:gravity="center_vertical|center_horizontal"
+                android:gravity="right"
                 android:padding="10dp"
                 android:text="@string/txt_select_pay"
                 android:textAllCaps="false"
                 android:textColor="@color/color_black"
                 android:textSize="@dimen/mid_text"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/imgRefresh"
                 app:layout_constraintHorizontal_weight="1"
@@ -151,18 +206,6 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.533" />
 
-            <ImageView
-                android:id="@+id/imgRefresh"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="8dp"
-                android:src="@drawable/refresh"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
         </android.support.constraint.ConstraintLayout>
 
@@ -195,9 +238,9 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerViewFilter"
                     android:layout_width="match_parent"
-                    android:visibility="gone"
                     android:layout_height="wrap_content"
-                    android:scrollbars="vertical" />
+                    android:scrollbars="vertical"
+                    android:visibility="gone" />
 
                 <android.support.constraint.ConstraintLayout
                     android:id="@+id/btnConstraint"
@@ -214,9 +257,9 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/btnInActive"
                         app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintHorizontal_chainStyle="spread"
                         app:layout_constraintHorizontal_weight="1"
                         app:layout_constraintStart_toEndOf="@+id/btnAll"
-                        app:layout_constraintHorizontal_chainStyle="spread"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <com.tech.rotobash.utils.ButtonFontBold
@@ -248,10 +291,10 @@
                 </android.support.constraint.ConstraintLayout>
 
                 <android.support.constraint.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_below="@id/btnConstraint"
                     android:id="@+id/viewConstraint"
-                    android:layout_height="wrap_content">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/btnConstraint">
 
                     <TextView
                         android:id="@+id/view1"
@@ -261,16 +304,16 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/view2"
                         app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintHorizontal_chainStyle="spread"
                         app:layout_constraintHorizontal_weight="1"
                         app:layout_constraintStart_toEndOf="@+id/view3"
-                        app:layout_constraintHorizontal_chainStyle="spread"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
                         android:id="@+id/view2"
                         android:layout_width="0dp"
-                        android:background="@color/color_red"
                         android:layout_height="3dp"
+                        android:background="@color/color_red"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_weight="1"
@@ -280,8 +323,8 @@
                     <TextView
                         android:id="@+id/view3"
                         android:layout_width="0dp"
-                        android:background="@color/color_red"
                         android:layout_height="3dp"
+                        android:background="@color/color_red"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/view1"
                         app:layout_constraintHorizontal_weight="1"
