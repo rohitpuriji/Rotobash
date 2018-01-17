@@ -47,11 +47,13 @@ import static com.tech.rotobash.utils.AppConstant.sUserResponseKey;
  * @Date :	Jan 15th , 2018
  * @Purpose :	This is used to show the contest of selected match
  */
-public class MatchContestActivity extends SidemenuActivity implements AdapterView.OnItemSelectedListener {
+public class MatchContestActivity extends SidemenuActivity {
 
     private ActivityMatchContestBinding mMatchContestActivityBinding;
     private int aOffset = 0;
     private int league_id = 0;
+    private int leagueCheck = 0;
+    private int payCheck = 0;
     private ProgressDialog progressDoalog;
     private int mPastVisiblesItems, mVisibleItemCount, mTotalItemCount;
     private String matchId;
@@ -140,7 +142,7 @@ public class MatchContestActivity extends SidemenuActivity implements AdapterVie
         });
 
         mMatchContestActivityBinding.swipeContainerCurrent.setOnRefreshListener(() -> {
-            // refreshList();
+            clearListAndAdapter(true);
             if (mMatchContestActivityBinding.swipeContainerCurrent.isRefreshing()) {
                 mMatchContestActivityBinding.swipeContainerCurrent.setRefreshing(false);
             }
@@ -167,53 +169,79 @@ public class MatchContestActivity extends SidemenuActivity implements AdapterVie
                 refreshToDefaultValues();
             }
         });
+
+        mMatchContestActivityBinding.spinnerLeauge.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if(leagueCheck > 0) {
+                    league_id = Integer.parseInt(leaguesList.get(i-1).getId());
+                    clearListAndAdapter(true);
+                }
+
+                leagueCheck++;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        mMatchContestActivityBinding.spinnerPay.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if(payCheck > 0) {
+                    switch (i-1) {
+                        case 0:
+                            price = "0";
+                            break;
+                        case 1:
+                            price = "100";
+                            break;
+                        case 2:
+                            price = "500";
+                            break;
+                        case 3:
+                            price = "1000";
+                            break;
+                        case 4:
+                            price = "2000";
+                            break;
+                    }
+                    clearListAndAdapter(true);
+                }
+
+                payCheck++;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
     }
 
     private void refreshToDefaultValues() {
         league_id = 0;
         price = null;
+        leagueCheck = 0;
+        payCheck = 0;
         mMatchContestActivityBinding.tvSelectPay.setText(getString(R.string.txt_select_pay));
         mMatchContestActivityBinding.tvSelectLeague.setText(getString(R.string.txt_select_league));
         mMatchContestActivityBinding.spinnerPay.setAdapter(new NothingSelectedSpinnerAdapter(contestSelectSpinnerforPay, R.layout.spinner_select_pay, this));
         mMatchContestActivityBinding.spinnerLeauge.setAdapter(new NothingSelectedSpinnerAdapter(contestSelectSpinner, R.layout.spinner_select_leauge, this));
 
-        clearListAndAdapter();
+        clearListAndAdapter(true);
     }
 
     private void setFilterAdapter() {
-        ContestsFilterAdapter mFilterAdapter = new ContestsFilterAdapter(mWhichFilter, leaguesList,
-                payArrayList, matchArrayList, pos -> {
+        ContestsFilterAdapter mFilterAdapter = new ContestsFilterAdapter(matchArrayList, pos -> {
 
-            if (mWhichFilter.equalsIgnoreCase(getString(R.string.txt_select_league))) {
-                league_id = Integer.parseInt(leaguesList.get(pos).getId());
-                mMatchContestActivityBinding.tvSelectLeague.setText(leaguesList.get(pos).getName());
-            } else if (mWhichFilter.equalsIgnoreCase(getString(R.string.txt_select_pay))) {
+            matchId = matchArrayList.get(pos).getMatchId();
+            mMatchContestActivityBinding.tvMatchName.setText(new StringBuilder().append(matchArrayList.get(pos).getTeam1Name()).append(" VS ").append(matchArrayList.get(pos).getTeam2Name()).toString());
 
-                switch (pos) {
-                    case 0:
-                        price = "0";
-                        break;
-                    case 1:
-                        price = "100";
-                        break;
-                    case 2:
-                        price = "500";
-                        break;
-                    case 3:
-                        price = "1000";
-                        break;
-                    case 4:
-                        price = "2000";
-                        break;
-                }
-                mMatchContestActivityBinding.tvSelectPay.setText(price);
-
-            } else {
-                matchId = matchArrayList.get(pos).getMatchId();
-                mMatchContestActivityBinding.tvMatchName.setText(new StringBuilder().append(matchArrayList.get(pos).getTeam1Name()).append(" VS ").append(matchArrayList.get(pos).getTeam2Name()).toString());
-            }
-
-            clearListAndAdapter();
+            clearListAndAdapter(true);
 
         });
 
@@ -230,7 +258,7 @@ public class MatchContestActivity extends SidemenuActivity implements AdapterVie
      * @Date :	Jan 16th , 2018
      * @Purpose :	This method is used to notify adapter and set offset to 0.
      */
-    private void clearListAndAdapter() {
+    private void clearListAndAdapter(boolean isFailure) {
 
         if (progressDoalog != null && progressDoalog.isShowing()) {
             progressDoalog.dismiss();
@@ -239,6 +267,7 @@ public class MatchContestActivity extends SidemenuActivity implements AdapterVie
         aOffset = 0;
         mTempArrayListInActiveContestData.clear();
         mTempArrayListActiveContestData.clear();
+        mTempArrayListAllContestData.clear();
         mMatchContestActivityBinding.llRecyclerOther.setVisibility(View.GONE);
         mMatchContestActivityBinding.recyclerViewFilter.setVisibility(View.GONE);
         mMatchContestActivityBinding.rootLayout.setVisibility(View.VISIBLE);
@@ -249,6 +278,7 @@ public class MatchContestActivity extends SidemenuActivity implements AdapterVie
         }
         mMatchContestActivityBinding.constraintLayout.setVisibility(View.VISIBLE);
 
+        if (isFailure)
         loadMatchContest();
     }
 
@@ -261,6 +291,9 @@ public class MatchContestActivity extends SidemenuActivity implements AdapterVie
                 .observe(this, leaguesResponse -> {
                     if (leaguesResponse.getStatus().equalsIgnoreCase("success")) {
                         if (leaguesResponse.getMatchModel().size() > 0) {
+                            if (leaguesList.size()>0){
+                                leaguesList.clear();
+                            }
                             leaguesList = leaguesResponse.getMatchModel();
                             Log.e("leauge size", String.valueOf(leaguesList.size()));
                             setSpinnerForLeauge();
@@ -276,22 +309,14 @@ public class MatchContestActivity extends SidemenuActivity implements AdapterVie
 
     private void setSpinnerForPay() {
         contestSelectSpinnerforPay = new ChannelSpinnerForPay(this, payArrayList);
-        // Creating adapter for spinner
         mMatchContestActivityBinding.spinnerPay.setAdapter(contestSelectSpinnerforPay);
-        mMatchContestActivityBinding.spinnerPay.setOnItemSelectedListener(this);
-
         mMatchContestActivityBinding.spinnerPay.setAdapter(new NothingSelectedSpinnerAdapter(contestSelectSpinnerforPay, R.layout.spinner_select_pay, this));
-
     }
 
     private void setSpinnerForLeauge() {
         contestSelectSpinner = new ChannelSpinnerForLeauge(this, leaguesList);
-        // Creating adapter for spinner
         mMatchContestActivityBinding.spinnerLeauge.setAdapter(contestSelectSpinner);
-        mMatchContestActivityBinding.spinnerLeauge.setOnItemSelectedListener(this);
-
         mMatchContestActivityBinding.spinnerLeauge.setAdapter(new NothingSelectedSpinnerAdapter(contestSelectSpinner, R.layout.spinner_select_leauge, this));
-
     }
 
 
@@ -390,12 +415,18 @@ public class MatchContestActivity extends SidemenuActivity implements AdapterVie
      */
     private void loadMatchContest() {
 
+        if (!progressDoalog.isShowing()){
+           progressDoalog.show();
+        }
         MatchContestsViewModel mMatchContestViewModel = ViewModelProviders.of(this).get(MatchContestsViewModel.class);
 
         int aLimit = 10;
         mMatchContestViewModel
                 .getMatchContests(mUserResponse, matchId, String.valueOf(league_id), price, String.valueOf(aOffset), String.valueOf(aLimit))
                 .observe(this, matchContestsResponse -> {
+                    if (progressDoalog.isShowing()){
+                        progressDoalog.dismiss();
+                    }
                     if (matchContestsResponse.getStatus().equalsIgnoreCase(sSuccess)) {
                         if (matchContestsResponse.getContestModel().size() > 0) {
                             Log.e("size is", matchContestsResponse.getContestModel().size() + "");
@@ -408,6 +439,8 @@ public class MatchContestActivity extends SidemenuActivity implements AdapterVie
                     } else {
                         Log.e("failure", "***");
                         Toast.makeText(MatchContestActivity.this, matchContestsResponse.getMessage(), Toast.LENGTH_LONG).show();
+                        if (aOffset==0)
+                        clearListAndAdapter(false);
                     }
                 });
     }
@@ -494,27 +527,4 @@ public class MatchContestActivity extends SidemenuActivity implements AdapterVie
             super.onBackPressed();
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-        Spinner spinner = (Spinner) adapterView;
-
-        progressDoalog.show();
-
-        if (spinner.getId() == R.id.spinnerLeauge) {
-            //do this
-            league_id = Integer.parseInt(leaguesList.get(i).getId());
-        } else if (spinner.getId() == R.id.spinnerPay) {
-            //do this
-        }
-
-        clearListAndAdapter();
-
-
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
-
-    }
 }

@@ -21,7 +21,7 @@ public class ContestsFilterAdapter extends RecyclerView.Adapter<ContestsFilterAd
     private MatchItemInterface mMatchInterface;
     private ArrayList<MatchesData> matchDataList;
 
-    public ContestsFilterAdapter(String mWhichFilter, ArrayList<LeagueContestData> leaguesList, ArrayList<String> payList, ArrayList<MatchesData> matchesDataArrayList, MatchItemInterface matchItemInterface) {
+    public ContestsFilterAdapter(ArrayList<MatchesData> matchesDataArrayList, MatchItemInterface matchItemInterface) {
 
         mMatchInterface = matchItemInterface;
         matchDataList = matchesDataArrayList;

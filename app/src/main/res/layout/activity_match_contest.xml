@@ -147,7 +147,6 @@
                         android:layout_height="match_parent"
                         android:overlapAnchor="false"
                         android:id="@+id/spinnerPay"
-                        android:overlapAnchor="false"
                         android:background="@drawable/gradient_spinner"
                         android:layout_marginRight="@dimen/margin_ten"
                         android:layout_marginLeft="@dimen/margin_ten" />

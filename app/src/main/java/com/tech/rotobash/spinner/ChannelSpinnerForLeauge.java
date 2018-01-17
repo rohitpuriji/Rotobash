@@ -48,6 +48,7 @@ public class ChannelSpinnerForLeauge extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         Log.e("name:", list.get(position).getName());
+        Log.e("league size:", list.size()+"");
 
         View myView = inflater.inflate(R.layout.custom_spinner_layout, null);
 

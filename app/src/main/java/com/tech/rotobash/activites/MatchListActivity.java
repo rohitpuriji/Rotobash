@@ -1,5 +1,6 @@
 package com.tech.rotobash.activites;
 
+import android.app.ProgressDialog;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -29,6 +30,7 @@ import com.tech.rotobash.utils.Network;
 
 import java.util.ArrayList;
 
+import static com.tech.rotobash.utils.AppConstant.sPleaseWait;
 import static com.tech.rotobash.utils.AppConstant.sPositionKey;
 import static com.tech.rotobash.utils.AppConstant.sSuccess;
 import static com.tech.rotobash.utils.AppConstant.sUserResponseKey;
@@ -54,6 +56,7 @@ public class MatchListActivity extends SidemenuActivity {
     private ArrayList<MatchesData> mTempList;
     private ArrayList<MatchesData> mMatchesList;
     private ArrayList<SeriesData> mSeriesList;
+    private ProgressDialog progressDoalog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -188,6 +191,11 @@ public class MatchListActivity extends SidemenuActivity {
         setFilterRecyclerViewManager();
         setRecyclerViewManager();
 
+        progressDoalog = new ProgressDialog(this);
+        progressDoalog.setMax(100);
+        progressDoalog.setMessage(sPleaseWait);
+        progressDoalog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+
         if (Network.isAvailable(MatchListActivity.this)) {
             getFilterData();
             if (mTempList.size() == 0) {
@@ -232,12 +240,17 @@ public class MatchListActivity extends SidemenuActivity {
      * @Purpose                 :	This method loads the current or upcoming matches based on type from api
      */
     private void loadMatches(String aSeriesId, String aMatchType, String aOffset) {
-
+        if (!progressDoalog.isShowing()){
+            progressDoalog.show();
+        }
         MatchesViewModel mMatchesViewModel = ViewModelProviders.of(this).get(MatchesViewModel.class);
 
         mMatchesViewModel
                 .getMatches(aSeriesId, mUserResponse, aMatchType, aOffset)
                 .observe(this, matchesResponse -> {
+                    if (progressDoalog.isShowing()){
+                        progressDoalog.dismiss();
+                    }
                     if (matchesResponse.getStatus().equalsIgnoreCase(sSuccess)) {
                         if (matchesResponse.getMatchModel().size() > 0) {
                             mMatchesList = matchesResponse.getMatchModel();
