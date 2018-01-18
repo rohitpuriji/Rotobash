@@ -145,6 +145,8 @@ public class MatchContestActivity extends SidemenuActivity {
         mMatchContestActivityBinding.imgRefresh.setOnClickListener(view -> {
             if (Network.isAvailable(this)) {
                 refreshToDefaultValues();
+            }else {
+                Toast.makeText(MatchContestActivity.this, AppConstant.sNoInternet, Toast.LENGTH_LONG).show();
             }
         });
 
@@ -152,8 +154,12 @@ public class MatchContestActivity extends SidemenuActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if(leagueCheck > 0) {
-                    league_id = Integer.parseInt(leaguesList.get(i-1).getId());
-                    clearListAndAdapter(false,false);
+                    if (Network.isAvailable(MatchContestActivity.this)) {
+                        league_id = Integer.parseInt(leaguesList.get(i-1).getId());
+                        clearListAndAdapter(false,false);
+                    } else {
+                        Toast.makeText(MatchContestActivity.this, AppConstant.sNoInternet, Toast.LENGTH_LONG).show();
+                    }
                 }
 
                 leagueCheck++;
@@ -186,7 +192,11 @@ public class MatchContestActivity extends SidemenuActivity {
                             price = "2000";
                             break;
                     }
-                    clearListAndAdapter(false,false);
+                    if (Network.isAvailable(MatchContestActivity.this)) {
+                        clearListAndAdapter(false,false);
+                    } else {
+                        Toast.makeText(MatchContestActivity.this, AppConstant.sNoInternet, Toast.LENGTH_LONG).show();
+                    }
                 }
 
                 payCheck++;
@@ -227,10 +237,13 @@ public class MatchContestActivity extends SidemenuActivity {
     private void setFilterAdapter() {
         ContestsFilterAdapter mFilterAdapter = new ContestsFilterAdapter(matchArrayList, pos -> {
 
-            matchId = matchArrayList.get(pos).getMatchId();
-            mMatchContestActivityBinding.tvMatchName.setText(new StringBuilder().append(matchArrayList.get(pos).getTeam1Name()).append(" VS ").append(matchArrayList.get(pos).getTeam2Name()).toString());
-
-            clearListAndAdapter(false,false);
+            if (Network.isAvailable(MatchContestActivity.this)) {
+                matchId = matchArrayList.get(pos).getMatchId();
+                mMatchContestActivityBinding.tvMatchName.setText(new StringBuilder().append(matchArrayList.get(pos).getTeam1Name()).append(" VS ").append(matchArrayList.get(pos).getTeam2Name()).toString());
+                clearListAndAdapter(false,false);
+            } else {
+                Toast.makeText(MatchContestActivity.this, AppConstant.sNoInternet, Toast.LENGTH_LONG).show();
+            }
 
         });
 

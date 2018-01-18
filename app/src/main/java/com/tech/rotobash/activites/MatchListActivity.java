@@ -263,7 +263,11 @@ public class MatchListActivity extends SidemenuActivity {
 
                             mAdapter = new MatchesAdapter(mTempList, pos -> {
                                 if (mMatchType == 2) {
-                                    moveScreen(pos);
+                                    if (Network.isAvailable(MatchListActivity.this)) {
+                                        moveScreen(pos);
+                                    } else {
+                                        Toast.makeText(MatchListActivity.this, AppConstant.sNoInternet, Toast.LENGTH_LONG).show();
+                                    }
                                 }
                             });
 
@@ -327,11 +331,15 @@ public class MatchListActivity extends SidemenuActivity {
                             mSeriesList = seriesResponse.getSeriesModel();
 
                             mFilterAdapter = new FiltersAdapter(mSeriesList, pos -> {
-                                mSeriesId = Integer.parseInt(mSeriesList.get(pos).getmSeriesModel().getSeriesId());
-                                mMatchListActivityBinding.btnSelectMatches.setText(mSeriesList.get(pos).getmSeriesModel().getSeriesShortName());
-                                refreshList(true);
-                                mMatchListActivityBinding.listViewFilter.setVisibility(View.GONE);
-                                mMatchListActivityBinding.includedContent.rootLayout.setVisibility(View.VISIBLE);
+                                if (Network.isAvailable(MatchListActivity.this)) {
+                                    mSeriesId = Integer.parseInt(mSeriesList.get(pos).getmSeriesModel().getSeriesId());
+                                    mMatchListActivityBinding.btnSelectMatches.setText(mSeriesList.get(pos).getmSeriesModel().getSeriesShortName());
+                                    refreshList(true);
+                                    mMatchListActivityBinding.listViewFilter.setVisibility(View.GONE);
+                                    mMatchListActivityBinding.includedContent.rootLayout.setVisibility(View.VISIBLE);
+                                } else {
+                                    Toast.makeText(MatchListActivity.this, AppConstant.sNoInternet, Toast.LENGTH_LONG).show();
+                                }
                             });
 
                             mMatchListActivityBinding.listViewFilter.setAdapter(mFilterAdapter);
