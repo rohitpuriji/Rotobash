@@ -67,7 +67,7 @@ public class MatchListActivity extends SidemenuActivity {
         setDataToParentClass(mUserResponse);
 
         mMatchListActivityBinding.includedContent.swipeContainerCurrent.setOnRefreshListener(() -> {
-            refreshList();
+            refreshList(false);
         });
 
         mMatchListActivityBinding.imgMenu.setOnClickListener(v -> openCloseDrawer());
@@ -75,13 +75,13 @@ public class MatchListActivity extends SidemenuActivity {
         mMatchListActivityBinding.includedContent.btnCurrent.setOnClickListener(view -> {
             ViewsVisibilites.showCurrentMatchesView(MatchListActivity.this, mMatchListActivityBinding);
             mMatchType = 2;
-            refreshList();
+            refreshList(true);
         });
 
         mMatchListActivityBinding.includedContent.btnComing.setOnClickListener(view -> {
             ViewsVisibilites.showComingMatchesView(MatchListActivity.this, mMatchListActivityBinding);
             mMatchType = 1;
-            refreshList();
+            refreshList(true);
         });
 
         mMatchListActivityBinding.includedContent.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -96,7 +96,7 @@ public class MatchListActivity extends SidemenuActivity {
                             if ((mVisibleItemCount + mPastVisiblesItems) >= mTotalItemCount) {
                                 mLoading = false;
                                 mOffset = mTempList.size();
-                                loadMatches(mSeriesId + "", mMatchType + "", mOffset + "");
+                                loadMatches(mSeriesId + "", mMatchType + "", mOffset + "",true);
                             }
                         }
                     } else {
@@ -136,7 +136,7 @@ public class MatchListActivity extends SidemenuActivity {
      * @Date                    :	Jan 15th , 2018
      * @Purpose                 :	This class clear the list data to update them again
      */
-    private void refreshList() {
+    private void refreshList(boolean isSwipeReferesh) {
         mLoading = true;
         mPastVisiblesItems = 0;
         mVisibleItemCount = 0;
@@ -151,7 +151,7 @@ public class MatchListActivity extends SidemenuActivity {
             mMatchesList.clear();
         }
 
-        loadMatches(mSeriesId + "", mMatchType + "", mOffset + "");
+        loadMatches(mSeriesId + "", mMatchType + "", mOffset + "",isSwipeReferesh);
 
     }
 
@@ -199,7 +199,7 @@ public class MatchListActivity extends SidemenuActivity {
         if (Network.isAvailable(MatchListActivity.this)) {
             getFilterData();
             if (mTempList.size() == 0) {
-                loadMatches(mSeriesId + "", mMatchType + "", mOffset + "");
+                loadMatches(mSeriesId + "", mMatchType + "", mOffset + "",true);
             }
         } else {
             Toast.makeText(MatchListActivity.this, AppConstant.sNoInternet, Toast.LENGTH_LONG).show();
@@ -239,8 +239,8 @@ public class MatchListActivity extends SidemenuActivity {
      * @Date                    :	Jan 11th , 2018
      * @Purpose                 :	This method loads the current or upcoming matches based on type from api
      */
-    private void loadMatches(String aSeriesId, String aMatchType, String aOffset) {
-        if (!progressDoalog.isShowing()){
+    private void loadMatches(String aSeriesId, String aMatchType, String aOffset,boolean isSwipeReferesh) {
+        if (!progressDoalog.isShowing() && isSwipeReferesh){
             progressDoalog.show();
         }
         MatchesViewModel mMatchesViewModel = ViewModelProviders.of(this).get(MatchesViewModel.class);
@@ -329,7 +329,7 @@ public class MatchListActivity extends SidemenuActivity {
                             mFilterAdapter = new FiltersAdapter(mSeriesList, pos -> {
                                 mSeriesId = Integer.parseInt(mSeriesList.get(pos).getmSeriesModel().getSeriesId());
                                 mMatchListActivityBinding.btnSelectMatches.setText(mSeriesList.get(pos).getmSeriesModel().getSeriesShortName());
-                                refreshList();
+                                refreshList(true);
                                 mMatchListActivityBinding.listViewFilter.setVisibility(View.GONE);
                                 mMatchListActivityBinding.includedContent.rootLayout.setVisibility(View.VISIBLE);
                             });

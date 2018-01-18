@@ -3,11 +3,15 @@ package com.tech.rotobash.activites;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ContextThemeWrapper;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -16,6 +20,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.tech.rotobash.R;
 import com.tech.rotobash.ViewModel.UserViewModel;
@@ -76,6 +82,7 @@ public class SidemenuActivity extends AppCompatActivity
      * @Purpose                 :	This method initialize the basic functionality
      */
     private void initData() {
+        FacebookSdk.sdkInitialize(this.getApplicationContext());
 
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_sidemenu);
         AppPreferences mPref = new AppPreferences(SidemenuActivity.this);
@@ -148,21 +155,42 @@ public class SidemenuActivity extends AppCompatActivity
      * @Purpose                 :	This method observe the response coming after logout operation.
      */
     private void doLogout() {
-
         UserViewModel mLogoutViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
 
-        mLogoutViewModel
-                .doLogout(progressDoalog, mUserResponse)
-                .observe(this, userResponse -> {
-                    Toast.makeText(SidemenuActivity.this, userResponse.getMessage(), Toast.LENGTH_LONG).show();
-                    AppPreferences mAppPreferences = new AppPreferences(SidemenuActivity.this);
-                    mAppPreferences.clearAll();
-                    moveScreen();
-                });
+        AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new AlertDialog.Builder(SidemenuActivity.this, android.R.style.Theme_Material_Dialog_Alert);
+        } else {
+            builder = new AlertDialog.Builder(SidemenuActivity.this);
+        }
+        builder.setTitle(getResources().getString(R.string.txt_logout))
+                .setMessage("")
+                .setPositiveButton(android.R.string.yes, (dialog, which) ->
+                        mLogoutViewModel
+                        .doLogout(progressDoalog, mUserResponse)
+                        .observe(this, userResponse -> {
+                            Toast.makeText(SidemenuActivity.this, userResponse.getMessage(), Toast.LENGTH_LONG).show();
+                            AppPreferences mAppPreferences = new AppPreferences(SidemenuActivity.this);
+                            mAppPreferences.clearAll();
+                            LoginManager.getInstance().logOut();
+                            moveScreen();
+                        }))
+                .setNegativeButton(android.R.string.no, (dialog, which) -> {
+                    dialog.dismiss();
+                })
+                .show();
+
     }
 
+    /**
+     * @Module Name/Class		:	moveScreen
+     * @Author Name             :	Rohit Puri
+     * @Date                    :	Jan 13th , 2018
+     * @Purpose                 :	This method navigate screen to login and clear history stack of activities
+     */
     private void moveScreen() {
         Intent i = new Intent(SidemenuActivity.this, AuthenticationActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
         finish();
     }

@@ -16,6 +16,12 @@ import com.tech.rotobash.utils.AppUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @Module Name/Class		:	FiltersAdapter
+ * @Author Name             :	Rohit Puri
+ * @Date :	Jan 16th , 2018
+ * @Purpose :	This is used to show the matches in recyclerview using binding related to match screen
+ */
 public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.MyViewHolder> {
 
     private List<MatchesData> matchesDataList;

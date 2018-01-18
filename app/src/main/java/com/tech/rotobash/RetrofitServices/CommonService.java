@@ -377,10 +377,16 @@ public class CommonService {
                         Log.e("on response :", aSeriesResponse.body().getStatus());
                         UserResponse seriesResponse = aSeriesResponse.body();
                         liveUserResponse.setValue(seriesResponse);
+                        if (progressDoalog.isShowing()) {
+                            progressDoalog.dismiss();
+                        }
                     }
 
                     @Override
                     public void onFailure(Call<UserResponse> call, Throwable t) {
+                        if (progressDoalog.isShowing()) {
+                            progressDoalog.dismiss();
+                        }
                         Log.e("on Failure :", "retrofit error" + t.getLocalizedMessage());
                     }
                 });

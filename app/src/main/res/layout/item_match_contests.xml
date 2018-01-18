@@ -39,6 +39,7 @@
                     android:layout_weight="0.25"
                     android:text="@string/txt_max_prize"
                     android:textColor="@color/light_grey"
+                    android:paddingLeft="@dimen/margin_ten"
                     android:textSize="@dimen/small_text"
                     android:textAllCaps="true" />
 
@@ -48,6 +49,7 @@
                     android:layout_weight="0.15"
                     android:textSize="@dimen/small_text"
                     android:text="@string/txt_pay"
+                    android:paddingLeft="@dimen/margin_ten"
                     android:textColor="@color/light_grey"
                     android:textAllCaps="true" />
 
@@ -101,6 +103,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.25"
                     android:text="@string/txt_max_prize"
+                    android:paddingLeft="@dimen/margin_ten"
                     android:textAllCaps="true"
                     android:textColor="@color/color_red" />
 
@@ -110,6 +113,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.15"
                     android:textSize="@dimen/mid_text"
+                    android:paddingLeft="@dimen/margin_five"
                     android:textAllCaps="true"
                     android:textColor="@color/color_blue" />
 

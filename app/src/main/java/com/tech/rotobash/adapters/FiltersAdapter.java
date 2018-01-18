@@ -14,6 +14,12 @@ import com.tech.rotobash.model.SeriesData;
 
 import java.util.List;
 
+/**
+ * @Module Name/Class		:	FiltersAdapter
+ * @Author Name             :	Rohit Puri
+ * @Date :	Jan 16th , 2018
+ * @Purpose :	This is used to adapt matches filter item in recyclerview using binding related to Match screen
+ */
 public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.MyViewHolder> {
 
     private List<SeriesData> seriesDataList;
