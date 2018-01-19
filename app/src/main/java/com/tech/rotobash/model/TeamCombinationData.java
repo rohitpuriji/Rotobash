@@ -15,9 +15,10 @@ public class TeamCombinationData {
     @SerializedName("Criteria")
     @Expose
     private Criteria criteria;
+
     @SerializedName("Combination")
     @Expose
-    private ArrayList<String> combination = null;
+    private ArrayList<Combination> combination = null;
 
     public Criteria getCriteria() {
         return criteria;
@@ -27,11 +28,11 @@ public class TeamCombinationData {
         this.criteria = criteria;
     }
 
-    public ArrayList<String> getCombination() {
+    public ArrayList<Combination> getCombination() {
         return combination;
     }
 
-    public void setCombination(ArrayList<String> combination) {
+    public void setCombination(ArrayList<Combination> combination) {
         this.combination = combination;
     }
 }

@@ -442,7 +442,7 @@ public class CommonService {
 
         getRetrofitClient()
                 .create(ApiInterface.class)
-                .getContestRanks(contest_id)
+                .getContestRanks(aUserResponse.getResponse().getAccessToken(), contest_id)
                 .enqueue(new Callback<ContestRankResponse>() {
 
                     @Override

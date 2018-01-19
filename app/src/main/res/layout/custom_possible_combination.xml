@@ -1,44 +1,36 @@
-<?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<?xml version="1.0" encoding="utf-8"?><!--<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content">-->
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rlCompleteView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/color_green">
 
-            <LinearLayout
-                android:id="@+id/rlPossibleCombinations"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/color_green"
-                android:orientation="horizontal"
-                android:paddingBottom="@dimen/margin_five"
-                android:paddingTop="@dimen/margin_five">
+    <com.tech.rotobash.utils.TextFontsRegular
+        android:id="@+id/tvCustomPossibleCombination"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:padding="@dimen/margin_two"
+        android:text="@string/batsmen"
+        android:textAllCaps="true"
+        android:textColor="@color/color_white"
+        android:textSize="@dimen/extra_small_text" />
 
-                <com.tech.rotobash.utils.TextFontsRegular
-                    android:id="@+id/tvPossibleCombination"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:text="@string/batsmen"
-                    android:textAllCaps="true"
-                    android:textColor="@color/color_white"
-                    android:textSize="@dimen/extra_small_text" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height=".1dp"
+        android:layout_below="@+id/tvCustomPossibleCombination"
+        android:background="@color/color_black" />
 
-            </LinearLayout>
+</RelativeLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height=".1dp"
-                android:layout_below="@+id/rlPossibleCombinations"
-                android:background="?android:attr/listDivider" />
+    <!--
+        </android.support.constraint.ConstraintLayout>
 
-        </RelativeLayout>
-
-    </android.support.constraint.ConstraintLayout>
-
-</layout>
+    </layout>-->

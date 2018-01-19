@@ -93,7 +93,8 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST("getContestRanksData")
-    Call<ContestRankResponse> getContestRanks(@Field("contest_id") String contestId);
+    Call<ContestRankResponse> getContestRanks(@Header("Authorization") String token,
+                                              @Field("contest_id") String contestId);
 
     @FormUrlEncoded
     @POST("getTeamCombinations")
