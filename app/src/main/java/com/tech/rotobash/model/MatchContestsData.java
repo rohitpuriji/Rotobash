@@ -22,6 +22,16 @@ public class MatchContestsData implements Parcelable {
     private String created;
     private String league_id;
     private String league_name;
+    private String league_code;
+
+    public String getLeague_code() {
+        return league_code;
+    }
+
+    public void setLeague_code(String league_code) {
+        this.league_code = league_code;
+    }
+
     private String total_users;
 
     public String getId() {
@@ -136,6 +146,9 @@ public class MatchContestsData implements Parcelable {
         this.total_users = total_users;
     }
 
+    public MatchContestsData() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -156,10 +169,8 @@ public class MatchContestsData implements Parcelable {
         dest.writeString(this.created);
         dest.writeString(this.league_id);
         dest.writeString(this.league_name);
+        dest.writeString(this.league_code);
         dest.writeString(this.total_users);
-    }
-
-    public MatchContestsData() {
     }
 
     protected MatchContestsData(Parcel in) {
@@ -176,10 +187,11 @@ public class MatchContestsData implements Parcelable {
         this.created = in.readString();
         this.league_id = in.readString();
         this.league_name = in.readString();
+        this.league_code = in.readString();
         this.total_users = in.readString();
     }
 
-    public static final Parcelable.Creator<MatchContestsData> CREATOR = new Parcelable.Creator<MatchContestsData>() {
+    public static final Creator<MatchContestsData> CREATOR = new Creator<MatchContestsData>() {
         @Override
         public MatchContestsData createFromParcel(Parcel source) {
             return new MatchContestsData(source);

@@ -339,6 +339,8 @@ public class CommonService {
 
                     @Override
                     public void onResponse(Call<SeriesResponse> call, Response<SeriesResponse> aSeriesResponse) {
+
+
                         Log.e("on getAccessToken :", aUserResponse.getResponse().getAccessToken());
                         Log.e("on response :", aSeriesResponse.body().getStatus());
                         Log.e("on response :", new Gson().toJson(aSeriesResponse));
@@ -472,7 +474,7 @@ public class CommonService {
 
         getRetrofitClient()
                 .create(ApiInterface.class)
-                .getTeamCombinations(type, league_code)
+                .getTeamCombinations(aUserResponse.getResponse().getAccessToken(), type, league_code)
                 .enqueue(new Callback<TeamCombinationResponse>() {
 
                     @Override

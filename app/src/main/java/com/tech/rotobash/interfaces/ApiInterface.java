@@ -97,5 +97,7 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST("getTeamCombinations")
-    Call<TeamCombinationResponse> getTeamCombinations(@Field("type") String type, @Field("league_code") String leagueCode);
+    Call<TeamCombinationResponse> getTeamCombinations(@Header("Authorization") String token,
+                                                      @Field("type") String type,
+                                                      @Field("league_code") String leagueCode);
 }

@@ -47,5 +47,5 @@ public class AppConstant {
 	public static String contest = "contest";
 
     public static String matchResponse = "matchResponse";
-    public static String responseNotAvailable = "Network not available";
+    public static String responseNotAvailable = "Unable to access network";
 }

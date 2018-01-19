@@ -4,6 +4,7 @@ package com.tech.rotobash.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,7 +17,7 @@ public class TeamCombinationData {
     private Criteria criteria;
     @SerializedName("Combination")
     @Expose
-    private List<String> combination = null;
+    private ArrayList<String> combination = null;
 
     public Criteria getCriteria() {
         return criteria;
@@ -26,11 +27,11 @@ public class TeamCombinationData {
         this.criteria = criteria;
     }
 
-    public List<String> getCombination() {
+    public ArrayList<String> getCombination() {
         return combination;
     }
 
-    public void setCombination(List<String> combination) {
+    public void setCombination(ArrayList<String> combination) {
         this.combination = combination;
     }
 }

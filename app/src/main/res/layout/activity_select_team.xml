@@ -311,19 +311,22 @@
                     android:id="@+id/llCombinationAndSelection"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/layout_combination">
+                    android:layout_below="@+id/layout_combination"
+                    android:orientation="vertical">
 
                     <LinearLayout
                         android:id="@+id/llPossibleCombinations"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
                     </LinearLayout>
 
                     <include
                         android:id="@+id/layout_selection"
-                        layout="@layout/custom_selection_criteria" />
+                        layout="@layout/custom_selection_criteria"
+                        android:visibility="gone" />
 
                 </LinearLayout>
 

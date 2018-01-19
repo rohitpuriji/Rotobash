@@ -8,6 +8,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
@@ -21,7 +22,6 @@ import com.tech.rotobash.model.ContestRankData;
 import com.tech.rotobash.model.MatchContestsData;
 import com.tech.rotobash.model.MatchesData;
 import com.tech.rotobash.model.TeamCombinationData;
-import com.tech.rotobash.model.TeamCombinationResponse;
 import com.tech.rotobash.utils.AppConstant;
 import com.tech.rotobash.utils.AppUtils;
 import com.tech.rotobash.utils.Network;
@@ -41,6 +41,7 @@ public class SelectTeamActivity extends SidemenuActivity {
     private MatchContestsData matchContestsData;
     private MatchesData matchesData;
     private TeamCombinationData teamCombinationData;
+    private ArrayList<String> mteamCombinationDataList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +79,7 @@ public class SelectTeamActivity extends SidemenuActivity {
         mSelectTeamActivityBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.activity_select_team, mBinding.contentFrame, true);
 
         mContestRanksData = new ArrayList<>();
+        mteamCombinationDataList = new ArrayList<>();
         mUserResponse = getIntent().getParcelableExtra(sUserResponseKey);
         matchContestsData = getIntent().getParcelableExtra(AppConstant.contest);
         matchesData = getIntent().getParcelableExtra(AppConstant.matchResponse);
@@ -180,8 +182,9 @@ public class SelectTeamActivity extends SidemenuActivity {
             mSelectTeamActivityBinding.tvPossibleCombinations.setText(getResources().getString(R.string.txt_possible_combinations));
             mSelectTeamActivityBinding.tvSelectionCriteria.setText(getResources().getString(R.string.txt_selection_criteria));
 
-            View childView = getLayoutInflater().inflate(R.layout.custom_possible_combination, null);
-            mSelectTeamActivityBinding.llPossibleCombinations.addView(childView);
+            // possible combination inflator
+            setLayoutInflatorForCombination();
+
         });
 
         mSelectTeamActivityBinding.tvSelectionCriteria.setOnClickListener(view -> {
@@ -192,9 +195,8 @@ public class SelectTeamActivity extends SidemenuActivity {
             mSelectTeamActivityBinding.tvPossibleCombinations.setText(getResources().getString(R.string.txt_possible_combinations));
             mSelectTeamActivityBinding.tvSelectionCriteria.setText(getResources().getString(R.string.txt_selection_criteria));
 
-
-            View childView = getLayoutInflater().inflate(R.layout.custom_selection_criteria, null);
-            mSelectTeamActivityBinding.llPossibleCombinations.addView(childView);
+            mSelectTeamActivityBinding.layoutSelection.layoutSelectionView.setVisibility(View.VISIBLE);
+            mSelectTeamActivityBinding.llPossibleCombinations.setVisibility(View.GONE);
         });
 
         mSelectTeamActivityBinding.ivCup.setOnClickListener(view -> {
@@ -304,7 +306,7 @@ public class SelectTeamActivity extends SidemenuActivity {
         CombinationViewModel combinationViewModel = ViewModelProviders.of(this).get(CombinationViewModel.class);
 
         combinationViewModel
-                .getTeamsCombinations(mUserResponse, matchContestsData.getId(), "")
+                .getTeamsCombinations(mUserResponse, matchesData.getMatchType(), matchContestsData.getLeague_code())
                 .observe(this, teamCombinationResponse -> {
 
                     if (progressDoalog.isShowing()) {
@@ -316,11 +318,12 @@ public class SelectTeamActivity extends SidemenuActivity {
                             teamCombinationData = teamCombinationResponse.getResponse();
 
                             setSelectionCriteriaData();
-                            /*if (teamCombinationResponse.getResponse().getCombination().size() > 0) {
-                                //mContestRanksData = teamCombinationResponse.getResponse();
+                            if (teamCombinationResponse.getResponse().getCombination().size() > 0) {
+                                mteamCombinationDataList = teamCombinationResponse.getResponse().getCombination();
+                                setLayoutInflatorForCombination();
                             } else {
                                 Toast.makeText(SelectTeamActivity.this, teamCombinationResponse.getMessage(), Toast.LENGTH_LONG).show();
-                            }*/
+                            }
                         } else {
                             Toast.makeText(SelectTeamActivity.this, teamCombinationResponse.getMessage(), Toast.LENGTH_LONG).show();
                         }
@@ -340,19 +343,42 @@ public class SelectTeamActivity extends SidemenuActivity {
      */
     private void setSelectionCriteriaData() {
 
-        mSelectTeamActivityBinding.layoutSelection.tvMaxTeam.setText(teamCombinationData.getCriteria().getOneTeamMax());
-        mSelectTeamActivityBinding.layoutSelection.tvMaxBat.setText(teamCombinationData.getCriteria().getBatsmanMax());
-        mSelectTeamActivityBinding.layoutSelection.tvMaxBowl.setText(teamCombinationData.getCriteria().getBallersMax());
-        mSelectTeamActivityBinding.layoutSelection.tvMaxAR.setText(teamCombinationData.getCriteria().getARMax());
-        mSelectTeamActivityBinding.layoutSelection.tvMaxWK.setText(teamCombinationData.getCriteria().getWKMax());
-        mSelectTeamActivityBinding.layoutSelection.tvMaxSub.setText(teamCombinationData.getCriteria().getSubMax());
+        if (teamCombinationData.getCriteria() != null) {
+            mSelectTeamActivityBinding.layoutSelection.tvMaxTeam.setText(teamCombinationData.getCriteria().getOneTeamMax());
+            mSelectTeamActivityBinding.layoutSelection.tvMaxBat.setText(teamCombinationData.getCriteria().getBatsmanMax());
+            mSelectTeamActivityBinding.layoutSelection.tvMaxBowl.setText(teamCombinationData.getCriteria().getBallersMax());
+            mSelectTeamActivityBinding.layoutSelection.tvMaxAR.setText(teamCombinationData.getCriteria().getARMax());
+            mSelectTeamActivityBinding.layoutSelection.tvMaxWK.setText(teamCombinationData.getCriteria().getWKMax());
+            mSelectTeamActivityBinding.layoutSelection.tvMaxSub.setText(teamCombinationData.getCriteria().getSubMax());
 
-        mSelectTeamActivityBinding.layoutSelection.tvMinTeam.setText(teamCombinationData.getCriteria().getOneTeamMin());
-        mSelectTeamActivityBinding.layoutSelection.tvMinTeam.setText(teamCombinationData.getCriteria().getBatsmanMin());
-        mSelectTeamActivityBinding.layoutSelection.tvMinTeam.setText(teamCombinationData.getCriteria().getBallersMin());
-        mSelectTeamActivityBinding.layoutSelection.tvMinTeam.setText(teamCombinationData.getCriteria().getARMin());
-        mSelectTeamActivityBinding.layoutSelection.tvMinTeam.setText(teamCombinationData.getCriteria().getWKMin());
-        mSelectTeamActivityBinding.layoutSelection.tvMinTeam.setText(teamCombinationData.getCriteria().getSubMin());
+            mSelectTeamActivityBinding.layoutSelection.tvMinTeam.setText(teamCombinationData.getCriteria().getOneTeamMin());
+            mSelectTeamActivityBinding.layoutSelection.tvMinTeam.setText(teamCombinationData.getCriteria().getBatsmanMin());
+            mSelectTeamActivityBinding.layoutSelection.tvMinTeam.setText(teamCombinationData.getCriteria().getBallersMin());
+            mSelectTeamActivityBinding.layoutSelection.tvMinTeam.setText(teamCombinationData.getCriteria().getARMin());
+            mSelectTeamActivityBinding.layoutSelection.tvMinTeam.setText(teamCombinationData.getCriteria().getWKMin());
+            mSelectTeamActivityBinding.layoutSelection.tvMinTeam.setText(teamCombinationData.getCriteria().getSubMin());
+        }
+    }
+
+    /**
+     * @Module Name/Class		:	setLayoutInflatorForCombination
+     * @Author Name             :	Sombir Bisht
+     * @Date :	Jan 19th , 2018
+     * @Purpose :	This is used to inflate possible combination view.
+     */
+    private void setLayoutInflatorForCombination() {
+
+        mSelectTeamActivityBinding.layoutSelection.layoutSelectionView.setVisibility(View.GONE);
+        mSelectTeamActivityBinding.llPossibleCombinations.setVisibility(View.VISIBLE);
+
+        mSelectTeamActivityBinding.llPossibleCombinations.removeAllViews();
+
+        for (int i = 0; i < mteamCombinationDataList.size(); i++) {
+
+            View childView = getLayoutInflater().inflate(R.layout.custom_possible_combination, null);
+            mSelectTeamActivityBinding.llPossibleCombinations.addView(childView);
+           // mSelectTeamActivityBinding.tvPossibleCombinations.setText(mteamCombinationDataList.get(i));
+        }
     }
 
     /*@Override

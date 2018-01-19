@@ -19,6 +19,7 @@
                 android:paddingTop="@dimen/margin_five">
 
                 <com.tech.rotobash.utils.TextFontsRegular
+                    android:id="@+id/tvPossibleCombination"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
