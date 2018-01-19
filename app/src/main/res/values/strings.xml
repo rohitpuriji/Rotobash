@@ -75,5 +75,13 @@
     <string name="all_rounder">all-rounder</string>
     <string name="bowler">bowler</string>
     <string name="batsmen">batsmen</string>
+    <string name="team">team</string>
+    <string name="bat">bat</string>
+    <string name="bowl">bowl</string>
+    <string name="ar">ar</string>
+    <string name="wk">wk</string>
+    <string name="sub">sub</string>
+    <string name="max">max</string>
+    <string name="min">min</string>
 
 </resources>

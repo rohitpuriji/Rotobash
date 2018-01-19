@@ -7,16 +7,20 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /**
- @Module class/module		:	MatchesData
- @Author Name			    :	Rohit Puri
- @Date					    :	Jan 11 , 2018
- @Purpose				    :	This class defines the pojo for match contest showing on dashboard
+ * @Module class/module		:	MatchesData
+ * @Author Name                :	Rohit Puri
+ * @Date                     :	Jan 11 , 2018
+ * @Purpose                 :	This class defines the pojo for match contest showing on dashboard
  */
 public class MatchesData implements Parcelable {
 
     @SerializedName("id")
     @Expose
     private String matchId;
+
+    @SerializedName("match_type")
+    @Expose
+    private String matchType;
 
     @SerializedName("match_name")
     @Expose
@@ -58,7 +62,13 @@ public class MatchesData implements Parcelable {
     @Expose
     private String seriesShortName;
 
+    public String getMatchType() {
+        return matchType;
+    }
 
+    public void setMatchType(String matchType) {
+        this.matchType = matchType;
+    }
 
     public String getSeriesName() {
         return seriesName;
@@ -159,6 +169,7 @@ public class MatchesData implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.matchId);
+        dest.writeString(this.matchType);
         dest.writeString(this.matchName);
         dest.writeString(this.matchKey);
         dest.writeString(this.matchSeriesId);
@@ -166,13 +177,14 @@ public class MatchesData implements Parcelable {
         dest.writeString(this.matchVanue);
         dest.writeString(this.matchCreateAt);
         dest.writeString(this.team1Name);
+        dest.writeString(this.team2Name);
         dest.writeString(this.seriesName);
         dest.writeString(this.seriesShortName);
-        dest.writeString(this.team2Name);
     }
 
     protected MatchesData(Parcel in) {
         this.matchId = in.readString();
+        this.matchType = in.readString();
         this.matchName = in.readString();
         this.matchKey = in.readString();
         this.matchSeriesId = in.readString();
@@ -180,9 +192,9 @@ public class MatchesData implements Parcelable {
         this.matchVanue = in.readString();
         this.matchCreateAt = in.readString();
         this.team1Name = in.readString();
+        this.team2Name = in.readString();
         this.seriesName = in.readString();
         this.seriesShortName = in.readString();
-        this.team2Name = in.readString();
     }
 
     public static final Creator<MatchesData> CREATOR = new Creator<MatchesData>() {

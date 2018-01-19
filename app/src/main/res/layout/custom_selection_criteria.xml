@@ -1,6 +1,304 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-</android.support.constraint.ConstraintLayout>
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/layout_selection_view"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/color_current_gray">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/llRankingView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_five"
+                    android:layout_marginTop="@dimen/margin_five"
+                    android:orientation="horizontal"
+                    android:weightSum="7">
+
+                    <com.tech.rotobash.utils.TextFontsRegular
+                        android:id="@+id/tvMaxMin"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/margin_ten"
+                        android:layout_marginStart="@dimen/margin_ten"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:textColor="@color/dark_grey" />
+
+                    <com.tech.rotobash.utils.TextFontsRegular
+                        android:id="@+id/tvTeam"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/team"
+                        android:textColor="@color/color_black"
+                        app:textAllCaps="true" />
+
+                    <com.tech.rotobash.utils.TextFontsRegular
+                        android:id="@+id/tvBat"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/bat"
+                        android:textAllCaps="true"
+                        android:textColor="@color/dark_grey" />
+
+                    <com.tech.rotobash.utils.TextFontsRegular
+                        android:id="@+id/tvBowl"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/bowl"
+                        android:textColor="@color/dark_grey"
+                        app:textAllCaps="true" />
+
+                    <com.tech.rotobash.utils.TextFontsRegular
+                        android:id="@+id/tvAR"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/ar"
+                        android:textColor="@color/dark_grey"
+                        app:textAllCaps="true" />
+
+                    <com.tech.rotobash.utils.TextFontsRegular
+                        android:id="@+id/tvWK"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/wk"
+                        android:textColor="@color/dark_grey"
+                        app:textAllCaps="true" />
+
+                    <com.tech.rotobash.utils.TextFontsRegular
+                        android:id="@+id/tvSub"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="@dimen/margin_ten"
+                        android:layout_marginRight="@dimen/margin_ten"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/sub"
+                        android:textColor="@color/dark_grey"
+                        app:textAllCaps="true" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height=".1dp"
+                    android:layout_below="@+id/llRankingView"
+                    android:background="?android:attr/listDivider" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_five"
+                    android:layout_marginTop="@dimen/margin_five"
+                    android:orientation="horizontal"
+                    android:weightSum="7">
+
+                    <com.tech.rotobash.utils.TextFontsRegular
+                        android:id="@+id/tvMax"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/margin_ten"
+                        android:layout_marginStart="@dimen/margin_ten"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/max"
+                        android:textColor="@color/dark_grey"
+                        app:textAllCaps="true" />
+
+                    <com.tech.rotobash.utils.TextFontsRegular
+                        android:id="@+id/tvMaxTeam"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:textColor="@color/color_black"
+                        app:textAllCaps="true" />
+
+                    <com.tech.rotobash.utils.TextFontsRegular
+                        android:id="@+id/tvMaxBat"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:textAllCaps="true"
+                        android:textColor="@color/dark_grey" />
+
+                    <com.tech.rotobash.utils.TextFontsRegular
+                        android:id="@+id/tvMaxBowl"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:textColor="@color/dark_grey"
+                        app:textAllCaps="true" />
+
+                    <com.tech.rotobash.utils.TextFontsRegular
+                        android:id="@+id/tvMaxAR"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:textColor="@color/dark_grey"
+                        app:textAllCaps="true" />
+
+                    <com.tech.rotobash.utils.TextFontsRegular
+                        android:id="@+id/tvMaxWK"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:textColor="@color/dark_grey"
+                        app:textAllCaps="true" />
+
+                    <com.tech.rotobash.utils.TextFontsRegular
+                        android:id="@+id/tvMaxSub"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="@dimen/margin_ten"
+                        android:layout_marginRight="@dimen/margin_ten"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:textColor="@color/dark_grey"
+                        app:textAllCaps="true" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height=".1dp"
+                    android:layout_below="@+id/llRankingView"
+                    android:background="?android:attr/listDivider" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_five"
+                    android:layout_marginTop="@dimen/margin_five"
+                    android:orientation="horizontal"
+                    android:weightSum="7">
+
+                    <com.tech.rotobash.utils.TextFontsRegular
+                        android:id="@+id/tvMin"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/margin_ten"
+                        android:layout_marginStart="@dimen/margin_ten"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/min"
+                        android:textColor="@color/dark_grey"
+                        app:textAllCaps="true" />
+
+                    <com.tech.rotobash.utils.TextFontsRegular
+                        android:id="@+id/tvMinTeam"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:textColor="@color/color_black"
+                        app:textAllCaps="true" />
+
+                    <com.tech.rotobash.utils.TextFontsRegular
+                        android:id="@+id/tvMinBat"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:textAllCaps="true"
+                        android:textColor="@color/dark_grey" />
+
+                    <com.tech.rotobash.utils.TextFontsRegular
+                        android:id="@+id/tvMinBowl"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:textColor="@color/dark_grey"
+                        app:textAllCaps="true" />
+
+                    <com.tech.rotobash.utils.TextFontsRegular
+                        android:id="@+id/tvMinAR"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:textColor="@color/dark_grey"
+                        app:textAllCaps="true" />
+
+                    <com.tech.rotobash.utils.TextFontsRegular
+                        android:id="@+id/tvMinWK"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:textColor="@color/dark_grey"
+                        app:textAllCaps="true" />
+
+                    <com.tech.rotobash.utils.TextFontsRegular
+                        android:id="@+id/tvMinSub"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="@dimen/margin_ten"
+                        android:layout_marginRight="@dimen/margin_ten"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:textColor="@color/dark_grey"
+                        app:textAllCaps="true" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height=".1dp"
+                    android:layout_below="@+id/llRankingView"
+                    android:background="?android:attr/listDivider" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

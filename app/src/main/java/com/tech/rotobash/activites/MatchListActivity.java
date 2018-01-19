@@ -326,6 +326,7 @@ public class MatchListActivity extends SidemenuActivity {
 
         mSeriesViewModel.getSeries(mUserResponse)
                 .observe(this, seriesResponse -> {
+
                     if (seriesResponse.getStatus().equalsIgnoreCase(sSuccess)) {
                         if (seriesResponse.getSeriesModel().size() > 0) {
                             mSeriesList = seriesResponse.getSeriesModel();
