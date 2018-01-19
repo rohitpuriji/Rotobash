@@ -7,6 +7,7 @@
     <color name="color_white">#ffffff</color>
     <color name="color_trans">#00000000</color>
     <color name="color_black">#000000</color>
+    <color name="light_black">#3B3E40</color>
     <color name="color_grey">#999999</color>
     <color name="color_blue">#385386</color>
     <color name="color_light_blue_create">#3688E4</color>

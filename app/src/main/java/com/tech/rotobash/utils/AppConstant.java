@@ -44,4 +44,7 @@ public class AppConstant {
 	public static String sPleaseWait = "Please wait....";
 	public static String sSuccess = "Success";
 
+	public static String contest = "contest";
+
+    public static String matchResponse = "matchResponse";
 }

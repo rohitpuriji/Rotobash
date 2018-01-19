@@ -2,6 +2,7 @@ package com.tech.rotobash.activites;
 
 import android.app.ProgressDialog;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -23,6 +24,7 @@ import com.tech.rotobash.adapters.ContestsFilterAdapter;
 import com.tech.rotobash.adapters.MatchContestsAdapter;
 import com.tech.rotobash.adapters.NothingSelectedSpinnerAdapter;
 import com.tech.rotobash.databinding.ActivityMatchContestBinding;
+import com.tech.rotobash.interfaces.MatchItemInterface;
 import com.tech.rotobash.model.ContestItem;
 import com.tech.rotobash.model.LeagueContestData;
 import com.tech.rotobash.model.MatchContestsData;
@@ -81,14 +83,14 @@ public class MatchContestActivity extends SidemenuActivity {
         mMatchContestActivityBinding.btnActive.setOnClickListener(v -> {
             mLoading = true;
             status = getString(R.string.active);
-            ViewsVisibilites.showActiveContestView(this,mMatchContestActivityBinding);
+            ViewsVisibilites.showActiveContestView(this, mMatchContestActivityBinding);
             setRecyclerView(status);
         });
 
         mMatchContestActivityBinding.btnInActive.setOnClickListener(v -> {
             mLoading = true;
             status = getString(R.string.inActive);
-            ViewsVisibilites.showInActiveContestView(this,mMatchContestActivityBinding);
+            ViewsVisibilites.showInActiveContestView(this, mMatchContestActivityBinding);
             setRecyclerView(status);
 
         });
@@ -96,7 +98,7 @@ public class MatchContestActivity extends SidemenuActivity {
         mMatchContestActivityBinding.btnAll.setOnClickListener(v -> {
             mLoading = true;
             status = getString(R.string.txt_alls);
-            ViewsVisibilites.showAllContestView(this,mMatchContestActivityBinding);
+            ViewsVisibilites.showAllContestView(this, mMatchContestActivityBinding);
             setRecyclerView(status);
 
         });
@@ -173,8 +175,8 @@ public class MatchContestActivity extends SidemenuActivity {
         mMatchContestActivityBinding.spinnerLeauge.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if(leagueCheck > 0) {
-                    league_id = Integer.parseInt(leaguesList.get(i-1).getId());
+                if (leagueCheck > 0) {
+                    league_id = Integer.parseInt(leaguesList.get(i - 1).getId());
                     clearListAndAdapter(true);
                 }
 
@@ -190,8 +192,8 @@ public class MatchContestActivity extends SidemenuActivity {
         mMatchContestActivityBinding.spinnerPay.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if(payCheck > 0) {
-                    switch (i-1) {
+                if (payCheck > 0) {
+                    switch (i - 1) {
                         case 0:
                             price = "0";
                             break;
@@ -279,7 +281,7 @@ public class MatchContestActivity extends SidemenuActivity {
         mMatchContestActivityBinding.constraintLayout.setVisibility(View.VISIBLE);
 
         if (isFailure)
-        loadMatchContest();
+            loadMatchContest();
     }
 
     private void getLeague() {
@@ -291,7 +293,7 @@ public class MatchContestActivity extends SidemenuActivity {
                 .observe(this, leaguesResponse -> {
                     if (leaguesResponse.getStatus().equalsIgnoreCase("success")) {
                         if (leaguesResponse.getMatchModel().size() > 0) {
-                            if (leaguesList.size()>0){
+                            if (leaguesList.size() > 0) {
                                 leaguesList.clear();
                             }
                             leaguesList = leaguesResponse.getMatchModel();
@@ -350,7 +352,7 @@ public class MatchContestActivity extends SidemenuActivity {
         mMatchContestActivityBinding.spinnerPay.setPrompt(getResources().getString(R.string.txt_select_pay));
 
         status = getString(R.string.txt_alls);
-        ViewsVisibilites.showAllContestView(this,mMatchContestActivityBinding);
+        ViewsVisibilites.showAllContestView(this, mMatchContestActivityBinding);
 
         setContestRecyclerViewManager();
         setFilterRecyclerViewManager();
@@ -415,8 +417,8 @@ public class MatchContestActivity extends SidemenuActivity {
      */
     private void loadMatchContest() {
 
-        if (!progressDoalog.isShowing()){
-           progressDoalog.show();
+        if (!progressDoalog.isShowing()) {
+            progressDoalog.show();
         }
         MatchContestsViewModel mMatchContestViewModel = ViewModelProviders.of(this).get(MatchContestsViewModel.class);
 
@@ -424,7 +426,7 @@ public class MatchContestActivity extends SidemenuActivity {
         mMatchContestViewModel
                 .getMatchContests(mUserResponse, matchId, String.valueOf(league_id), price, String.valueOf(aOffset), String.valueOf(aLimit))
                 .observe(this, matchContestsResponse -> {
-                    if (progressDoalog.isShowing()){
+                    if (progressDoalog.isShowing()) {
                         progressDoalog.dismiss();
                     }
                     if (matchContestsResponse.getStatus().equalsIgnoreCase(sSuccess)) {
@@ -439,8 +441,8 @@ public class MatchContestActivity extends SidemenuActivity {
                     } else {
                         Log.e("failure", "***");
                         Toast.makeText(MatchContestActivity.this, matchContestsResponse.getMessage(), Toast.LENGTH_LONG).show();
-                        if (aOffset==0)
-                        clearListAndAdapter(false);
+                        if (aOffset == 0)
+                            clearListAndAdapter(false);
                     }
                 });
     }
@@ -489,13 +491,40 @@ public class MatchContestActivity extends SidemenuActivity {
      */
     private void setRecyclerView(String status) {
         if (status.equalsIgnoreCase(getString(R.string.txt_alls))) {
-            mAdapter = new MatchContestsAdapter(MatchContestActivity.this, mTempArrayListAllContestData);
+            mAdapter = new MatchContestsAdapter(MatchContestActivity.this, mTempArrayListAllContestData, pos -> {
+                Intent selectTeamIntent = new Intent(MatchContestActivity.this, SelectTeamActivity.class);
+                selectTeamIntent.putExtra(AppConstant.contest, mTempArrayListAllContestData.get(pos));
+                selectTeamIntent.putExtra(AppConstant.sUserResponseKey, mUserResponse);
+                selectTeamIntent.putExtra(AppConstant.matchResponse, matchArrayList.get(getIntent().getIntExtra(sPositionKey, -1)));
+                startActivity(selectTeamIntent);
+
+                Log.e("all", mTempArrayListAllContestData.size() + "");
+
+            });
             mMatchContestActivityBinding.recyclerView.setAdapter(mAdapter);
         } else if (status.equalsIgnoreCase(getString(R.string.active))) {
-            mAdapter = new MatchContestsAdapter(MatchContestActivity.this, mTempArrayListActiveContestData);
+            mAdapter = new MatchContestsAdapter(MatchContestActivity.this, mTempArrayListActiveContestData, pos -> {
+                Intent selectTeamIntent = new Intent(MatchContestActivity.this, SelectTeamActivity.class);
+                selectTeamIntent.putExtra(AppConstant.contest, mTempArrayListAllContestData.get(pos));
+                selectTeamIntent.putExtra(AppConstant.matchResponse, matchArrayList.get(getIntent().getIntExtra(sPositionKey, -1)));
+                selectTeamIntent.putExtra(AppConstant.sUserResponseKey, mUserResponse);
+                startActivity(selectTeamIntent);
+
+                Log.e("active", mTempArrayListActiveContestData.size() + "");
+
+            });
             mMatchContestActivityBinding.recyclerView.setAdapter(mAdapter);
         } else {
-            mAdapter = new MatchContestsAdapter(MatchContestActivity.this, mTempArrayListInActiveContestData);
+            mAdapter = new MatchContestsAdapter(MatchContestActivity.this, mTempArrayListInActiveContestData, pos -> {
+                Intent selectTeamIntent = new Intent(MatchContestActivity.this, SelectTeamActivity.class);
+                selectTeamIntent.putExtra(AppConstant.contest, mTempArrayListAllContestData.get(pos));
+                selectTeamIntent.putExtra(AppConstant.sUserResponseKey, mUserResponse);
+                selectTeamIntent.putExtra(AppConstant.matchResponse, matchArrayList.get(getIntent().getIntExtra(sPositionKey, -1)));
+                startActivity(selectTeamIntent);
+
+                Log.e("inactive", mTempArrayListInActiveContestData.size() + "");
+
+            });
             mMatchContestActivityBinding.recyclerView.setAdapter(mAdapter);
         }
     }

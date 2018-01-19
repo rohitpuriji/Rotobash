@@ -17,6 +17,7 @@
     <dimen name="margin_two">2dp</dimen>
 
     <dimen name="padding_fifteen">15dp</dimen>
+    <dimen name="margin_fifteen">15dp</dimen>
     <dimen name="margin_twenty">20dp</dimen>
     <dimen name="margin_ten">10dp</dimen>
     <dimen name="padding_twentyfive">25dp</dimen>

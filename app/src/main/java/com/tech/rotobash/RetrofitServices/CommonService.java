@@ -8,6 +8,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.tech.rotobash.interfaces.ApiInterface;
+import com.tech.rotobash.model.ContestRankResponse;
 import com.tech.rotobash.model.LeaguesResponse;
 import com.tech.rotobash.model.MatchContestsResponse;
 import com.tech.rotobash.model.MatchesResponse;
@@ -179,8 +180,8 @@ public class CommonService {
     /**
      * @Module class/module		    :	doForgetPassword
      * @Author Name                 :	Rohit Puri
-     * @Date                        :	Jan 9 , 2018
-     * @Purpose                     :	This method return the MutableLiveData for forget password api
+     * @Date :	Jan 9 , 2018
+     * @Purpose :	This method return the MutableLiveData for forget password api
      */
     public LiveData<UserResponse> doForgetPassword(String aEmail) {
 
@@ -211,8 +212,8 @@ public class CommonService {
     /**
      * @Module class/module		    :	doResetPassword
      * @Author Name                 :	Rohit Puri
-     * @Date                        :	Jan 11 , 2018
-     * @Purpose                     :	This method return the MutableLiveData for reset password api
+     * @Date :	Jan 11 , 2018
+     * @Purpose :	This method return the MutableLiveData for reset password api
      */
     public LiveData<UserResponse> doResetPassword(ProgressDialog progressDoalog, UserResponse aUserResponse, String oldass, String newPass) {
 
@@ -251,8 +252,8 @@ public class CommonService {
     /**
      * @Module class/module		    :	getMatches
      * @Author Name                 :	Rohit Puri
-     * @Date                        :	Jan 11 , 2018
-     * @Purpose                     :	This method return the MutableLiveData for get Matches api
+     * @Date :	Jan 11 , 2018
+     * @Purpose :	This method return the MutableLiveData for get Matches api
      */
     public LiveData<MatchesResponse> getMatches(String aSeriesid, UserResponse aUserResponse, String aType, String aOffset) {
 
@@ -298,7 +299,7 @@ public class CommonService {
 
         getRetrofitClient()
                 .create(ApiInterface.class)
-                .getMatchContests(aUserResponse.getResponse().getAccessToken(), aMatchId, aLeagueId, price,aOffset, aLimit)
+                .getMatchContests(aUserResponse.getResponse().getAccessToken(), aMatchId, aLeagueId, price, aOffset, aLimit)
                 .enqueue(new Callback<MatchContestsResponse>() {
 
                     @Override
@@ -323,8 +324,8 @@ public class CommonService {
     /**
      * @Module class/module		    :	getMatchContests
      * @Author Name                 :	Rohit Puri
-     * @Date                        :	Jan 11 , 2018
-     * @Purpose                     :	This method return the MutableLiveData for get Matches api
+     * @Date :	Jan 11 , 2018
+     * @Purpose :	This method return the MutableLiveData for get Matches api
      */
     public LiveData<SeriesResponse> getFilters(UserResponse aUserResponse) {
 
@@ -358,8 +359,8 @@ public class CommonService {
     /**
      * @Module class/module		    :	doLogout
      * @Author Name                 :	Rohit Puri
-     * @Date                        :	Jan 15 , 2018
-     * @Purpose                     :	This method return the MutableLiveData for logout api
+     * @Date :	Jan 15 , 2018
+     * @Purpose :	This method return the MutableLiveData for logout api
      */
     public LiveData<UserResponse> doLogout(ProgressDialog progressDoalog, UserResponse aUserResponse) {
         if (!progressDoalog.isShowing()) {
@@ -391,10 +392,10 @@ public class CommonService {
     /**
      * @Module class/module		    :	getMatchContests
      * @Author Name                 :	Sachin Arora
-     * @Date                        :	Jan 11 , 2018
-     * @Purpose                     :	This method return the MutableLiveData for get Matches api
+     * @Date :	Jan 11 , 2018
+     * @Purpose :	This method return the MutableLiveData for get Matches api
      */
-    public LiveData<LeaguesResponse> getLeague( UserResponse aUserResponse) {
+    public LiveData<LeaguesResponse> getLeague(UserResponse aUserResponse) {
 
         final MutableLiveData<LeaguesResponse> leaguesResponse = new MutableLiveData<>();
 
@@ -418,5 +419,37 @@ public class CommonService {
                 });
 
         return leaguesResponse;
+    }
+
+    /**
+     * @Module class/module		    :	getContestRankData
+     * @Author Name                 :	Sombir Bisht
+     * @Date                        :	Jan 18 , 2018
+     * @Purpose                     :	This method return the Contest ranks.
+     */
+    public LiveData<ContestRankResponse> getContestRankData(UserResponse aUserResponse, String contest_id) {
+
+        final MutableLiveData<ContestRankResponse> contestResponse = new MutableLiveData<>();
+
+        getRetrofitClient()
+                .create(ApiInterface.class)
+                .getContestRanks(contest_id)
+                .enqueue(new Callback<ContestRankResponse>() {
+
+                    @Override
+                    public void onResponse(Call<ContestRankResponse> call, Response<ContestRankResponse> aSeriesResponse) {
+
+                        ContestRankResponse response = aSeriesResponse.body();
+                        contestResponse.setValue(response);
+                    }
+
+                    @Override
+                    public void onFailure(Call<ContestRankResponse> call, Throwable t) {
+                        Log.e("on Failure :", "retrofit error" + t.getLocalizedMessage());
+                        t.getStackTrace();
+                    }
+                });
+
+        return contestResponse;
     }
 }

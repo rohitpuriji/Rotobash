@@ -66,5 +66,13 @@
     <string name="txt_player_selected">Players Selected</string>
     <string name="txt_possible_combinations">Possible Combinations</string>
     <string name="txt_selection_criteria">Selection Criteria</string>
+    <string name="ranks">Ranks</string>
+    <string name="no_of_winners">No. Of Winners</string>
+    <string name="prize">Prize</string>
+    <string name="rank_not_available">Ranks not available</string>
+    <string name="wicket_keeper">wicket keeper</string>
+    <string name="all_rounder">all-rounder</string>
+    <string name="bowler">bowler</string>
+    <string name="batsmen">batsmen</string>
 
 </resources>

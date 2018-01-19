@@ -11,7 +11,9 @@ import android.view.ViewGroup;
 import com.tech.rotobash.R;
 import com.tech.rotobash.activites.SelectTeamActivity;
 import com.tech.rotobash.databinding.ItemMatchContestsBinding;
+import com.tech.rotobash.interfaces.MatchItemInterface;
 import com.tech.rotobash.model.MatchContestsData;
+import com.tech.rotobash.utils.AppConstant;
 
 import java.util.List;
 
@@ -22,6 +24,7 @@ import java.util.List;
 public class MatchContestsAdapter extends RecyclerView.Adapter<MatchContestsAdapter.MyViewHolder> {
     private List<MatchContestsData> matchesDataList;
     private AppCompatActivity appCompatActivity;
+    private MatchItemInterface matchItemInterface;
 
     class MyViewHolder extends RecyclerView.ViewHolder {
 
@@ -39,10 +42,10 @@ public class MatchContestsAdapter extends RecyclerView.Adapter<MatchContestsAdap
         }
     }
 
-    public MatchContestsAdapter(AppCompatActivity appCompatActivity, List<MatchContestsData> matchesDataList) {
+    public MatchContestsAdapter(AppCompatActivity appCompatActivity, List<MatchContestsData> matchesDataList, MatchItemInterface matchItemInterface) {
         this.matchesDataList = matchesDataList;
         this.appCompatActivity = appCompatActivity;
-
+        this.matchItemInterface = matchItemInterface;
     }
 
     @Override
@@ -64,15 +67,15 @@ public class MatchContestsAdapter extends RecyclerView.Adapter<MatchContestsAdap
         viewDataBinding.tvMaxPrize.setText(new StringBuilder().append(appCompatActivity.getString(R.string.Rs)).append(" ").append(matchContestsData.getMax_winning_amount()).toString());
         viewDataBinding.tvPay.setText(new StringBuilder().append(appCompatActivity.getString(R.string.Rs)).append(" ").append(matchContestsData.getEntry_fee()).toString());
         viewDataBinding.tvLeagueName.setText(matchContestsData.getLeague_name());
-        if (matchContestsData.getLeague_name().equalsIgnoreCase("max bash")){
+        if (matchContestsData.getLeague_name().equalsIgnoreCase("max bash")) {
             viewDataBinding.tvLeagueName.setBackgroundColor(appCompatActivity.getResources().getColor(R.color.color_maxbash));
-        }else if (matchContestsData.getLeague_name().equalsIgnoreCase("max boundary")){
+        } else if (matchContestsData.getLeague_name().equalsIgnoreCase("max boundary")) {
             viewDataBinding.tvLeagueName.setBackgroundColor(appCompatActivity.getResources().getColor(R.color.color_max_bound));
-        }else if(matchContestsData.getLeague_name().equalsIgnoreCase("max score")){
+        } else if (matchContestsData.getLeague_name().equalsIgnoreCase("max score")) {
             viewDataBinding.tvLeagueName.setBackgroundColor(appCompatActivity.getResources().getColor(R.color.color_max_score));
-        }else if(matchContestsData.getLeague_name().equalsIgnoreCase("fast score")){
+        } else if (matchContestsData.getLeague_name().equalsIgnoreCase("fast score")) {
             viewDataBinding.tvLeagueName.setBackgroundColor(appCompatActivity.getResources().getColor(R.color.color_fast_score));
-        }else{
+        } else {
             viewDataBinding.tvLeagueName.setBackgroundColor(appCompatActivity.getResources().getColor(R.color.color_default));
         }
         viewDataBinding.tvTotalWinners.setText(new StringBuilder().append(matchContestsData.getNo_of_winners()).append(" ").append("WINNERS").toString());
@@ -81,13 +84,16 @@ public class MatchContestsAdapter extends RecyclerView.Adapter<MatchContestsAdap
 
         // to join contest
         viewDataBinding.tvJoin.setOnClickListener(v -> {
-            Intent selectTeamIntent = new Intent(appCompatActivity, SelectTeamActivity.class);
-            appCompatActivity.startActivity(selectTeamIntent);
+            /*Intent selectTeamIntent = new Intent(appCompatActivity, SelectTeamActivity.class);
+            selectTeamIntent.putExtra(AppConstant.contest_id, matchContestsData.getId());
+            appCompatActivity.startActivity(selectTeamIntent);*/
+
+            matchItemInterface.onItemClick(position);
         });
 
         if (Integer.parseInt(matchContestsData.getTotal_users()) >= Integer.parseInt(matchContestsData.getMin_user())) {
             viewDataBinding.cardView.setBackgroundColor(appCompatActivity.getResources().getColor(R.color.color_light_blue));
-        }else{
+        } else {
             viewDataBinding.cardView.setBackgroundColor(appCompatActivity.getResources().getColor(R.color.color_white));
         }
     }

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/llRankingView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_ten"
+                android:layout_marginTop="@dimen/margin_ten"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <com.tech.rotobash.utils.TextFontsRegular
+                    android:id="@+id/tvRanks"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_fifteen"
+                    android:layout_marginStart="@dimen/margin_fifteen"
+                    android:layout_weight=".8"
+                    android:textColor="@color/dark_grey" />
+
+                <com.tech.rotobash.utils.TextFontsRegular
+                    android:id="@+id/tvNoOfWinners"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.4"
+                    android:textColor="@color/dark_grey" />
+
+                <com.tech.rotobash.utils.TextFontsRegular
+                    android:id="@+id/tvPrize"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_ten"
+                    android:layout_marginRight="@dimen/margin_ten"
+                    android:layout_weight=".8"
+                    android:textColor="@color/dark_grey" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height=".1dp"
+                android:layout_below="@+id/llRankingView"
+                android:layout_marginEnd="@dimen/margin_ten"
+                android:layout_marginLeft="@dimen/margin_ten"
+                android:layout_marginRight="@dimen/margin_ten"
+                android:layout_marginStart="@dimen/margin_ten"
+                android:background="?android:attr/listDivider" />
+
+        </RelativeLayout>
+
+    </android.support.constraint.ConstraintLayout>
+
+</layout>

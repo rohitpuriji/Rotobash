@@ -1,10 +1,13 @@
 package com.tech.rotobash.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by sachinarora on 12/1/18.
  */
 
-public class MatchContestsData {
+public class MatchContestsData implements Parcelable {
 
     private String id;
     private String contest_code;
@@ -132,4 +135,59 @@ public class MatchContestsData {
     public void setTotal_users(String total_users) {
         this.total_users = total_users;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.contest_code);
+        dest.writeString(this.contest_type);
+        dest.writeString(this.contest_name);
+        dest.writeString(this.min_user);
+        dest.writeString(this.max_user);
+        dest.writeString(this.min_winning_amount);
+        dest.writeString(this.max_winning_amount);
+        dest.writeString(this.no_of_winners);
+        dest.writeString(this.entry_fee);
+        dest.writeString(this.created);
+        dest.writeString(this.league_id);
+        dest.writeString(this.league_name);
+        dest.writeString(this.total_users);
+    }
+
+    public MatchContestsData() {
+    }
+
+    protected MatchContestsData(Parcel in) {
+        this.id = in.readString();
+        this.contest_code = in.readString();
+        this.contest_type = in.readString();
+        this.contest_name = in.readString();
+        this.min_user = in.readString();
+        this.max_user = in.readString();
+        this.min_winning_amount = in.readString();
+        this.max_winning_amount = in.readString();
+        this.no_of_winners = in.readString();
+        this.entry_fee = in.readString();
+        this.created = in.readString();
+        this.league_id = in.readString();
+        this.league_name = in.readString();
+        this.total_users = in.readString();
+    }
+
+    public static final Parcelable.Creator<MatchContestsData> CREATOR = new Parcelable.Creator<MatchContestsData>() {
+        @Override
+        public MatchContestsData createFromParcel(Parcel source) {
+            return new MatchContestsData(source);
+        }
+
+        @Override
+        public MatchContestsData[] newArray(int size) {
+            return new MatchContestsData[size];
+        }
+    };
 }

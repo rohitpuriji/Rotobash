@@ -1,5 +1,6 @@
 package com.tech.rotobash.interfaces;
 
+import com.tech.rotobash.model.ContestRankResponse;
 import com.tech.rotobash.model.LeaguesResponse;
 import com.tech.rotobash.model.MatchContestsResponse;
 import com.tech.rotobash.model.MatchesResponse;
@@ -89,4 +90,7 @@ public interface ApiInterface {
     Call<UserResponse> doLogout(@Header("Authorization") String token,
                                     @Field("access_token") String accessToken);
 
+    @FormUrlEncoded
+    @POST("getContestRanksData")
+    Call<ContestRankResponse> getContestRanks(@Field("contest_id") String contestId);
 }
