@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
@@ -309,27 +310,57 @@ public class AuthenticationActivity extends AppCompatActivity implements GoogleA
         if (Network.isAvailable(AuthenticationActivity.this)) {
             if (AppUtils.checkIsAppLicationInstalled(AuthenticationActivity.this, AppConstant.sFacebooks)) {
 
-                LoginManager
-                        .getInstance()
-                        .logInWithReadPermissions(AuthenticationActivity.this, Arrays.asList("public_profile", "email"));
-
-                SocialMediaManager socialMediaManager = new SocialMediaManager(AuthenticationActivity.this, new SocialMediaListners() {
-                    @Override
-                    public void loginSuccess(JSONObject aJsonObject) {
-                        doSocialConnect(aJsonObject);
-                    }
-
-                    @Override
-                    public void loginError(String loginError) {
-                        Toast.makeText(AuthenticationActivity.this, AppConstant.sConnectionErr, Toast.LENGTH_LONG).show();
-                    }
-                });
-                socialMediaManager.initfb(mCallbackManager);
-            } else {
+                if (AccessToken.getCurrentAccessToken() == null) {
+                    System.out.println("Access token loginViaFacebookWithCurrentAccessToken.." + "null");
+                    LoginManager
+                            .getInstance()
+                            .logInWithReadPermissions(AuthenticationActivity.this, Arrays.asList("public_profile", "email"));
+                    callSocialMediaManager();
+                }else {
+                    loginViaFacebookWithCurrentAccessToken();
+                }
+            }else {
                 AppUtils.callAlertDialogForApplicationDownload(AppConstant.sFacebookPackage, AppConstant.sFacebookDownloadMsg, AuthenticationActivity.this, null);
             }
         } else {
             Toast.makeText(AuthenticationActivity.this, AppConstant.sNoInternet, Toast.LENGTH_LONG).show();
+        }
+    }
+
+
+    /**
+     * @Module Name/Class		:	callSocialMediaManager
+     * @Author Name            :	Rohit Puri
+     * @Date :	Jan 8rd , 2018
+     * @Purpose :	This is used to call for fb login and give callback methods to handle response
+     */
+    private void callSocialMediaManager() {
+
+        SocialMediaManager socialMediaManager = new SocialMediaManager(AuthenticationActivity.this, new SocialMediaListners() {
+            @Override
+            public void loginSuccess(JSONObject aJsonObject) {
+                doSocialConnect(aJsonObject);
+            }
+
+            @Override
+            public void loginError(String loginError) {
+                Toast.makeText(AuthenticationActivity.this, AppConstant.sConnectionErr, Toast.LENGTH_LONG).show();
+            }
+        });
+        socialMediaManager.initfb(mCallbackManager);
+    }
+
+    /**
+     * @Module Name/Class		:	loginViaFacebookWithCurrentAccessToken
+     * @Author Name            :	Rohit Puri
+     * @Date :	Jan 8rd , 2018
+     * @Purpose :	This is used to get already login accesstoken from fb
+     */
+    private void loginViaFacebookWithCurrentAccessToken() {
+        if (AccessToken.getCurrentAccessToken() != null) {
+            final String access = AccessToken.getCurrentAccessToken().toString();
+            System.out.println("Access token loginViaFacebookWithCurrentAccessToken.." + access);
+            callSocialMediaManager();
         }
     }
 

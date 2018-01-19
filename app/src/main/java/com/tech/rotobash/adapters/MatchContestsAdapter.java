@@ -18,9 +18,11 @@ import com.tech.rotobash.utils.AppConstant;
 import java.util.List;
 
 /**
- * Created by sachinarora on 12/1/18.
+ * @Module Name/Class		:	MatchContestsAdapter
+ * @Author Name             :	Rohit Puri
+ * @Date :	Jan 16th , 2018
+ * @Purpose :	This is used to adapt contest list item in recyclerview using binding related to Contest screen
  */
-
 public class MatchContestsAdapter extends RecyclerView.Adapter<MatchContestsAdapter.MyViewHolder> {
     private List<MatchContestsData> matchesDataList;
     private AppCompatActivity appCompatActivity;
@@ -80,7 +82,6 @@ public class MatchContestsAdapter extends RecyclerView.Adapter<MatchContestsAdap
         }
         viewDataBinding.tvTotalWinners.setText(new StringBuilder().append(matchContestsData.getNo_of_winners()).append(" ").append("WINNERS").toString());
         viewDataBinding.tvTeamsJoined.setText(new StringBuilder().append(matchContestsData.getTotal_users()).append("/").append(matchContestsData.getMax_user()).append(" ").append("TEAMS").toString());
-        viewDataBinding.seekBar.setProgress(getProgress(matchContestsData));
 
         // to join contest
         viewDataBinding.tvJoin.setOnClickListener(v -> {
@@ -98,22 +99,6 @@ public class MatchContestsAdapter extends RecyclerView.Adapter<MatchContestsAdap
         }
     }
 
-    private int getProgress(MatchContestsData matchContestsData) {
-
-        int progress;
-        int total_users;
-        int max_users;
-
-        total_users = Integer.parseInt(matchContestsData.getTotal_users());
-        max_users = Integer.parseInt(matchContestsData.getMax_user());
-
-        progress = (total_users * 100) / max_users;
-
-        Log.e("progress", progress + "");
-
-        return progress;
-
-    }
 
     @Override
     public int getItemCount() {

@@ -8,6 +8,7 @@
     <string name="txt_remember_me">Remember me?</string>
     <string name="txt_forget_pass">Forgot Password</string>
     <string name="txt_or_login">Or Login with</string>
+    <string name="txt_logout">Are you sure want to logout?</string>
 
     <string name="txt_name">Your Name</string>
     <string name="txt_id">Your Email-Id</string>

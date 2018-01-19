@@ -16,6 +16,12 @@ import com.tech.rotobash.utils.AppUtils;
 
 import java.util.ArrayList;
 
+/**
+ * @Module Name/Class		:	ContestsFilterAdapter
+ * @Author Name             :	Sachin Arora
+ * @Date :	Jan 16th , 2018
+ * @Purpose :	This is used to adapt matches filter item in recyclerview using binding related to contest screen
+ */
 public class ContestsFilterAdapter extends RecyclerView.Adapter<ContestsFilterAdapter.MyViewHolder> {
 
     private MatchItemInterface mMatchInterface;

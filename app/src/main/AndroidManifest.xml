@@ -61,14 +61,17 @@
         <activity
             android:name=".activites.MatchListActivity"
             android:label="@string/title_activity_sidemenu"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".activites.MatchContestActivity"
             android:label="@string/title_activity_sidemenu"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".activites.SelectTeamActivity"
             android:label="@string/title_activity_sidemenu"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
     </application>
 

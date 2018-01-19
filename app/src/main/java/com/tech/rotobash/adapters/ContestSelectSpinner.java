@@ -1,4 +1,4 @@
-package com.tech.rotobash.spinner;
+package com.tech.rotobash.adapters;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.SpinnerAdapter;
 
 import com.tech.rotobash.R;
 import com.tech.rotobash.databinding.CustomSpinnerLayoutBinding;

@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.tech.rotobash.R;
@@ -24,13 +23,11 @@ import com.tech.rotobash.adapters.ContestsFilterAdapter;
 import com.tech.rotobash.adapters.MatchContestsAdapter;
 import com.tech.rotobash.adapters.NothingSelectedSpinnerAdapter;
 import com.tech.rotobash.databinding.ActivityMatchContestBinding;
-import com.tech.rotobash.interfaces.MatchItemInterface;
-import com.tech.rotobash.model.ContestItem;
 import com.tech.rotobash.model.LeagueContestData;
 import com.tech.rotobash.model.MatchContestsData;
 import com.tech.rotobash.model.MatchesData;
-import com.tech.rotobash.spinner.ChannelSpinnerForLeauge;
-import com.tech.rotobash.spinner.ChannelSpinnerForPay;
+import com.tech.rotobash.adapters.ChannelSpinnerForLeauge;
+import com.tech.rotobash.adapters.ChannelSpinnerForPay;
 import com.tech.rotobash.utils.AppConstant;
 import com.tech.rotobash.utils.AppUtils;
 import com.tech.rotobash.utils.Network;
@@ -60,7 +57,6 @@ public class MatchContestActivity extends SidemenuActivity {
     private int mPastVisiblesItems, mVisibleItemCount, mTotalItemCount;
     private String matchId;
     private String price = null;
-    private String mWhichFilter;
     private String status;
     private boolean mLoading = true;
     private MatchContestsAdapter mAdapter;
@@ -103,20 +99,6 @@ public class MatchContestActivity extends SidemenuActivity {
 
         });
 
-        mMatchContestActivityBinding.tvSelectPay.setOnClickListener(v -> {
-            if (mMatchContestActivityBinding.recyclerViewFilter.getVisibility() == View.GONE) {
-                if (payArrayList.size() > 0) {
-                    mWhichFilter = getString(R.string.txt_select_pay);
-                    mMatchContestActivityBinding.recyclerViewFilter.setVisibility(View.VISIBLE);
-                    mMatchContestActivityBinding.rootLayout.setVisibility(View.GONE);
-                    setFilterAdapter();
-                }
-            } else {
-                mMatchContestActivityBinding.recyclerViewFilter.setVisibility(View.GONE);
-                mMatchContestActivityBinding.rootLayout.setVisibility(View.VISIBLE);
-            }
-
-        });
 
         mMatchContestActivityBinding.imgBack.setOnClickListener(v -> onBackPressed());
 
@@ -133,7 +115,7 @@ public class MatchContestActivity extends SidemenuActivity {
                         if (mLoading) {
                             if ((mVisibleItemCount + mPastVisiblesItems) >= mTotalItemCount) {
                                 mLoading = false;
-                                loadMatchContest();
+                                loadMatchContest(false);
                             }
                         }
                     } else {
@@ -144,14 +126,10 @@ public class MatchContestActivity extends SidemenuActivity {
         });
 
         mMatchContestActivityBinding.swipeContainerCurrent.setOnRefreshListener(() -> {
-            clearListAndAdapter(true);
-            if (mMatchContestActivityBinding.swipeContainerCurrent.isRefreshing()) {
-                mMatchContestActivityBinding.swipeContainerCurrent.setRefreshing(false);
-            }
+            clearListAndAdapter(false,true);
         });
 
         mMatchContestActivityBinding.llMatchName.setOnClickListener(v -> {
-            mWhichFilter = getString(R.string.txt_match_name);
             if (mMatchContestActivityBinding.llRecyclerOther.getVisibility() == View.VISIBLE) {
                 mMatchContestActivityBinding.llRecyclerOther.setVisibility(View.GONE);
                 mMatchContestActivityBinding.rootLayout.setVisibility(View.VISIBLE);
@@ -167,17 +145,23 @@ public class MatchContestActivity extends SidemenuActivity {
 
         mMatchContestActivityBinding.imgRefresh.setOnClickListener(view -> {
             if (Network.isAvailable(this)) {
-                Log.e("TAG", "refresh");
                 refreshToDefaultValues();
+            }else {
+                Toast.makeText(MatchContestActivity.this, AppConstant.sNoInternet, Toast.LENGTH_LONG).show();
             }
         });
 
         mMatchContestActivityBinding.spinnerLeauge.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (leagueCheck > 0) {
-                    league_id = Integer.parseInt(leaguesList.get(i - 1).getId());
-                    clearListAndAdapter(true);
+
+                if(leagueCheck > 0) {
+                    if (Network.isAvailable(MatchContestActivity.this)) {
+                        league_id = Integer.parseInt(leaguesList.get(i-1).getId());
+                        clearListAndAdapter(false,false);
+                    } else {
+                        Toast.makeText(MatchContestActivity.this, AppConstant.sNoInternet, Toast.LENGTH_LONG).show();
+                    }
                 }
 
                 leagueCheck++;
@@ -210,7 +194,11 @@ public class MatchContestActivity extends SidemenuActivity {
                             price = "2000";
                             break;
                     }
-                    clearListAndAdapter(true);
+                    if (Network.isAvailable(MatchContestActivity.this)) {
+                        clearListAndAdapter(false,false);
+                    } else {
+                        Toast.makeText(MatchContestActivity.this, AppConstant.sNoInternet, Toast.LENGTH_LONG).show();
+                    }
                 }
 
                 payCheck++;
@@ -224,34 +212,45 @@ public class MatchContestActivity extends SidemenuActivity {
 
     }
 
+    /**
+     * @Module Name/Class		:	refreshToDefaultValues
+     * @Author Name             :	Sachin Arora
+     * @Date :	Jan 17th , 2018
+     * @Purpose :	This is used to clear the init variable on refresh button click
+     */
     private void refreshToDefaultValues() {
         league_id = 0;
         price = null;
         leagueCheck = 0;
         payCheck = 0;
-        mMatchContestActivityBinding.tvSelectPay.setText(getString(R.string.txt_select_pay));
-        mMatchContestActivityBinding.tvSelectLeague.setText(getString(R.string.txt_select_league));
+
         mMatchContestActivityBinding.spinnerPay.setAdapter(new NothingSelectedSpinnerAdapter(contestSelectSpinnerforPay, R.layout.spinner_select_pay, this));
         mMatchContestActivityBinding.spinnerLeauge.setAdapter(new NothingSelectedSpinnerAdapter(contestSelectSpinner, R.layout.spinner_select_leauge, this));
 
-        clearListAndAdapter(true);
+        clearListAndAdapter(false,false);
     }
 
+    /**
+     * @Module Name/Class		:	setFilterAdapter
+     * @Author Name             :	Sachin Arora
+     * @Date                    :	Jan 17th , 2018
+     * @Purpose                 :	This is used to set adapter for match filter and league
+     */
     private void setFilterAdapter() {
         ContestsFilterAdapter mFilterAdapter = new ContestsFilterAdapter(matchArrayList, pos -> {
 
-            matchId = matchArrayList.get(pos).getMatchId();
-            mMatchContestActivityBinding.tvMatchName.setText(new StringBuilder().append(matchArrayList.get(pos).getTeam1Name()).append(" VS ").append(matchArrayList.get(pos).getTeam2Name()).toString());
-
-            clearListAndAdapter(true);
+            if (Network.isAvailable(MatchContestActivity.this)) {
+                matchId = matchArrayList.get(pos).getMatchId();
+                mMatchContestActivityBinding.tvMatchName.setText(new StringBuilder().append(matchArrayList.get(pos).getTeam1Name()).append(" VS ").append(matchArrayList.get(pos).getTeam2Name()).toString());
+                clearListAndAdapter(false,false);
+            } else {
+                Toast.makeText(MatchContestActivity.this, AppConstant.sNoInternet, Toast.LENGTH_LONG).show();
+            }
 
         });
 
-        if (mWhichFilter.equalsIgnoreCase(getString(R.string.txt_select_league)) || mWhichFilter.equalsIgnoreCase(getString(R.string.txt_select_pay))) {
-            mMatchContestActivityBinding.recyclerViewFilter.setAdapter(mFilterAdapter);
-        } else {
-            mMatchContestActivityBinding.recyclerViewOther.setAdapter(mFilterAdapter);
-        }
+        mMatchContestActivityBinding.recyclerViewOther.setAdapter(mFilterAdapter);
+
     }
 
     /**
@@ -260,7 +259,7 @@ public class MatchContestActivity extends SidemenuActivity {
      * @Date :	Jan 16th , 2018
      * @Purpose :	This method is used to notify adapter and set offset to 0.
      */
-    private void clearListAndAdapter(boolean isFailure) {
+    private void clearListAndAdapter(boolean isFailure,boolean isSwipeRefresh) {
 
         if (progressDoalog != null && progressDoalog.isShowing()) {
             progressDoalog.dismiss();
@@ -271,7 +270,6 @@ public class MatchContestActivity extends SidemenuActivity {
         mTempArrayListActiveContestData.clear();
         mTempArrayListAllContestData.clear();
         mMatchContestActivityBinding.llRecyclerOther.setVisibility(View.GONE);
-        mMatchContestActivityBinding.recyclerViewFilter.setVisibility(View.GONE);
         mMatchContestActivityBinding.rootLayout.setVisibility(View.VISIBLE);
         mMatchContestActivityBinding.recyclerView.setVisibility(View.VISIBLE);
         if (mAdapter != null) {
@@ -280,10 +278,17 @@ public class MatchContestActivity extends SidemenuActivity {
         }
         mMatchContestActivityBinding.constraintLayout.setVisibility(View.VISIBLE);
 
-        if (isFailure)
-            loadMatchContest();
+
+        if (!isFailure)
+            loadMatchContest(isSwipeRefresh);
     }
 
+    /**
+     * @Module Name/Class		:	getLeague
+     * @Author Name             :	Sachin Arora
+     * @Date :	Jan 17th , 2018
+     * @Purpose :	This is used to populate the league spinner when data observe from api
+     */
     private void getLeague() {
 
         SelectLeagueViewModel selectLeagueViewModel = ViewModelProviders.of(this).get(SelectLeagueViewModel.class);
@@ -309,14 +314,26 @@ public class MatchContestActivity extends SidemenuActivity {
 
     }
 
+    /**
+     * @Module Name/Class		:	setSpinnerForPay
+     * @Author Name             :	Sombir
+     * @Date :	Jan 17th , 2018
+     * @Purpose :	This is used to set pay spinner
+     */
     private void setSpinnerForPay() {
-        contestSelectSpinnerforPay = new ChannelSpinnerForPay(this, payArrayList);
+        contestSelectSpinnerforPay = new ChannelSpinnerForPay(payArrayList);
         mMatchContestActivityBinding.spinnerPay.setAdapter(contestSelectSpinnerforPay);
         mMatchContestActivityBinding.spinnerPay.setAdapter(new NothingSelectedSpinnerAdapter(contestSelectSpinnerforPay, R.layout.spinner_select_pay, this));
     }
 
+    /**
+     * @Module Name/Class		:	setSpinnerForLeauge
+     * @Author Name             :	Sombir
+     * @Date :	Jan 17th , 2018
+     * @Purpose :	This is used to set league spinner
+     */
     private void setSpinnerForLeauge() {
-        contestSelectSpinner = new ChannelSpinnerForLeauge(this, leaguesList);
+        contestSelectSpinner = new ChannelSpinnerForLeauge(leaguesList);
         mMatchContestActivityBinding.spinnerLeauge.setAdapter(contestSelectSpinner);
         mMatchContestActivityBinding.spinnerLeauge.setAdapter(new NothingSelectedSpinnerAdapter(contestSelectSpinner, R.layout.spinner_select_leauge, this));
     }
@@ -365,7 +382,7 @@ public class MatchContestActivity extends SidemenuActivity {
 
         if (Network.isAvailable(this)) {
             getLeague();
-            loadMatchContest();
+            loadMatchContest(false);
         } else {
             Toast.makeText(this, AppConstant.sNoInternet, Toast.LENGTH_LONG).show();
         }
@@ -390,23 +407,18 @@ public class MatchContestActivity extends SidemenuActivity {
 
     /**
      * @Module Name/Class		:	setFilterRecyclerViewManager
-     * @Author Name             :	Sachin Arora
+     * @Author Name             :	Rohit puri
      * @Date :	Jan 15th , 2018
      * @Purpose :	This method is used to set layout manager for league filter recycler view
      */
     private void setFilterRecyclerViewManager() {
         RecyclerView.LayoutManager mLayoutOtherManager = new LinearLayoutManager(this);
-        RecyclerView.LayoutManager mLayoutFilterManager = new LinearLayoutManager(this);
 
         mMatchContestActivityBinding.recyclerViewOther.setLayoutManager(mLayoutOtherManager);
         mMatchContestActivityBinding.recyclerViewOther.setItemAnimator(new DefaultItemAnimator());
 
-        mMatchContestActivityBinding.recyclerViewFilter.setLayoutManager(mLayoutFilterManager);
-        mMatchContestActivityBinding.recyclerViewFilter.setItemAnimator(new DefaultItemAnimator());
-
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mMatchContestActivityBinding.recyclerView.getContext(), DividerItemDecoration.VERTICAL);
         mMatchContestActivityBinding.recyclerViewOther.addItemDecoration(dividerItemDecoration);
-        mMatchContestActivityBinding.recyclerViewFilter.addItemDecoration(dividerItemDecoration);
     }
 
     /**
@@ -415,9 +427,10 @@ public class MatchContestActivity extends SidemenuActivity {
      * @Date :	Jan 15th , 2018
      * @Purpose :	This method is used to fetch the contest list and observe data
      */
-    private void loadMatchContest() {
+    private void loadMatchContest(boolean isSwipeRefresh) {
 
-        if (!progressDoalog.isShowing()) {
+
+        if (!progressDoalog.isShowing() && !isSwipeRefresh){
             progressDoalog.show();
         }
         MatchContestsViewModel mMatchContestViewModel = ViewModelProviders.of(this).get(MatchContestsViewModel.class);
@@ -429,9 +442,11 @@ public class MatchContestActivity extends SidemenuActivity {
                     if (progressDoalog.isShowing()) {
                         progressDoalog.dismiss();
                     }
+
                     if (matchContestsResponse.getStatus().equalsIgnoreCase(sSuccess)) {
                         if (matchContestsResponse.getContestModel().size() > 0) {
                             Log.e("size is", matchContestsResponse.getContestModel().size() + "");
+                            Log.e("contest id", matchContestsResponse.getContestModel().get(0).getId());
                             mLoading = true;
                             aOffset = aOffset + matchContestsResponse.getContestModel().size();
                             setActiveOrInActive(matchContestsResponse.getContestModel());
@@ -441,8 +456,12 @@ public class MatchContestActivity extends SidemenuActivity {
                     } else {
                         Log.e("failure", "***");
                         Toast.makeText(MatchContestActivity.this, matchContestsResponse.getMessage(), Toast.LENGTH_LONG).show();
-                        if (aOffset == 0)
-                            clearListAndAdapter(false);
+
+                        if (aOffset==0)
+                            clearListAndAdapter(true,false);
+                    }
+                    if (mMatchContestActivityBinding.swipeContainerCurrent.isRefreshing()) {
+                        mMatchContestActivityBinding.swipeContainerCurrent.setRefreshing(false);
                     }
                 });
     }
@@ -548,11 +567,7 @@ public class MatchContestActivity extends SidemenuActivity {
             mMatchContestActivityBinding.llRecyclerOther.setVisibility(View.GONE);
             mMatchContestActivityBinding.rootLayout.setVisibility(View.VISIBLE);
             mMatchContestActivityBinding.constraintLayout.setVisibility(View.VISIBLE);
-        } else if (mMatchContestActivityBinding.recyclerViewFilter.getVisibility() == View.VISIBLE) {
-            mMatchContestActivityBinding.recyclerViewFilter.setVisibility(View.GONE);
-            mMatchContestActivityBinding.rootLayout.setVisibility(View.VISIBLE);
-            mMatchContestActivityBinding.constraintLayout.setVisibility(View.VISIBLE);
-        } else
+        }else
             super.onBackPressed();
     }
 
