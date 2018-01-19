@@ -3,10 +3,13 @@ package com.tech.rotobash.utils;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.net.Uri;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -17,6 +20,7 @@ import com.tech.rotobash.R;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -122,6 +126,57 @@ public class AppUtils {
 		}
 
 		return s;
+	}
+
+	public static Date getDateFormat(String date) {
+
+		String dateFormat = "yyyy-MM-dd HH:mm:ss";
+		Date newDate = null;
+		SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
+		try {
+			newDate = sdf.parse(date);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		Log.e("return date :",newDate.toString());
+		return newDate;
+	}
+
+	public static CharSequence getCountdownText(Date futureDate) {
+		StringBuilder countdownText = new StringBuilder();
+
+		long timeRemaining = futureDate.getTime() - new Date().getTime();
+
+		if (timeRemaining > 0) {
+
+			int days = (int) TimeUnit.MILLISECONDS.toDays(timeRemaining);
+			timeRemaining -= TimeUnit.DAYS.toMillis(days);
+			int hours = (int) TimeUnit.MILLISECONDS.toHours(timeRemaining);
+			timeRemaining -= TimeUnit.HOURS.toMillis(hours);
+			int minutes = (int) TimeUnit.MILLISECONDS.toMinutes(timeRemaining);
+			timeRemaining -= TimeUnit.MINUTES.toMillis(minutes);
+			int seconds = (int) TimeUnit.MILLISECONDS.toSeconds(timeRemaining);
+
+			if (days > 0) {
+				countdownText.append(days);
+				countdownText.append(":");
+			}
+			if (days > 0 || hours > 0) {
+				countdownText.append(hours);
+				countdownText.append(":");
+			}
+			if (days > 0 || hours > 0 || minutes > 0) {
+				countdownText.append(minutes);
+				countdownText.append(":");
+			}
+			if (days > 0 || hours > 0 || minutes > 0 || seconds > 0) {
+				countdownText.append(seconds);
+				countdownText.append("");
+			}
+		}
+		Log.e("return time :",countdownText.toString());
+
+		return countdownText.toString();
 	}
 
 }

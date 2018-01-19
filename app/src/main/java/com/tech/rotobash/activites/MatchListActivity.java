@@ -331,6 +331,9 @@ public class MatchListActivity extends SidemenuActivity {
                             mSeriesList = seriesResponse.getSeriesModel();
 
                             mFilterAdapter = new FiltersAdapter(mSeriesList, pos -> {
+                                Log.e("mSeriesList list",""+mSeriesList.size());
+
+                                mMatchListActivityBinding.privateContestLayout.setVisibility(View.VISIBLE);
                                 if (Network.isAvailable(MatchListActivity.this)) {
                                     mSeriesId = Integer.parseInt(mSeriesList.get(pos).getmSeriesModel().getSeriesId());
                                     mMatchListActivityBinding.btnSelectMatches.setText(mSeriesList.get(pos).getmSeriesModel().getSeriesShortName());
