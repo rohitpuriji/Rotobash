@@ -13,6 +13,7 @@ import com.tech.rotobash.model.LeaguesResponse;
 import com.tech.rotobash.model.MatchContestsResponse;
 import com.tech.rotobash.model.MatchesResponse;
 import com.tech.rotobash.model.SeriesResponse;
+import com.tech.rotobash.model.TeamCombinationResponse;
 import com.tech.rotobash.model.UserResponse;
 
 import java.util.concurrent.TimeUnit;
@@ -430,8 +431,8 @@ public class CommonService {
     /**
      * @Module class/module		    :	getContestRankData
      * @Author Name                 :	Sombir Bisht
-     * @Date                        :	Jan 18 , 2018
-     * @Purpose                     :	This method return the Contest ranks.
+     * @Date :	Jan 18 , 2018
+     * @Purpose :	This method return the Contest ranks.
      */
     public LiveData<ContestRankResponse> getContestRankData(UserResponse aUserResponse, String contest_id) {
 
@@ -457,5 +458,37 @@ public class CommonService {
                 });
 
         return contestResponse;
+    }
+
+    /**
+     * @Module class/module		    :	getTeamCombinationResponseData
+     * @Author Name                 :	Sombir Bisht
+     * @Date :	Jan 19 , 2018
+     * @Purpose :	This method return the team combinations.
+     */
+    public LiveData<TeamCombinationResponse> getTeamCombinationResponseData(UserResponse aUserResponse, String type, String league_code) {
+
+        final MutableLiveData<TeamCombinationResponse> teamCombinationResponse = new MutableLiveData<>();
+
+        getRetrofitClient()
+                .create(ApiInterface.class)
+                .getTeamCombinations(type, league_code)
+                .enqueue(new Callback<TeamCombinationResponse>() {
+
+                    @Override
+                    public void onResponse(Call<TeamCombinationResponse> call, Response<TeamCombinationResponse> aSeriesResponse) {
+
+                        TeamCombinationResponse response = aSeriesResponse.body();
+                        teamCombinationResponse.setValue(response);
+                    }
+
+                    @Override
+                    public void onFailure(Call<TeamCombinationResponse> call, Throwable t) {
+                        Log.e("on Failure :", "retrofit error" + t.getLocalizedMessage());
+                        t.getStackTrace();
+                    }
+                });
+
+        return teamCombinationResponse;
     }
 }

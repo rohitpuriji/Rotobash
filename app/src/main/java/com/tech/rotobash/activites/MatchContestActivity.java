@@ -376,6 +376,7 @@ public class MatchContestActivity extends SidemenuActivity {
 
         mMatchContestActivityBinding.tvMatchName.setText(new StringBuilder().append(matchArrayList.get(getIntent().getIntExtra(sPositionKey, -1)).getTeam1Name()).append(" VS ").append(matchArrayList.get(getIntent().getIntExtra(sPositionKey, -1)).getTeam2Name()).toString());
 
+
         setSelectPay();
 
         setSpinnerForPay();

@@ -5,6 +5,7 @@ import com.tech.rotobash.model.LeaguesResponse;
 import com.tech.rotobash.model.MatchContestsResponse;
 import com.tech.rotobash.model.MatchesResponse;
 import com.tech.rotobash.model.SeriesResponse;
+import com.tech.rotobash.model.TeamCombinationResponse;
 import com.tech.rotobash.model.UserResponse;
 
 import retrofit2.Call;
@@ -88,9 +89,13 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("logout")
     Call<UserResponse> doLogout(@Header("Authorization") String token,
-                                    @Field("access_token") String accessToken);
+                                @Field("access_token") String accessToken);
 
     @FormUrlEncoded
     @POST("getContestRanksData")
     Call<ContestRankResponse> getContestRanks(@Field("contest_id") String contestId);
+
+    @FormUrlEncoded
+    @POST("getTeamCombinations")
+    Call<TeamCombinationResponse> getTeamCombinations(@Field("type") String type, @Field("league_code") String leagueCode);
 }

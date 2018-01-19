@@ -184,29 +184,25 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:orientation="horizontal"
-                        android:paddingBottom="@dimen/margin_five"
-                        android:paddingTop="@dimen/margin_five"
+                        android:paddingBottom="@dimen/margin_ten"
+                        android:paddingTop="@dimen/margin_ten"
                         android:weightSum="2">
 
                         <LinearLayout
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_gravity="center"
                             android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="horizontal"
-                            android:paddingBottom="@dimen/margin_five"
-                            android:paddingTop="@dimen/margin_five">
+                            android:orientation="horizontal">
 
                             <com.tech.rotobash.utils.TextFontsBold
                                 android:id="@+id/tvTeamName"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
                                 android:layout_gravity="center"
-                                android:layout_marginLeft="@dimen/margin_twenty"
-                                android:layout_marginStart="@dimen/margin_twenty"
+                                android:layout_marginLeft="@dimen/margin_ten"
+                                android:layout_marginStart="@dimen/margin_ten"
                                 android:gravity="center_vertical"
-                                android:text="RCB Vs CSK"
                                 android:textAllCaps="true"
                                 android:textColor="@android:color/white"
                                 android:textSize="@dimen/mid_text"
@@ -214,14 +210,13 @@
                                 app:layout_constraintTop_toTopOf="parent" />
 
                             <com.tech.rotobash.utils.TextFontsRegular
-                                android:id="@+id/tvMaxScore"
+                                android:id="@+id/tvLeagueName"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
                                 android:layout_gravity="center"
                                 android:layout_marginLeft="@dimen/margin_five"
-                                android:background="@color/color_max_score"
+                                android:layout_marginStart="@dimen/margin_five"
                                 android:gravity="center_vertical"
-                                android:text="max score"
                                 android:textAllCaps="true"
                                 android:textColor="@android:color/white"
                                 android:textSize="@dimen/extra_small_text"
@@ -232,7 +227,7 @@
 
                         <RelativeLayout
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_weight="1">
 
                             <com.tech.rotobash.utils.TextFontsBold
@@ -241,12 +236,13 @@
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentEnd="true"
                                 android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="@dimen/margin_twenty"
+                                android:layout_marginRight="@dimen/margin_twenty"
                                 android:drawableLeft="@drawable/timer_white"
                                 android:drawablePadding="@dimen/margin_five"
                                 android:drawableStart="@drawable/timer_white"
-                                android:paddingEnd="@dimen/margin_twenty"
-                                android:paddingRight="@dimen/margin_twenty"
-                                android:text="@string/txt_time"
+                                android:gravity="center"
                                 android:textColor="@color/color_white"
                                 android:textSize="@dimen/mid_text"
                                 app:layout_constraintEnd_toEndOf="parent"
@@ -263,7 +259,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/layoutTeamsHeading"
-                    android:background="@color/combinations_background_color"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/layoutTeamsHeading">
@@ -282,7 +277,6 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_weight="1"
-                            android:background="@android:color/black"
                             android:gravity="center_horizontal"
                             android:paddingBottom="@dimen/margin_ten"
                             android:paddingTop="@dimen/margin_ten"
@@ -314,11 +308,22 @@
                 </android.support.constraint.ConstraintLayout>
 
                 <LinearLayout
-                    android:id="@+id/llPossibleCombinations"
-                    android:layout_width="match_parent"
+                    android:id="@+id/llCombinationAndSelection"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/layout_combination"
-                    android:orientation="vertical">
+                    android:layout_below="@+id/layout_combination">
+
+                    <LinearLayout
+                        android:id="@+id/llPossibleCombinations"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                    </LinearLayout>
+
+                    <include
+                        android:id="@+id/layout_selection"
+                        layout="@layout/custom_selection_criteria" />
 
                 </LinearLayout>
 
@@ -326,7 +331,7 @@
                     android:id="@+id/layout_tabs"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/layout_combination"
+                    android:layout_below="@+id/llCombinationAndSelection"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/layout_combination">
