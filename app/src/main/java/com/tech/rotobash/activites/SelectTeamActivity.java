@@ -394,8 +394,6 @@ public class SelectTeamActivity extends SidemenuActivity {
      * @Purpose :	This is used to inflate and show possible combination view.
      */
     private void addViews(Combination combination) {
-        //  View childView = getLayoutInflater().inflate(R.layout.custom_possible_combination, null);
-
 
       /*  CustomPossibleCombinationBinding customPossibleCombinationBinding = DataBindingUtil.inflate(LayoutInflater
                 .from(this), R.layout.custom_possible_combination, null, false);*/
@@ -407,17 +405,12 @@ public class SelectTeamActivity extends SidemenuActivity {
         TextView tvCustomPossibleCombination = myView.findViewById(R.id.tvCustomPossibleCombination);
 
 
-      /*  if (customPossibleCombinationBinding.rlCompleteView.getParent() != null) {
-            (customPossibleCombinationBinding.rlCompleteView.getParent()).remo
-        }*/
-
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
         );
         rlCompleteView.setLayoutParams(layoutParams);
-     /*   if(rlCompleteView.getParent()!=null)
-            ((ViewGroup)rlCompleteView.getParent()).removeView(rlCompleteView);*/
+
         mSelectTeamActivityBinding.llPossibleCombinations.addView(rlCompleteView);
         tvCustomPossibleCombination.setText(new StringBuilder().append("BATSMAN " + combination.getBT()).append(" | ").append("  BOWLER ").append(combination.getBW()).append(" | ").append("  ALL-ROUNDER ").append(combination.getAR()).append(" | ").append("  WICKET-KEEPER ").append(combination.getWK()));
 
